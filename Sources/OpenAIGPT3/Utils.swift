@@ -4,7 +4,7 @@ import Foundation
 ///
 /// - Parameter value: The value to encode
 /// - Returns The encoded value.
-func jsonEncode(_ value: Encodable) throws -> String {
+func jsonEncode<T: Encodable>(_ value: T) throws -> String {
   return try String(decoding: jsonEncodeData(value), as: UTF8.self)
 }
 
@@ -12,7 +12,7 @@ func jsonEncode(_ value: Encodable) throws -> String {
 ///
 /// - Parameter value: The value to encode
 /// - Returns the encoded value.
-func jsonEncodeData(_ value: Encodable) throws -> Data {
+func jsonEncodeData<T: Encodable>(_ value: T) throws -> Data {
   let encoder = JSONEncoder()
   encoder.keyEncodingStrategy = .convertToSnakeCase
   encoder.dateEncodingStrategy = .custom({ date, encoder in

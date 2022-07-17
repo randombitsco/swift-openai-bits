@@ -52,11 +52,7 @@ extension Client {
     }
   }
   
-  /// Builds a ``URLRequest`` based on the ``Endpoint`` and `body` value.
-  ///
-  /// - Parameter endpoint: The ``Endpoint`` being requested.
-  /// - Parameter body: The ``Encodable`` value to send as the request body.
-  private func buildRequest(to endpoint: Endpoint, body: Encodable? = nil) throws -> URLRequest {
+  private func buildRequest(to endpoint: Endpoint) throws -> URLRequest {
     let urlStr = "\(BASE_URL)/\(endpoint)"
     
     guard let url = URL(string: urlStr) else {
@@ -68,17 +64,24 @@ extension Client {
     if let organization = organization {
       request.setValue(organization, forHTTPHeaderField: "OpenAI-Organization")
     }
-    if let body = body {
-      request.setValue(APPLICATION_JSON, forHTTPHeaderField: "Content-Type")
-      request.httpBody = try jsonEncodeData(body)
-    }
+
+    return request
+  }
+  
+  /// Builds a ``URLRequest`` based on the ``Endpoint`` and `body` value.
+  ///
+  /// - Parameter endpoint: The ``Endpoint`` being requested.
+  /// - Parameter body: The ``Encodable`` value to send as the request body.
+  private func buildRequest<B: Encodable>(to endpoint: Endpoint, body: B) throws -> URLRequest {
+    var request = try buildRequest(to: endpoint)
+    request.setValue(APPLICATION_JSON, forHTTPHeaderField: "Content-Type")
+    request.httpBody = try jsonEncodeData(body)
     
     return request
   }
   
-  private func executeRequest<T: Decodable>(to endpoint: Endpoint, body: Encodable? = nil, returning outputType: T.Type = T.self) async throws -> T {
+  private func executeRequest<T: Decodable>(_ request: URLRequest, returning outputType: T.Type = T.self) async throws -> T {
     do {
-      let request = try buildRequest(to: endpoint, body: body)
       self.log?("Request: \(request)")
       let (result, response) = try await URLSession.shared.data(for: request)
       
@@ -112,7 +115,7 @@ extension Client {
   ///
   /// - Returns the list of available ``Model``s.
   public func models() async throws -> [Model] {
-    return try await executeRequest(to: .models)
+    return try await executeRequest(buildRequest(to: .models))
   }
   
   /// Requests the details for the specified ``Model/ID``.
@@ -120,7 +123,7 @@ extension Client {
   /// - Parameter id: The ``Model/ID``
   /// - Returns the model details.
   public func model(for id: Model.ID) async throws -> Model {
-    return try await executeRequest(to: .model(id))
+    return try await executeRequest(buildRequest(to: .model(id)))
   }
   
   /// Requests completions for the given request.
@@ -128,7 +131,7 @@ extension Client {
   /// - Parameter request: The ``Completions/Request``.
   /// - Returns The ``Completions/Response``
   public func completions(for request: Completions.Request) async throws -> Completions.Response {
-    return try await executeRequest(to: .completions, body: request)
+    return try await executeRequest(buildRequest(to: .completions, body: request))
   }
   
   /// Requests edits for the given request.
@@ -136,6 +139,6 @@ extension Client {
   /// - Parameter request: The ``Edits/Request``
   /// - Returns the ``Edits/Response``
   public func edits(for request: Edits.Request) async throws -> Edits.Request {
-    return try await executeRequest(to: .edits, body: request)
+    return try await executeRequest(buildRequest(to: .edits, body: request))
   }
 }
