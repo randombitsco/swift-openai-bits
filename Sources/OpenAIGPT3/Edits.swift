@@ -12,7 +12,14 @@ extension Edits {
     public let temperature: Percentage?
     public let topP: Percentage?
 
-    public init(model: Model.ID, input: String? = nil, instruction: String, n: Int? = nil, temperature: Percentage? = nil, topP: Percentage? = nil) {
+    public init(
+      model: Model.ID,
+      input: String? = nil,
+      instruction: String,
+      n: Int? = nil,
+      temperature: Percentage? = nil,
+      topP: Percentage? = nil
+    ) {
       self.model = model
       self.input = input
       self.instruction = instruction

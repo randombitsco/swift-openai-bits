@@ -16,7 +16,14 @@ public struct Model: Equatable, Codable {
   public let root: Model.ID
   public let parent: Model.ID?
   
-  public init(id: Model.ID, created: Date, ownedBy: String, permissions: [Model.Permission], root: Model.ID, parent: Model.ID?) {
+  public init(
+    id: Model.ID,
+    created: Date,
+    ownedBy: String,
+    permissions: [Model.Permission],
+    root: Model.ID,
+    parent: Model.ID? = nil
+  ) {
     self.id = id
     self.created = created
     self.ownedBy = ownedBy

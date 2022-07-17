@@ -22,6 +22,42 @@ extension Completions {
     public let bestOf: Percentage?
     public let logitBias: [Token: Double]?
     public let user: String?
+    
+    public init(
+      model: Model.ID,
+      prompt: Prompt? = nil,
+      suffix: String? = nil,
+      maxTokens: Int? = nil,
+      temperature: Percentage? = nil,
+      topP: Percentage? = nil,
+      n: Percentage? = nil,
+      stream: Bool? = nil,
+      logprobs: Int? = nil,
+      echo: Bool? = nil,
+      stop: [String]? = nil,
+      presencePenalty: Penalty? = nil,
+      frequencyPenalty: Penalty? = nil,
+      bestOf: Percentage? = nil,
+      logitBias: [Token : Double]? = nil,
+      user: String? = nil
+    ) {
+      self.model = model
+      self.prompt = prompt
+      self.suffix = suffix
+      self.maxTokens = maxTokens
+      self.temperature = temperature
+      self.topP = topP
+      self.n = n
+      self.stream = stream
+      self.logprobs = logprobs
+      self.echo = echo
+      self.stop = stop
+      self.presencePenalty = presencePenalty
+      self.frequencyPenalty = frequencyPenalty
+      self.bestOf = bestOf
+      self.logitBias = logitBias
+      self.user = user
+    }
   }
 }
 
@@ -65,6 +101,20 @@ extension Completions {
     public let model: Model.ID
     public let choices: [Choice]
     public let usage: Usage
+    
+    public init(
+      id: ID,
+      created: Date,
+      model: Model.ID,
+      choices: [Choice],
+      usage: Usage
+    ) {
+      self.id = id
+      self.created = created
+      self.model = model
+      self.choices = choices
+      self.usage = usage
+    }
   }
 
   /// One of the completion choices.
@@ -80,5 +130,17 @@ extension Completions {
     
     /// The reason for finishing.
     public let finishReason: String
+    
+    public init(
+      text: String,
+      index: Int,
+      logprobs: [String],
+      finishReason: String
+    ) {
+      self.text = text
+      self.index = index
+      self.logprobs = logprobs
+      self.finishReason = finishReason
+    }
   }
 }
