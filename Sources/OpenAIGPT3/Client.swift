@@ -70,7 +70,7 @@ extension Client {
     }
     if let body = body {
       request.setValue(APPLICATION_JSON, forHTTPHeaderField: "Content-Type")
-      request.httpBody = try JSONEncoder().encode(body)
+      request.httpBody = try jsonEncodeData(body)
     }
     
     return request
@@ -96,7 +96,7 @@ extension Client {
       if httpResponse.mimeType == APPLICATION_JSON {
         let resultString = String(decoding: result, as: UTF8.self)
         self.log?("Response Data: \(resultString)")
-        return try jsonDecode(resultString, as: outputType)
+        return try jsonDecodeData(result, as: outputType)
       } else {
         throw Client.Error.unexpectedResponse("Unexpected mime-type: \(httpResponse.mimeType ?? "<undefined>")")
       }
