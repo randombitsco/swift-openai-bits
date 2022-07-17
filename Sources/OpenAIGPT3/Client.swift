@@ -65,10 +65,10 @@ extension Client {
     
     var request = URLRequest(url: url)
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-    if let organization {
+    if let organization = organization {
       request.setValue(organization, forHTTPHeaderField: "OpenAI-Organization")
     }
-    if let body {
+    if let body = body {
       request.setValue(APPLICATION_JSON, forHTTPHeaderField: "Content-Type")
       request.httpBody = try JSONEncoder().encode(body)
     }
