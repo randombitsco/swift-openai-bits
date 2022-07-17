@@ -115,9 +115,9 @@ extension Client {
     return try await executeRequest(to: .models)
   }
   
-  /// Requests the details for the specified ``Model.ID``.
+  /// Requests the details for the specified ``Model/ID``.
   ///
-  /// - Parameter id: The ``Model.ID``
+  /// - Parameter id: The ``Model/ID``
   /// - Returns the model details.
   public func model(for id: Model.ID) async throws -> Model {
     return try await executeRequest(to: .model(id))
@@ -125,9 +125,17 @@ extension Client {
   
   /// Requests completions for the given request.
   ///
-  /// - Parameter request: The ``Completions.Request``.
-  /// - Returns The ``Completions.Response``
+  /// - Parameter request: The ``Completions/Request``.
+  /// - Returns The ``Completions/Response``
   public func completions(for request: Completions.Request) async throws -> Completions.Response {
     return try await executeRequest(to: .completions, body: request)
+  }
+  
+  /// Requests edits for the given request.
+  ///
+  /// - Parameter request: The ``Edits/Request``
+  /// - Returns the ``Edits/Response``
+  public func edits(for request: Edits.Request) async throws -> Edits.Request {
+    return try await executeRequest(to: .edits, body: request)
   }
 }
