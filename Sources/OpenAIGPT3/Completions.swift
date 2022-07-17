@@ -12,7 +12,7 @@ extension Completions {
     public let maxTokens: Int?
     public let temperature: Percentage?
     public let topP: Percentage?
-    public let n: Percentage?
+    public let n: Int?
     public let stream: Bool?
     public let logprobs: Int?
     public let echo: Bool?
@@ -30,7 +30,7 @@ extension Completions {
       maxTokens: Int? = nil,
       temperature: Percentage? = nil,
       topP: Percentage? = nil,
-      n: Percentage? = nil,
+      n: Int? = nil,
       stream: Bool? = nil,
       logprobs: Int? = nil,
       echo: Bool? = nil,
