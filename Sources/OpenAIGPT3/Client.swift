@@ -76,6 +76,7 @@ extension Client {
     var request = try buildRequest(to: endpoint)
     request.setValue(APPLICATION_JSON, forHTTPHeaderField: "Content-Type")
     request.httpBody = try jsonEncodeData(body)
+    request.httpMethod = "POST"
     
     return request
   }
