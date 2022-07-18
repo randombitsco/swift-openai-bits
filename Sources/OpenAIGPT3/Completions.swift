@@ -91,7 +91,7 @@ extension Completions {
     public struct ID: Identifier {
       public let value: String
       
-      public init(value: String) {
+      public init(_ value: String) {
         self.value = value
       }
     }
@@ -126,7 +126,7 @@ extension Completions {
     public let index: Int
     
     /// The list of `logprobs`.
-    public let logprobs: [String]
+    public let logprobs: [String]?
     
     /// The reason for finishing.
     public let finishReason: String
@@ -134,7 +134,7 @@ extension Completions {
     public init(
       text: String,
       index: Int,
-      logprobs: [String],
+      logprobs: [String]? = nil,
       finishReason: String
     ) {
       self.text = text

@@ -83,7 +83,7 @@ extension Client {
   
   private func executeRequest<T: Decodable>(_ request: URLRequest, returning outputType: T.Type = T.self) async throws -> T {
     do {
-      self.log?("Request: \(request)")
+      self.log?("Request: \(request.httpMethod ?? "GET") \(request)")
       let (result, response) = try await URLSession.shared.data(for: request)
       
       guard let httpResponse = response as? HTTPURLResponse else {

@@ -6,13 +6,13 @@ import Foundation
 public protocol Identifier: Hashable, Codable, ExpressibleByStringLiteral, CustomStringConvertible {
   var value: String { get }
   
-  init(value: String)
+  init(_ value: String)
 }
 
 extension Identifier {
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
-    try self.init(value: container.decode(String.self))
+    try self.init(container.decode(String.self))
   }
   
   public func encode(to encoder: Encoder) throws {
@@ -21,7 +21,7 @@ extension Identifier {
   }
   
   public init(stringLiteral value: StaticString) {
-    self.init(value: String(describing: value))
+    self.init(String(describing: value))
   }
   
   public var description: String { value }
