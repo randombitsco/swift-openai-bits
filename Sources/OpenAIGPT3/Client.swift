@@ -139,7 +139,7 @@ extension Client {
   ///
   /// - Parameter request: The ``Edits/Request``
   /// - Returns the ``Edits/Response``
-  public func edits(for request: Edits.Request) async throws -> Edits.Request {
+  public func edits(for request: Edits.Request) async throws -> Edits.Response {
     return try await executeRequest(buildRequest(to: .edits, body: request))
   }
 }
