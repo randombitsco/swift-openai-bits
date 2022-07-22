@@ -12,7 +12,7 @@ final class ModelTests: XCTestCase {
     let model = Model(id: "alpha", created: date, ownedBy: "beta", permissions: [], root: "alpha", parent: nil)
     let json = try jsonEncode(model)
     let expected = """
-    {"id":"alpha","created":\(dateSeconds),"owned_by":"beta","permissions":[],"root":"alpha"}
+    {"id":"alpha","object":"model","created":\(dateSeconds),"owned_by":"beta","permissions":[],"root":"alpha"}
     """
     
     XCTAssertNoDifference(expected, json)
@@ -20,7 +20,7 @@ final class ModelTests: XCTestCase {
   
   func testDecodeFromJSON() throws {
     let model: Model = try jsonDecode("""
-    {"id":"alpha","created":\(dateSeconds),"owned_by":"beta","permissions":[],"root":"alpha"}
+    {"id":"alpha","object":"model","created":\(dateSeconds),"owned_by":"beta","permissions":[],"root":"alpha"}
     """)
     
     XCTAssertNoDifference(
@@ -31,7 +31,7 @@ final class ModelTests: XCTestCase {
   
   func testDecodeFromJSONWithPermissions() throws {
     let model: Model = try jsonDecode("""
-    {"id":"alpha","created":\(dateSeconds),"owned_by":"beta","permissions":[
+    {"id":"alpha","object":"model","created":\(dateSeconds),"owned_by":"beta","permissions":[
       {"id":"gamma","created":\(dateSeconds),"allow_create_engine":true,"allow_sampling":false,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"omega","group":null,"is_blocking":false},
     ],"root":"alpha"}
     """)

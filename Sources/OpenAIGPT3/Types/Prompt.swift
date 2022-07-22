@@ -5,9 +5,8 @@ import Foundation
 public enum Prompt: Equatable {
   case string(String)
   case strings([String])
-  // TODO: Figure out tokens.
-//  case tokenArray([Token])
-//  case tokenArrays([[Token]])
+  case tokenArray([Token])
+  case tokenArrays([[Token]])
 }
 
 extension Prompt: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
@@ -25,17 +24,30 @@ extension Prompt: Codable {
       return
     } catch {}
     
-    self = .strings(try container.decode([String].self))
+    do {
+      self = .strings(try container.decode([String].self))
+      return
+    } catch {}
+    
+    do {
+      self = .tokenArray(try container.decode([Token].self))
+      return
+    } catch {}
+    
+    self = .tokenArrays(try container.decode([[Token]].self))
   }
   
   public func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
     switch self {
     case .string(let value):
-      var container = encoder.singleValueContainer()
       try container.encode(value)
     case .strings(let values):
-      var container = encoder.singleValueContainer()
       try container.encode(values)
+    case .tokenArray(let tokens):
+      try container.encode(tokens)
+    case .tokenArrays(let tokens):
+      try container.encode(tokens)
     }
   }
 }

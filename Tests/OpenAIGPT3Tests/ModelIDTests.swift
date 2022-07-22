@@ -14,6 +14,6 @@ final class ModelIDTests: XCTestCase {
 
   func testDecodeFromJSON() throws {
     let id: Model.ID = try jsonDecode("\"alpha\"")
-    XCTAssertEqual(Model.ID(value: "alpha"), id)
+    XCTAssertEqual(Model.ID("alpha"), id)
   }
 }

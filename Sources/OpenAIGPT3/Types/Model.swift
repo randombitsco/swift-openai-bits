@@ -10,9 +10,10 @@ public struct Model: Equatable, Codable {
   }
   
   public let id: Model.ID
+  private let object: String
   public let created: Date
   public let ownedBy: String
-  public let permissions: [Model.Permission]
+  public let permission: [Model.Permission]
   public let root: Model.ID
   public let parent: Model.ID?
   
@@ -20,14 +21,15 @@ public struct Model: Equatable, Codable {
     id: Model.ID,
     created: Date,
     ownedBy: String,
-    permissions: [Model.Permission],
+    permission: [Model.Permission],
     root: Model.ID,
     parent: Model.ID? = nil
   ) {
     self.id = id
+    self.object = "model"
     self.created = created
     self.ownedBy = ownedBy
-    self.permissions = permissions
+    self.permission = permission
     self.root = root
     self.parent = parent
   }
