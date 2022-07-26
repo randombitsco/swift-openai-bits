@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug openai",
+            "program": ".build/debug/openai",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-openai-gpt3}",
+            "preLaunchTask": "swift: Build Debug openai"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release openai",
+            "program": ".build/release/openai",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-openai-gpt3}",
+            "preLaunchTask": "swift: Build Release openai"
+        }
+    ]
+}

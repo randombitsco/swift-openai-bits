@@ -18,7 +18,7 @@ struct openai: AsyncParsableCommand {
     
     version: "0.1.0",
     
-    subcommands: [ModelsCommand.self, CompletionsCommand.self]
+    subcommands: [ModelsCommand.self, CompletionsCommand.self, EditsCommand.self]
   )
 }
 
@@ -56,6 +56,15 @@ struct Options: ParsableArguments {
 }
 
 extension Percentage: ExpressibleByArgument {
+  public init?(argument: String) {
+    guard let value = Double.init(argument: argument) else {
+      return nil
+    }
+    self.init(value)
+  }
+}
+
+extension Penalty: ExpressibleByArgument {
   public init?(argument: String) {
     guard let value = Double.init(argument: argument) else {
       return nil

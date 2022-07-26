@@ -83,6 +83,22 @@ extension Model {
       self.isBlocking = isBlocking
     }
   }
+  
+  /// Indicates if the model was trained for working with code.
+  public var supportsCode: Bool {
+    return id.supportsCode
+  }
+  
+  /// Indicates if the model was trained to work with the `/v1/edits` feature.
+  public var supportsEdit: Bool {
+    return id.supportsEdit
+  }
+  
+  /// Indicates if the model was trained to work with the `/v1/inserts` feature.
+  public var supportsInsert: Bool {
+    return id.supportsInsert
+  }
+
 }
 
 // Common Models:

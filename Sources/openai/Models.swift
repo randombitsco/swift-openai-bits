@@ -31,13 +31,41 @@ struct ModelsListCommand: AsyncParsableCommand {
   
   @OptionGroup var options: Options
   
+  @Flag(help: "If set, only 'edits'-compatible models will be listed.")
+  var edits: Bool = false
+  
+  @Flag(help: "If set, only 'code'-compatible models will be listed.")
+  var code: Bool = false
+  
+  @Flag(help: "If set, only 'insert'-compatible models will be listed.")
+  var insert: Bool = false
+  
+  @Option(help: "A text value the model name must include.")
+  var includes: String?
+  
   mutating func run() async throws {
     let client = try options.client()
     
-    let models = try await client.call(Models.List())
+    var models = try await client.call(Models.List()).data
+    
+    if edits {
+      models = models.filter { $0.supportsEdit }
+    }
+    
+    if code {
+      models = models.filter { $0.supportsCode }
+    }
+    
+    if insert {
+      models = models.filter { $0.supportsInsert }
+    }
+    
+    if let includes = includes {
+      models = models.filter { $0.id.value.contains(includes) }
+    }
     
     print("Models:")
-    for model in models.data.sorted(by: { $0.id.value < $1.id.value }) {
+    for model in models.sorted(by: { $0.id.value < $1.id.value }) {
       print("- \(model.id)")
     }
   }
