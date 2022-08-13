@@ -31,7 +31,8 @@ let package = Package(
       // Targets can depend on other targets in this package, and on products in packages this package depends on.
       .target(
         name: "OpenAIGPT3",
-        dependencies: ["MultipartForm"]),
+        dependencies: ["MultipartForm"],
+        resources: [.copy("Resources")]),
       .testTarget(
         name: "OpenAIGPT3Tests",
         dependencies: [
