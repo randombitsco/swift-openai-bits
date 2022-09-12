@@ -6,7 +6,12 @@ func printModel(_ model: Model) {
   print("""
   ID: \(model.id)
   Created: \(model.created)
+  Owned By: \(model.ownedBy)
+  Supports Code: \(model.supportsCode)
+  Supports Edit: \(model.supportsEdit)
+  Supports Insert: \(model.supportsInsert)
   """)
+  
 }
 
 extension Model.ID: ExpressibleByArgument {

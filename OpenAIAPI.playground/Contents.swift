@@ -16,8 +16,8 @@ guard let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] else {
 
 let client = Client(apiKey: apiKey)
 
-let models = try await client.models()
+let models = try await client.call(Models.List())
 
-for model in models {
+for model in models.data {
   print(model)
 }
