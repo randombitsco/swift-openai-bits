@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIGPT3
+import OpenAIAPI
 
 func printModel(_ model: Model) {
   print("""

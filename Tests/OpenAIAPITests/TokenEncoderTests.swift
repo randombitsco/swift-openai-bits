@@ -7,7 +7,7 @@
 
 import XCTest
 import CustomDump
-@testable import OpenAIGPT3
+@testable import OpenAIAPI
 
 final class TokenEncoderTests: XCTestCase {
   

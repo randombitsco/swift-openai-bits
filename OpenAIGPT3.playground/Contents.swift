@@ -1,5 +1,5 @@
 import UIKit
-import OpenAIGPT3
+import OpenAIAPI
 
 struct PlaygroundError: Error {
   let message: String

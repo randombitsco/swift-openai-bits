@@ -1,6 +1,6 @@
 import XCTest
 import CustomDump
-@testable import OpenAIGPT3
+@testable import OpenAIAPI
 
 // 01-Jan-2000 00:00:00 UTC
 let dateSeconds = 946684800
