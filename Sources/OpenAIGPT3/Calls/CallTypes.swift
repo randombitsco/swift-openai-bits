@@ -7,6 +7,7 @@ public protocol GetCall {
   var path: String { get }
 }
 
+/// Represents a `POST` HTTP request.
 public protocol PostCall: Encodable {  
   /// The response data type.
   associatedtype Response: Decodable
