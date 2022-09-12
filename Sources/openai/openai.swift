@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIGPT3
+import OpenAIAPI
 
 struct AppError: Error, CustomStringConvertible {
   let description: String
@@ -18,7 +18,7 @@ struct openai: AsyncParsableCommand {
     
     version: "0.1.0",
     
-    subcommands: [ModelsCommand.self, CompletionsCommand.self, EditsCommand.self]
+    subcommands: [ModelsCommand.self, CompletionsCommand.self, EditsCommand.self, TokensCommand.self]
   )
 }
 

@@ -1,5 +1,5 @@
 import XCTest
-@testable import OpenAIGPT3
+@testable import OpenAIAPI
 
 final class PromptTests: XCTestCase {
 

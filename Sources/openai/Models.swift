@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIGPT3
+import OpenAIAPI
 
 func printModel(_ model: Model) {
   print("""
@@ -31,13 +31,13 @@ struct ModelsListCommand: AsyncParsableCommand {
   
   @OptionGroup var options: Options
   
-  @Flag(help: "If set, only 'edits'-compatible models will be listed.")
+  @Flag(help: "If set, only models compatible with 'edits' calls will be listed.")
   var edits: Bool = false
   
-  @Flag(help: "If set, only 'code'-compatible models will be listed.")
+  @Flag(help: "If set, only models compatible optimised for code generation will be listed.")
   var code: Bool = false
   
-  @Flag(help: "If set, only 'insert'-compatible models will be listed.")
+  @Flag(help: "If set, only models compatible with 'insert'calls will be listed.")
   var insert: Bool = false
   
   @Option(help: "A text value the model name must include.")
