@@ -22,7 +22,7 @@ let package = Package(
   ],
   dependencies: [
       // Dependencies declare other packages that this package depends on.
-//    .package(url: "https://github.com/davbeck/MultipartForm", from: "0.1.0"),
+    .package(url: "https://github.com/davbeck/MultipartForm", from: "0.1.0"),
     .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "0.5.0"),
     .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.0.3"),
   ],
@@ -31,7 +31,7 @@ let package = Package(
       // Targets can depend on other targets in this package, and on products in packages this package depends on.
       .target(
         name: "OpenAIAPI",
-//        dependencies: ["MultipartForm"],
+        dependencies: ["MultipartForm"],
         resources: [.copy("Resources")]),
       .testTarget(
         name: "OpenAIAPITests",

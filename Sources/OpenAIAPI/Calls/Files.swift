@@ -11,7 +11,7 @@ extension Files {
     }
   }
   
-  public struct Upload {
+  public struct Upload: PostCall {
     public struct Request: Equatable, Codable {
       public let file: String
       public let purpose: String
