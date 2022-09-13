@@ -35,7 +35,11 @@ extension Edits {
     public let choices: [Choice]
     public let usage: Usage
 
-    public init(created: Date, choices: [Choice], usage: Usage) {
+    public init(
+      created: Date,
+      choices: [Choice],
+      usage: Usage
+    ) {
       self.created = created
       self.choices = choices
       self.usage = usage
