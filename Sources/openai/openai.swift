@@ -10,13 +10,27 @@ struct AppError: Error, CustomStringConvertible {
   }
 }
 
+func readSTDIN () -> String? {
+    var input: String?
+
+    while let line = readLine() {
+        if input == nil {
+            input = line
+        } else {
+            input! += "\n" + line
+        }
+    }
+
+    return input
+}
+
 @main
 struct openai: AsyncParsableCommand {
   
   static var configuration = CommandConfiguration(
+    commandName: "openai",
     abstract: "A utility for accessing OpenAI APIs.",
-    
-    version: "0.1.0",
+    version: "0.2.0",
     
     subcommands: [
       ModelsCommand.self,

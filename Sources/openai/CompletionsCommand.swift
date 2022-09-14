@@ -73,10 +73,14 @@ struct CompletionsCommand: AsyncParsableCommand {
     do {
       return try decoder.decode([Token: Double].self, from: logitBias)
     } catch Swift.DecodingError.dataCorrupted(let ctx) {
-      throw AppError("Unable to parse the logit-bias: \(ctx.debugDescription)")
+      throw ValidationError("Unable to parse the logit-bias: \(ctx.debugDescription)")
     } catch {
-      throw AppError("Unable to parse the logit-bias: \"\(logitBias)\"")
+      throw ValidationError("Unable to parse the logit-bias: \"\(logitBias)\"")
     }
+  }
+  
+  mutating func validate() throws {
+    _ = try parseLogitBias()
   }
   
   mutating func run() async throws {

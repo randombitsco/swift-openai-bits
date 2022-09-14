@@ -20,8 +20,8 @@ public struct Client {
   }
 }
 
-private func logHeaders(_ headers: [AnyHashable:Any], from label: String, to log: Client.Logger?) {
-  guard let log = log else { return }
+private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to log: Client.Logger?) {
+  guard let log = log, let headers = headers else { return }
   
   log("\(label) Headers:")
   log("-------------------------------------------")
@@ -62,14 +62,19 @@ extension Client {
   
   private func executeRequest<T: Response>(_ request: URLRequest, returning outputType: T.Type = T.self) async throws -> T {
     do {
-      self.log?("Request: \(request.httpMethod ?? "GET") \(request)")
+      log?("Request: \(request.httpMethod ?? "GET") \(request)")
+      logHeaders(request.allHTTPHeaderFields, from: "Request", to: self.log)
+      if let httpBody = request.httpBody {
+        log?("Request Data:\n\(String(decoding: httpBody, as: UTF8.self))")
+      }
+      
       let (result, response) = try await URLSession.shared.data(for: request)
 
       guard let httpResponse = response as? HTTPURLResponse else {
         throw Client.Error.unexpectedResponse("Expected an HTTPURLResponse")
       }
 
-      self.log?("Response Status: \(httpResponse.statusCode)")
+      log?("\nResponse Status: \(httpResponse.statusCode)")
       logHeaders(httpResponse.allHeaderFields, from: "Response", to: self.log)
       
       guard httpResponse.statusCode == 200 else {
@@ -84,10 +89,10 @@ extension Client {
         }
       }
       
-      self.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
+      log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
       return try T(data: result, response: httpResponse)
     } catch {
-      self.log?("Error: \(error)")
+      log?("Error: \(error)")
       throw error
     }
   }
