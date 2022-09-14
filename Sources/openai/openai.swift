@@ -22,7 +22,8 @@ struct openai: AsyncParsableCommand {
       ModelsCommand.self,
       CompletionsCommand.self,
       EditsCommand.self,
-      FileCommand.self,
+      FilesCommand.self,
+      ModerationsCommand.self,
       TokensCommand.self,
     ]
   )

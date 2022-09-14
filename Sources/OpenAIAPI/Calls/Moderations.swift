@@ -23,7 +23,7 @@ public struct Moderations: JSONPostCall {
 }
 
 public extension Moderations {
-  enum Category: String, Hashable, Decodable {
+  enum Category: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
     case hate
     case hateThreatening = "hate/threatening"
     case selfHarm = "self-harm"
@@ -31,6 +31,8 @@ public extension Moderations {
     case sexualMinors = "sexual/minors"
     case violence
     case violenceGraphic = "violence/graphic"
+    
+    public var description: String { rawValue }
   }
   
   struct Response: JSONResponse {
@@ -44,15 +46,15 @@ public extension Moderations {
     }
     
     /// The ``Moderations/Response/ID``.
-    let id: ID
+    public let id: ID
     
     /// The actual model used to perform the moderation.
-    let model: String?
+    public let model: String
     
     /// The list of results.
-    let results: [Result]
+    public let results: [Result]
     
-    public init(id: ID, model: String?, results: [Result]) {
+    public init(id: ID, model: String, results: [Result]) {
       self.id = id
       self.model = model
       self.results = results
@@ -60,11 +62,11 @@ public extension Moderations {
   }
   
   struct Result: Decodable, Equatable {
-    let categories: [Category: Bool]
-    let categoryScores: [Category: Float]
-    let flagged: Bool
+    @CodableDictionary public var categories: [Category: Bool]
+    @CodableDictionary public var categoryScores: [Category: Double]
+    public let flagged: Bool
     
-    public init(categories: [Category : Bool], categoryScores: [Category : Float], flagged: Bool) {
+    public init(categories: [Category : Bool], categoryScores: [Category : Double], flagged: Bool) {
       self.categories = categories
       self.categoryScores = categoryScores
       self.flagged = flagged

@@ -29,21 +29,21 @@ extension File.ID: ExpressibleByArgument {
   }
 }
 
-struct FileCommand: AsyncParsableCommand {
+struct FilesCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
-    commandName: "file",
+    commandName: "files",
     abstract: "Commands relating to listing, uploading, and managing files.",
     subcommands: [
-      FileListCommand.self,
-      FileDetailCommand.self,
-      FileUploadCommand.self,
-      FileDownloadCommand.self,
-      FileDeleteCommand.self,
+      FilesListCommand.self,
+      FilesDetailCommand.self,
+      FilesUploadCommand.self,
+      FilesDownloadCommand.self,
+      FilesDeleteCommand.self,
     ]
   )
 }
 
-struct FileListCommand: AsyncParsableCommand {
+struct FilesListCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "list",
     abstract: "List available files."
@@ -64,7 +64,7 @@ struct FileListCommand: AsyncParsableCommand {
   }
 }
 
-struct FileUploadCommand: AsyncParsableCommand {
+struct FilesUploadCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "upload",
     abstract: "Uploads a file with a specified purpose."
@@ -90,7 +90,7 @@ struct FileUploadCommand: AsyncParsableCommand {
   }
 }
 
-struct FileDetailCommand: AsyncParsableCommand {
+struct FilesDetailCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "detail",
     abstract: "Outputs details for a file with a specific ID."
@@ -110,7 +110,7 @@ struct FileDetailCommand: AsyncParsableCommand {
   }
 }
 
-struct FileDownloadCommand: AsyncParsableCommand {
+struct FilesDownloadCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "download",
     abstract: "Downloads a file with a specific ID."
@@ -148,7 +148,7 @@ struct FileDownloadCommand: AsyncParsableCommand {
   }
 }
 
-struct FileDeleteCommand: AsyncParsableCommand {
+struct FilesDeleteCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "delete",
     abstract: "Deletes an uploaded file permanently."
