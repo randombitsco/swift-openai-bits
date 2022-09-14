@@ -1,7 +1,7 @@
 import Foundation
 
-public struct ListOf<Data: Codable>: Codable {
-  public let data: [Data]
+public struct ListOf<Element: Decodable>: JSONResponse {
+  public let data: [Element]
 }
 
-extension ListOf: Equatable where Data: Equatable {}
+extension ListOf: Equatable where Element: Equatable {}

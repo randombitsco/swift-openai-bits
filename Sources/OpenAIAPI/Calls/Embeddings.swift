@@ -15,7 +15,7 @@ extension Embeddings {
     }
   }
   
-  public struct Response: Equatable, Codable {
+  public struct Response: JSONResponse, Equatable {
     public let data: [Embedding]
     public let usage: Usage
     

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct File: Equatable, Codable {
+public struct File: JSONResponse, Equatable {
   
   public struct ID: Identifier {
     public let value: String
@@ -15,4 +15,6 @@ public struct File: Equatable, Codable {
   public let createdAt: Date
   public let filename: String
   public let purpose: String
+  public let status: String?
+  public let statusDetails: String?
 }

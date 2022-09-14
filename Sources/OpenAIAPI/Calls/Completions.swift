@@ -1,7 +1,7 @@
 import Foundation
 
 /// A namespace for completions-related types.
-public struct Completions: PostCall {
+public struct Completions: JSONPostCall {
   public var path: String { "completions" }
   
   public let model: Model.ID
@@ -84,7 +84,7 @@ extension Completions {
   ///   }
   /// }
   /// ```
-  public struct Response: Equatable, Codable {
+  public struct Response: JSONResponse, Equatable {
     public struct ID: Identifier {
       public let value: String
 

@@ -8,7 +8,7 @@ struct CompletionsCommand: AsyncParsableCommand {
     abstract: "Runs a \"completions\" request."
   )
   
-  @OptionGroup var options: Options
+  @OptionGroup var config: Config
   
   @Option(name: [.customShort("m"), .customLong("model-id")], help: "The ID of the model to prompt.")
   var modelID: Model.ID
@@ -80,7 +80,7 @@ struct CompletionsCommand: AsyncParsableCommand {
   }
   
   mutating func run() async throws {
-    let client = try options.client()
+    let client = config.client()
     
     let stop: [String]? = self.stop != nil ? [self.stop!] : nil
     

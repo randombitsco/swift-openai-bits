@@ -8,7 +8,7 @@ struct EditsCommand: AsyncParsableCommand {
     abstract: "Runs an \"edits\" request."
   )
   
-  @OptionGroup var options: Options
+  @OptionGroup var config: Config
   
   @Option(name: [.customShort("m"), .customLong("model-id")], help: "The ID of the model to prompt. Must be an 'edit' model.")
   var modelID: Model.ID
@@ -29,7 +29,7 @@ struct EditsCommand: AsyncParsableCommand {
   var topP: Percentage?
   
   mutating func run() async throws {
-    let client = try options.client()
+    let client = config.client()
     
     let edits = Edits(
       model: modelID,

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents an `Edits` request.
-public struct Edits: PostCall {
+public struct Edits: JSONPostCall {
   
   public var path: String { "edits" }
   
@@ -30,7 +30,7 @@ public struct Edits: PostCall {
 }
 
 extension Edits {
-  public struct Response: Equatable, Codable {
+  public struct Response: JSONResponse, Equatable {
     public let created: Date
     public let choices: [Choice]
     public let usage: Usage

@@ -34,7 +34,7 @@ struct ModelsListCommand: AsyncParsableCommand {
     abstract: "List available models."
   )
   
-  @OptionGroup var options: Options
+  @OptionGroup var config: Config
   
   @Flag(help: "If set, only models compatible with 'edits' calls will be listed.")
   var edits: Bool = false
@@ -45,11 +45,14 @@ struct ModelsListCommand: AsyncParsableCommand {
   @Flag(help: "If set, only models compatible with 'insert'calls will be listed.")
   var insert: Bool = false
   
+  @Flag(help: "If set, only fine-tune models will be listed.")
+  var fineTune: Bool = false
+  
   @Option(help: "A text value the model name must include.")
   var includes: String?
   
   mutating func run() async throws {
-    let client = try options.client()
+    let client = config.client()
     
     var models = try await client.call(Models.List()).data
     
@@ -63,6 +66,10 @@ struct ModelsListCommand: AsyncParsableCommand {
     
     if insert {
       models = models.filter { $0.supportsInsert }
+    }
+    
+    if fineTune {
+      models = models.filter { $0.isFineTune }
     }
     
     if let includes = includes {
@@ -82,13 +89,13 @@ struct ModelsDetailCommand: AsyncParsableCommand {
     abstract: "Outputs details for model with a specific ID."
   )
   
-  @OptionGroup var options: Options
+  @OptionGroup var config: Config
   
   @Argument(help: "The model ID.")
   var id: Model.ID
   
   mutating func run() async throws {
-    let client = try options.client()
+    let client = config.client()
 
     try await printModel(client.call(Models.Details(for: id)))
   }

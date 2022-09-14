@@ -8,16 +8,6 @@ let date = Date(timeIntervalSince1970: .init(dateSeconds))
 
 final class ModelTests: XCTestCase {
   
-  func testEncodeToJSON() throws {
-    let model = Model(id: "alpha", created: date, ownedBy: "beta", permission: [], root: "alpha", parent: nil)
-    let json = try jsonEncode(model)
-    let expected = """
-    {"id":"alpha","object":"model","created":\(dateSeconds),"owned_by":"beta","permission":[],"root":"alpha"}
-    """
-    
-    XCTAssertNoDifference(expected, json)
-  }
-  
   func testDecodeFromJSON() throws {
     let model: Model = try jsonDecode("""
     {"id":"alpha","object":"model","created":\(dateSeconds),"owned_by":"beta","permission":[],"root":"alpha"}

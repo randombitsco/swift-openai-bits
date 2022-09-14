@@ -210,16 +210,16 @@ extension TokenEncoder {
     
     /// Loads the encoder array, mapping between token strings and their integer representation.
     func encoder() throws -> [String: Int] {
-      guard let encoderPath = Bundle.module.url(forResource: "Resources/\(rawValue)/encoder", withExtension: "json") else {
-        throw TokenEncoder.Error.missingResource(name: "Resources/\(rawValue)/encoder.json")
+      guard let encoderPath = Bundle.module.url(forResource: "models/\(rawValue)/encoder", withExtension: "json") else {
+        throw TokenEncoder.Error.missingResource(name: "models/\(rawValue)/encoder.json")
       }
       let encoderData = try Data(contentsOf: encoderPath)
       return try JSONDecoder().decode([String: Int].self, from: encoderData)
     }
     
     fileprivate func bpeRanks() throws -> [SymbolPair: Int] {
-      guard let bpePath = Bundle.module.url(forResource: "Resources/\(rawValue)/vocab", withExtension: "bpe") else {
-        throw TokenEncoder.Error.missingResource(name: "Resources/\(rawValue)/vocab.bpe")
+      guard let bpePath = Bundle.module.url(forResource: "models/\(rawValue)/vocab", withExtension: "bpe") else {
+        throw TokenEncoder.Error.missingResource(name: "models/\(rawValue)/vocab.bpe")
       }
       let bpeData = try String(contentsOf: bpePath, encoding: .utf8)
       

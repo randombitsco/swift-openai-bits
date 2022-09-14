@@ -1,7 +1,7 @@
 //  Represents a Model's Details
 import Foundation
 
-public struct Model: Equatable, Codable {
+public struct Model: JSONResponse, Equatable {
   public struct ID: Identifier {
     public let value: String
     public init(_ value: String) {
@@ -98,6 +98,10 @@ extension Model {
   public var supportsInsert: Bool {
     return id.supportsInsert
   }
+  
+  public var isFineTune: Bool {
+    return id.isFineTune
+  }
 
 }
 
@@ -116,6 +120,11 @@ extension Model.ID {
   /// Indicates if the model was trained to work with the `/v1/inserts` feature.
   public var supportsInsert: Bool {
     return value.contains("-insert-")
+  }
+  
+  /// Indicates if the model is a `fine-tune`.
+  public var isFineTune: Bool {
+    return value.contains(":ft-personal:")
   }
   
   public static var text_davinci_002: Self { "text-davinci-002" }

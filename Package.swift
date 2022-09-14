@@ -32,7 +32,7 @@ let package = Package(
       .target(
         name: "OpenAIAPI",
         dependencies: ["MultipartForm"],
-        resources: [.copy("Resources")]),
+        resources: [.copy("models")]),
       .testTarget(
         name: "OpenAIAPITests",
         dependencies: [

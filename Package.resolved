@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "MultipartForm",
+        "repositoryURL": "https://github.com/davbeck/MultipartForm",
+        "state": {
+          "branch": null,
+          "revision": "c91979ea956a360bf84f0cc480afbcc7c946c753",
+          "version": "0.1.0"
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
         "state": {
