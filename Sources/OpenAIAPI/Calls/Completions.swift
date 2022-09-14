@@ -1,6 +1,6 @@
 import Foundation
 
-/// A namespace for completions-related types.
+/// Used to call the API for a [Completions](https://beta.openai.com/docs/api-reference/completions) response.
 public struct Completions: JSONPostCall {
   public var path: String { "completions" }
   
