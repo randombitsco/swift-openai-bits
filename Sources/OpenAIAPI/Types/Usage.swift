@@ -6,7 +6,7 @@ public struct Usage: Equatable, Codable {
   
   public init(promptTokens: Int, completionTokens: Int?, totalTokens: Int) {
     self.promptTokens = promptTokens
-    self.completionTokens = completionTokens?
+    self.completionTokens = completionTokens
     self.totalTokens = totalTokens
   }
 }

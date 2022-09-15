@@ -8,13 +8,11 @@ struct EditsCommand: AsyncParsableCommand {
     abstract: "Runs an \"edits\" request."
   )
   
-  @OptionGroup var config: Config
-  
   @Option(name: .long, help: "Either 'davinci' or 'codex'.")
   var model: EditsModel?
   
-  @Option(name: [.customLong("model-id")], help: "The full ID of the model to prompt. Must be an 'edit' model.")
-  var modelID: Model.ID?
+  @Option(help: "The full ID of the model to prompt. Must be an 'edit' model.")
+  var modelId: Model.ID?
   
   @Argument(help: "The input text to use as a starting point for the edit. (Defaults to '')")
   var input: String?
@@ -31,8 +29,10 @@ struct EditsCommand: AsyncParsableCommand {
   @Option(name: .customLong("top-p"), help: "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top-p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or `temperature` but not both. (Defaults to 1)")
   var topP: Percentage?
   
+  @OptionGroup var config: Config
+  
   func findModelID() throws -> Model.ID {
-    switch (model, modelID) {
+    switch (model, modelId) {
     case (.none, .none):
       throw ValidationError("Please specify either 'model' or 'model-id'.")
     case (.none, let .some(modelID)):
@@ -63,7 +63,7 @@ struct EditsCommand: AsyncParsableCommand {
       print("\(choice.index): \"\(choice.text)\"\n")
     }
     
-    printUsage(result.usage)
+    print(usage: result.usage, format: config.format())
   }
 }
 

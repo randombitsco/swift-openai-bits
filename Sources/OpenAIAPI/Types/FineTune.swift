@@ -52,7 +52,9 @@ extension FineTune {
       self.value = value
     }
   }
-  
+}
+
+extension FineTune {
   /// Options for fine tune models.
   public enum Model: RawRepresentable, Equatable, Codable, CustomStringConvertible {
     case ada
@@ -60,9 +62,9 @@ extension FineTune {
     case curie
     case davinci
     case fineTuned(_ id: OpenAIAPI.Model.ID)
-
+    
     public typealias RawValue = String
-
+    
     public init?(rawValue: String) {
       switch rawValue {
       case "ada": self = .ada
@@ -92,13 +94,17 @@ extension FineTune {
     
     public var description: String { rawValue }
   }
-  
+}
+
+extension FineTune {
   public struct Event: Equatable, Codable {
     public let createdAt: Date
     public let level: String
     public let message: String
   }
-  
+}
+
+extension FineTune {
   public struct Hyperparams: Equatable, Codable {
     public let batchSize: Int
     public let learningRateMultiplier: Double

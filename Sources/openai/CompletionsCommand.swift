@@ -8,10 +8,8 @@ struct CompletionsCommand: AsyncParsableCommand {
     abstract: "Runs a \"completions\" request."
   )
   
-  @OptionGroup var config: Config
-  
-  @Option(name: [.customShort("m"), .customLong("model-id")], help: "The ID of the model to prompt.")
-  var modelID: Model.ID
+  @Option(help: "The ID of the model to prompt.")
+  var modelId: Model.ID
   
   @Option(help: "The suffix that comes after a completion of inserted text.")
   var suffix: String?
@@ -64,6 +62,8 @@ struct CompletionsCommand: AsyncParsableCommand {
   @Argument(help: "The prompt to request completions on.")
   var prompt: String
   
+  @OptionGroup var config: Config
+  
   func parseLogitBias() throws -> [Token: Double]? {
     guard let logitBias = logitBias?.data(using: .utf8) else {
       return nil
@@ -89,7 +89,7 @@ struct CompletionsCommand: AsyncParsableCommand {
     let stop: [String]? = self.stop != nil ? [self.stop!] : nil
     
     let completions = Completions(
-      model: modelID,
+      model: modelId,
       prompt: .string(prompt),
       suffix: suffix,
       maxTokens: maxTokens,

@@ -91,6 +91,7 @@ func print<T>(item: T, label: String? = nil, index: Int, format: Format, with pr
     subtitle += "\(label) "
   }
   subtitle += "#\(index+1):"
+  print("")
   print(subtitle: subtitle, format: format)
   printer(item, format)
 }
@@ -132,17 +133,12 @@ func print<T: CustomStringConvertible>(label: String, value: T?, verbose: Bool =
 
 func print(file: File, format: Format) {
   print(label: "ID", value: file.id, format: format)
-  print(label: "Bytes", value: file.bytes, format: format)
-  print(label: "Created At", value: file.createdAt, format: format)
   print(label: "Filename", value: file.filename, format: format)
   print(label: "Purpose", value: file.purpose, format: format)
-  
-  if let status = file.status {
-    print(label: "Status", value: status, format: format)
-  }
-  if let statusDetails = file.statusDetails {
-    print(label: "Status Details", value: statusDetails, format: format)
-  }
+  print(label: "Bytes", value: file.bytes, format: format)
+  print(label: "Status", value: file.status, format: format)
+  print(label: "Status Details", value: file.statusDetails, format: format)
+  print(label: "Created At", value: file.createdAt, format: format)
 }
 
 func print(completion: Completions.Response, format: Format) {
@@ -167,7 +163,91 @@ func print(choice: Completions.Choice, format: Format) {
   print(text: border, format: format)
 }
 
-func print(usage: Usage, format: Format) {
+func print(usage: Usage?, format: Format) {
+  guard let usage = usage else { return }
   print("")
   print(label: "Tokens Used", value: "Prompt: \(usage.promptTokens); Completion: \(usage.completionTokens ?? 0); Total: \(usage.totalTokens)", format: format)
 }
+
+func print(model: Model, format: Format) {
+  print(label: "ID", value: model.id, format: format)
+  print(label: "Created", value: model.created, format: format)
+  print(label: "Owned By", value: model.ownedBy, format: format)
+  print(label: "Fine-Tune", value: model.isFineTune ? "yes" : "no", format: format)
+  print(label: "Root Model", value: model.root, verbose: true, format: format)
+  print(label: "Parent Model", value: model.parent, verbose: true, format: format)
+  print(label: "Supports Code", value: model.supportsCode, verbose: true, format: format)
+  print(label: "Supports Edit", value: model.supportsEdit, verbose: true, format: format)
+  print(label: "Supports Embedding", value: model.supportsEmbedding, verbose: true, format: format)
+}
+
+func print(fineTune: FineTune, format: Format) {
+  print(label: "ID", value: fineTune.id, format: format)
+  print(label: "Model", value: fineTune.model, format: format)
+  print(label: "Fine-Tuned Model", value: fineTune.fineTunedModel, format: format)
+  print(label: "Organization", value: fineTune.organizationId, verbose: true, format: format)
+  print(label: "Status", value: fineTune.status, format: format)
+  print(label: "Created At", value: fineTune.createdAt, format: format)
+  print(label: "Updated At", value: fineTune.updatedAt, format: format)
+  print(label: "Batch Size", value: fineTune.hyperparams.batchSize, verbose: true, format: format)
+  print(label: "Learning Rate Multiplier", value: fineTune.hyperparams.learningRateMultiplier, verbose: true, format: format)
+  print(label: "N-Epochs", value: fineTune.hyperparams.nEpochs, verbose: true, format: format)
+  print(label: "Prompt Loss Weight", value: fineTune.hyperparams.promptLossWeight, verbose: true, format: format)
+  
+  if let events = fineTune.events, !events.isEmpty {
+    print("")
+    print(subtitle: "Events:", format: format)
+    for (i, event) in events.enumerated() {
+      print(item: event, index: i, format: format.indent(by: 2), with: print(event:format:))
+    }
+  }
+  
+  if !fineTune.resultFiles.isEmpty {
+    print("")
+    print(subtitle: "Result Files:", format: format)
+    for (i, file) in fineTune.resultFiles.enumerated() {
+      print(item: file, label: "File", index: i, format: format.indent(by: 2), with: print(file:format:))
+    }
+  }
+  
+  if !fineTune.validationFiles.isEmpty {
+    print("")
+    print(subtitle: "Validation Files:", format: format)
+    for (i, file) in fineTune.validationFiles.enumerated() {
+      print(item: file, label: "File", index: i, format: format.indent(by: 2), with: print(file:format:))
+    }
+  }
+  
+  if !fineTune.trainingFiles.isEmpty {
+    print("")
+    print(subtitle: "Training Files:", format: format)
+    for (i, file) in fineTune.trainingFiles.enumerated() {
+      print(item: file, label: "File", index: i, format: format.indent(by: 2), with: print(file:format:))
+    }
+  }
+}
+
+func print(event: FineTune.Event, format: Format) {
+  print(label: "Created At", value: event.createdAt, format: format)
+  print(label: "Level", value: event.level, format: format)
+  print(label: "Message", value: event.level, format: format)
+}
+
+func print(moderationsResponse response: Moderations.Response, format: Format) {
+  let maxCategoryName = Moderations.Category.allCases.map { $0.rawValue.count }.max() ?? 0
+  for (i, result) in response.results.enumerated() {
+    print("#\(i+1): \(result.flagged ? "FLAGGED" : "Unflagged") ")
+    for category in Moderations.Category.allCases {
+      var output = "N/A"
+      if let flagged = result.categories[category] {
+        output = flagged ? "YES" : "no "
+      }
+      if let score = result.categoryScores[category] {
+        output += " (\(score))"
+      }
+      let categoryName = "\(category):".padding(toLength: maxCategoryName+1, withPad: " ", startingAt: 0)
+      print("\(categoryName) \(output)")
+    }
+  }
+}
+

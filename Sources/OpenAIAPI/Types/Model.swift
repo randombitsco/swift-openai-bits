@@ -94,10 +94,16 @@ extension Model {
     return id.supportsEdit
   }
   
-  /// Indicates if the model was trained to work with the `/v1/inserts` feature.
-  public var supportsInsert: Bool {
-    return id.supportsInsert
-  }
+  /// Indicates if the model supports text similarty.
+  public var supportsTextSimilarity: Bool { id.supportsTextSimilarity }
+  
+  /// Indicates if the model supports text search.
+  public var supportsTextSearch: Bool { id.supportsTextSearch }
+  
+  /// Indicates if the model supports code search.
+  public var supportsCodeSearch: Bool { id.supportsCodeSearch }
+  
+  public var supportsEmbedding: Bool { id.supportsEmbedding }
   
   public var isFineTune: Bool {
     return id.isFineTune
@@ -108,18 +114,22 @@ extension Model {
 // Common Models:
 extension Model.ID {
   /// Indicates if the model was trained for working with code.
-  public var supportsCode: Bool {
-    return value.hasPrefix("code-")
-  }
+  public var supportsCode: Bool { value.hasPrefix("code-") }
   
   /// Indicates if the model was trained to work with the `/v1/edits` feature.
-  public var supportsEdit: Bool {
-    return value.contains("-edit-")
-  }
+  public var supportsEdit: Bool { value.contains("-edit-") }
   
-  /// Indicates if the model was trained to work with the `/v1/inserts` feature.
-  public var supportsInsert: Bool {
-    return value.contains("-insert-")
+  /// Indicates if the model supports text similarty.
+  public var supportsTextSimilarity: Bool { value.starts(with: "text-similarity-") }
+  
+  /// Indicates if the model supports text search.
+  public var supportsTextSearch: Bool { value.starts(with: "text-search-") }
+  
+  /// Indicates if the model supports code search.
+  public var supportsCodeSearch: Bool { value.starts(with: "code-search-") }
+  
+  public var supportsEmbedding: Bool {
+    supportsTextSimilarity || supportsTextSearch || supportsCodeSearch
   }
   
   /// Indicates if the model is a `fine-tune`.

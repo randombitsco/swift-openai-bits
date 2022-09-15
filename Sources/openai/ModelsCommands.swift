@@ -2,18 +2,6 @@ import ArgumentParser
 import Foundation
 import OpenAIAPI
 
-func printModel(_ model: Model) {
-  print("""
-  ID: \(model.id)
-  Created: \(model.created)
-  Owned By: \(model.ownedBy)
-  Supports Code: \(model.supportsCode)
-  Supports Edit: \(model.supportsEdit)
-  Supports Insert: \(model.supportsInsert)
-  """)
-  
-}
-
 extension Model.ID: ExpressibleByArgument {
   public init(argument: String) {
     self.init(argument)
@@ -24,7 +12,10 @@ struct ModelsCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
     commandName: "models",
     abstract: "Commands relating to available models.",
-    subcommands: [ModelsListCommand.self, ModelsDetailCommand.self]
+    subcommands: [
+      ModelsListCommand.self,
+      ModelsDetailCommand.self
+    ]
   )
 }
 
@@ -34,22 +25,22 @@ struct ModelsListCommand: AsyncParsableCommand {
     abstract: "List available models."
   )
   
-  @OptionGroup var config: Config
-  
   @Flag(help: "If set, only models compatible with 'edits' calls will be listed.")
   var edits: Bool = false
   
   @Flag(help: "If set, only models compatible optimised for code generation will be listed.")
   var code: Bool = false
   
-  @Flag(help: "If set, only models compatible with 'insert'calls will be listed.")
-  var insert: Bool = false
+  @Flag(name: [.long], help: "If set, only models compatible with generating embeddings calls will be listed.")
+  var embeddings: Bool = false
   
-  @Flag(help: "If set, only fine-tune models will be listed.")
-  var fineTune: Bool = false
+  @Flag(help: "If set, only fine-tuned models will be listed.")
+  var fineTuned: Bool = false
   
   @Option(help: "A text value the model name must include.")
   var includes: String?
+  
+  @OptionGroup var config: Config
   
   mutating func run() async throws {
     let client = config.client()
@@ -64,11 +55,11 @@ struct ModelsListCommand: AsyncParsableCommand {
       models = models.filter { $0.supportsCode }
     }
     
-    if insert {
-      models = models.filter { $0.supportsInsert }
+    if embeddings {
+      models = models.filter { $0.supportsEmbedding }
     }
     
-    if fineTune {
+    if fineTuned {
       models = models.filter { $0.isFineTune }
     }
     
@@ -88,15 +79,15 @@ struct ModelsDetailCommand: AsyncParsableCommand {
     commandName: "detail",
     abstract: "Outputs details for model with a specific ID."
   )
+
+  @Option(help: "The model ID.")
+  var modelId: Model.ID
   
-  @OptionGroup var config: Config
-  
-  @Argument(help: "The model ID.")
-  var id: Model.ID
+  @OptionGroup var config: Config  
   
   mutating func run() async throws {
     let client = config.client()
 
-    try await printModel(client.call(Models.Details(for: id)))
+    try await print(model: client.call(Models.Details(for: modelId)), format: config.format())
   }
 }

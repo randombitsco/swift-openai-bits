@@ -48,13 +48,13 @@ struct FilesUploadCommand: AsyncParsableCommand {
     abstract: "Uploads a file with a specified purpose."
   )
   
-  @OptionGroup var config: Config
-  
   @Option(name: .shortAndLong, help: "The file to upload.", completion: .file())
   var input: String
   
   @Option(name: .long, help: "The purpose for the file. Use 'fine-tune' for fine-tuning .jsonl files.")
   var purpose: Files.Upload.Purpose
+  
+  @OptionGroup var config: Config
   
   mutating func run() async throws {
     let client = config.client()
@@ -74,10 +74,10 @@ struct FilesDetailCommand: AsyncParsableCommand {
     abstract: "Outputs details for a file with a specific ID."
   )
   
-  @OptionGroup var config: Config
-  
   @Option(name: [.customLong("id"), .long], help: "The file ID.")
   var fileId: File.ID
+  
+  @OptionGroup var config: Config
   
   mutating func run() async throws {
     let client = config.client()
@@ -94,13 +94,13 @@ struct FilesDownloadCommand: AsyncParsableCommand {
     abstract: "Downloads a file with a specific ID."
   )
   
-  @OptionGroup var config: Config
-  
   @Option(name: [.customLong("id"), .long], help: "The file ID.")
   var fileId: File.ID
   
   @Option(name: .shortAndLong, help: "The name of the output file. Outputs to stdout by default.", completion: .file())
   var output: String?
+  
+  @OptionGroup var config: Config
   
   mutating func run() async throws {
     let client = config.client()
@@ -129,10 +129,10 @@ struct FilesDeleteCommand: AsyncParsableCommand {
     abstract: "Deletes an uploaded file permanently."
   )
   
-  @OptionGroup var config: Config
-  
   @Option(name: [.customLong("id"), .long], help: "The file ID.")
   var fileId: File.ID
+  
+  @OptionGroup var config: Config
   
   mutating func run() async throws {
     let client = config.client()

@@ -1,31 +1,33 @@
+import ArgumentParser
+import Foundation
 import OpenAIAPI
 
 struct EmbeddingsCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
-    commandName: "edits",
-    abstract: "Runs an \"edits\" request."
+    commandName: "embeddings",
+    abstract: "Runs an \"embeddings\" request, saving the results into a JSON file."
   )
   
-  @OptionGroup var config: Config
-
   @Option(help: "The model ID to use creating the embeddings.")
   var modelId: Model.ID
-
-  @Option(help: "The text prompt to generate the embeddings.")
-  var prompt: String
 
   @Option(help: "A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.")
   var user: String?
 
-  @Option(help: "A filename to save the embedding into as a JSON file.", completion: .file("json"))
+  @Option(help: "A filename to save the embedding into as a JSON file.", completion: .file(extensions: ["json"]))
   var output: String
 
-  mutating func run() throws async {
+  @Argument(help: "The text prompt to generate the embeddings.")
+  var input: String
+  
+  @OptionGroup var config: Config
+
+  mutating func run() async throws {
     let client = config.client()
 
-    let result = client.call(Embeddings(
+    let result = try await client.call(Embeddings(
       model: modelId, 
-      prompt: .string(prompt), 
+      input: .string(input),
       user: user
     ))
 
@@ -34,7 +36,7 @@ struct EmbeddingsCommand: AsyncParsableCommand {
     print(usage: result.usage, format: config.format())
     
     let outputURL = URL(fileURLWithPath: output)
-    let jsonData = try jsonEncodeData(request.data)
+    let jsonData = try JSONEncoder().encode(result.data)
     try jsonData.write(to: outputURL)
     print(label: "JSON File Saved:", value: output, format: config.format())
 

@@ -25,7 +25,9 @@ struct TokensCountCommand: AsyncParsableCommand {
     let encoder = try TokenEncoder()
     let count = try encoder.encode(text: prompt).count
     
-    print("Tokens: \(count)")
+    print(title: "Token Count", format: .default)
+    print("")
+    print(label: "Count", value: count, format: .default)
   }
 }
 
@@ -39,10 +41,22 @@ struct TokensListCommand: AsyncParsableCommand {
   @Argument(help: "The prompt to estimate tokens for.")
   var prompt: String
   
+  
+  @Flag(help: "Output more details.")
+  var verbose: Bool = false
+  
+  var format: Format {
+    verbose ? .verbose() : .default
+  }
+  
   mutating func run() async throws {
     let encoder = try TokenEncoder()
     let tokens = try encoder.encode(text: prompt)
     
-    print("Tokens: \(tokens)")
+    print(title: "Token Encoding", format: format)
+    print("")
+    print(label: "Text", value: prompt, verbose: true, format: format)
+    print(label: "Tokens", value: tokens, format: format)
+    print(label: "Count", value: tokens.count, verbose: true, format: format)
   }
 }
