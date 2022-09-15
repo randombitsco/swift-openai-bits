@@ -1,6 +1,7 @@
 import Foundation
 import MultipartForm
 
+/// A namespace for Files calls.
 public enum Files {}
 
 extension Files {
