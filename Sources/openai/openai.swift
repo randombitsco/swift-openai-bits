@@ -37,6 +37,7 @@ struct openai: AsyncParsableCommand {
       CompletionsCommand.self,
       EditsCommand.self,
       FilesCommand.self,
+      FineTunesCommand.self,
       ModerationsCommand.self,
       TokensCommand.self,
     ]
@@ -49,6 +50,9 @@ struct Config: ParsableArguments {
   
   @Option(help: "The OpenAI Organisation key. If not provided, uses the 'OPENAI_ORG_KEY' environment variable.")
   var orgKey: String?
+  
+  @Flag(help: "Output more details.")
+  var verbose: Bool = false
   
   @Flag(help: "Output debugging information.")
   var debug: Bool = false
@@ -70,6 +74,11 @@ struct Config: ParsableArguments {
   
   func client() -> Client {
     Client(apiKey: findApiKey() ?? "NO API KEY PROVIDED", organization: findOrgKey(), log: log)
+  }
+  
+  /// The default format, given the config.
+  func format() -> Format {
+    verbose ? .verbose() : .default
   }
   
   mutating func validate() throws {

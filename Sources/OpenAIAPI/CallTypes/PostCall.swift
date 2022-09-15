@@ -9,8 +9,8 @@ public protocol PostCall {
   var path: String { get }
   
   /// The Content-Type for the body.
-  var contentType: String { get }
+  var contentType: String? { get }
   
   /// The HTTP body `Data`.
-  func getBody() throws -> Data
+  func getBody() throws -> Data?
 }

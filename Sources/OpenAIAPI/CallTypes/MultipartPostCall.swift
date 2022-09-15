@@ -10,11 +10,11 @@ public protocol MultipartPostCall: PostCall {
 }
 
 public extension MultipartPostCall {
-  var contentType: String {
+  var contentType: String? {
     return "multipart/form-data; boundary=\(self.boundary)"
   }
   
-  func getBody() throws -> Data {
+  func getBody() throws -> Data? {
     try getForm().bodyData
   }
 }

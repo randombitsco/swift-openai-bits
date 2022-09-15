@@ -10,8 +10,11 @@ struct EditsCommand: AsyncParsableCommand {
   
   @OptionGroup var config: Config
   
-  @Option(name: [.customShort("m"), .customLong("model-id")], help: "The ID of the model to prompt. Must be an 'edit' model.")
-  var modelID: Model.ID
+  @Option(name: .long, help: "Either 'davinci' or 'codex'.")
+  var model: EditsModel?
+  
+  @Option(name: [.customLong("model-id")], help: "The full ID of the model to prompt. Must be an 'edit' model.")
+  var modelID: Model.ID?
   
   @Argument(help: "The input text to use as a starting point for the edit. (Defaults to '')")
   var input: String?
@@ -28,11 +31,24 @@ struct EditsCommand: AsyncParsableCommand {
   @Option(name: .customLong("top-p"), help: "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top-p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or `temperature` but not both. (Defaults to 1)")
   var topP: Percentage?
   
+  func findModelID() throws -> Model.ID {
+    switch (model, modelID) {
+    case (.none, .none):
+      throw ValidationError("Please specify either 'model' or 'model-id'.")
+    case (.none, let .some(modelID)):
+      return modelID
+    case (let .some(model), .none):
+      return model.id
+    case (.some, .some):
+      throw ValidationError("Please specify either 'model' or 'model-id', not both.")
+    }
+  }
+  
   mutating func run() async throws {
     let client = config.client()
     
     let edits = Edits(
-      model: modelID,
+      model: try findModelID(),
       input: input,
       instruction: instruction,
       n: n,
@@ -42,11 +58,27 @@ struct EditsCommand: AsyncParsableCommand {
     
     let result = try await client.call(edits)
     
-    print("Edits:")
+    print(title: "Edits", format: config.format())
     for choice in result.choices {
       print("\(choice.index): \"\(choice.text)\"\n")
     }
     
     printUsage(result.usage)
   }
+}
+
+extension EditsCommand {
+  enum EditsModel: String, ExpressibleByArgument {
+    case davinci = "edits-davinci-002"
+    case codex = "edits-davinci-codex-002"
+    
+    init?(argument: String) {
+      self.init(rawValue: argument)
+    }
+    
+    var id: Model.ID {
+      .init(rawValue)
+    }
+  }
+  
 }

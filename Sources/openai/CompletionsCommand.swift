@@ -109,11 +109,7 @@ struct CompletionsCommand: AsyncParsableCommand {
     
     let result = try await client.call(completions)
     
-    print("Completions:")
-    for choice in result.choices {
-      print("\(choice.index): \"\(choice.text)\"\n")
-    }
-    
-    printUsage(result.usage)
+    print(title: "Completions", format: config.format())
+    print(completion: result, format: config.format())
   }
 }

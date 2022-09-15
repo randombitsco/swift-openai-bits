@@ -128,8 +128,12 @@ extension Client {
   /// - Returns the new ``URLRequest``.
   private func buildRequest<C: PostCall>(for call: C) throws -> URLRequest {
     var request = try buildRequest(to: call.path, method: "POST")
-    request.setValue(call.contentType, forHTTPHeaderField: "Content-Type")
-    request.httpBody = try call.getBody()
+    if let contentType = call.contentType {
+      request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+    }
+    if let body = try call.getBody() {
+      request.httpBody = body
+    }
     return request
   }
   

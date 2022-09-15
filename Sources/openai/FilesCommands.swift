@@ -4,25 +4,6 @@ import OpenAIAPI
 
 extension Files.Upload.Purpose: ExpressibleByArgument {}
 
-func printFile(_ file: File) {
-  var output = """
-  ID: \(file.id)
-  Bytes: \(file.bytes)
-  Created At: \(file.createdAt)
-  Filename: \(file.filename)
-  Purpose: \(file.purpose)
-  """
-  
-  if let status = file.status {
-    output.append("\nStatus: \(status)")
-  }
-  if let statusDetails = file.statusDetails {
-    output.append("\nStatus Details: \(statusDetails)")
-  }
-  
-  print(output)
-}
-
 extension File.ID: ExpressibleByArgument {
   public init(argument: String) {
     self.init(argument)
@@ -54,13 +35,10 @@ struct FilesListCommand: AsyncParsableCommand {
   mutating func run() async throws {
     let client = config.client()
     
-    let files = try await client.call(Files.List()).data
+    let files = try await client.call(Files.List())
         
-    print("Files:")
-    for file in files.sorted(by: { $0.id.value < $1.id.value }) {
-      print("")
-      printFile(file)
-    }
+    print(title: "Files:", format: config.format())
+    print(list: files.data.sorted(by: { $0.id.value < $1.id.value }), format: config.format(), with: print(file:format:))
   }
 }
 
@@ -85,8 +63,8 @@ struct FilesUploadCommand: AsyncParsableCommand {
     
     let result = try await client.call(Files.Upload(purpose: purpose, file: fileURL))
     
-    print("File Detail:")
-    printFile(result)
+    print(title: "File Detail", format: config.format())
+    print(file: result, format: config.format())
   }
 }
 
@@ -105,8 +83,8 @@ struct FilesDetailCommand: AsyncParsableCommand {
     let client = config.client()
 
     let file = try await client.call(Files.Details(id: fileId))
-    print("File Detail:")
-    printFile(file)
+    print(title: "File Detail", format: config.format())
+    print(file: file, format: config.format())
   }
 }
 
@@ -132,17 +110,14 @@ struct FilesDownloadCommand: AsyncParsableCommand {
     if let output = output {
       let outputURL = URL(fileURLWithPath: output)
       try result.data.write(to: outputURL)
-      print("File saved to '\(output)'.")
+      print(label: "File Saved:", value: output, format: config.format())
     } else {
+      print(label: "File Name", value: result.filename, format: config.format())
       let outputString = String(data: result.data, encoding: .utf8)
       guard let outputString = outputString else {
-        print("Error: Unable to process data file.")
-        return
+        throw AppError("Unable to decode data file as UTF-8: \(fileId)")
       }
-      if let filename = result.filename {
-        print("File Name: \(filename)")
-      }
-      print("File Content:")
+      print(subtitle: "File Content:", format: config.format())
       print(outputString)
     }
   }
@@ -164,7 +139,7 @@ struct FilesDeleteCommand: AsyncParsableCommand {
     
     let result = try await client.call(Files.Delete(id: fileId))
     
-    print("File ID: \(result.id)")
-    print("Deleted: \(result.deleted ? "yes" : "no")")
+    print(label: "File ID", value: result.id, format: config.format())
+    print(label: "Deleted", value: result.deleted ? "yes" : "no", format: config.format())
   }
 }

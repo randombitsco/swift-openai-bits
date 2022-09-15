@@ -124,7 +124,7 @@ extension Model.ID {
   
   /// Indicates if the model is a `fine-tune`.
   public var isFineTune: Bool {
-    return value.contains(":ft-personal:")
+    return value.contains(":ft-")
   }
   
   public static var text_davinci_002: Self { "text-davinci-002" }
