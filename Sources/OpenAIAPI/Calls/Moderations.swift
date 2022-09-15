@@ -22,8 +22,9 @@ public struct Moderations: JSONPostCall {
   }
 }
 
-public extension Moderations {
-  enum Category: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
+extension Moderations {
+  /// Moderation categories.
+  public enum Category: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
     case hate
     case hateThreatening = "hate/threatening"
     case selfHarm = "self-harm"
@@ -34,8 +35,10 @@ public extension Moderations {
     
     public var description: String { rawValue }
   }
-  
-  struct Response: JSONResponse {
+}
+
+extension Moderations {
+  public struct Response: JSONResponse {
     /// The unique identifier for the moderation response.
     public struct ID: Identifier {
       public var value: String
@@ -60,8 +63,11 @@ public extension Moderations {
       self.results = results
     }
   }
-  
-  struct Result: Decodable, Equatable {
+}
+
+extension Moderations {
+  /// A single moderation result.
+  public struct Result: Decodable, Equatable {
     @CodableDictionary public var categories: [Category: Bool]
     @CodableDictionary public var categoryScores: [Category: Double]
     public let flagged: Bool

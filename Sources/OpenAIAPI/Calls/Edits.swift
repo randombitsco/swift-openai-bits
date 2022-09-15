@@ -45,7 +45,9 @@ extension Edits {
       self.usage = usage
     }
   }
+}
 
+extension Edits {
   public struct Choice: Equatable, Codable {
     public let text: String
     public let index: Int

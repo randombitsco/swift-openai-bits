@@ -36,6 +36,7 @@ struct openai: AsyncParsableCommand {
       ModelsCommand.self,
       CompletionsCommand.self,
       EditsCommand.self,
+      EmbeddingsCommand.self,
       FilesCommand.self,
       FineTunesCommand.self,
       ModerationsCommand.self,

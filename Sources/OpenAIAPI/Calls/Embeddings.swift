@@ -1,37 +1,18 @@
-public enum Embeddings {}
+/// Creates an embedding vector representing the input text.
+public struct Embeddings: JSONPostCall {
+  public var path: { "embeddings" }
 
-extension Embeddings {
-  /// Represents a request for embeddings on a model.
-  public struct Request: Equatable, Codable {
-    
-    public let model: Model.ID
-    public let input: Prompt
-    public let user: String?
-    
-    public init(model: Model.ID, input: Prompt, user: String? = nil) {
-      self.model = model
-      self.input = input
-      self.user = user
-    }
-  }
-  
-  public struct Response: JSONResponse, Equatable {
-    public let data: [Embedding]
-    public let usage: Usage
-    
-    public init(data: [Embedding], usage: Usage) {
-      self.data = data
-      self.usage = usage
-    }
-  }
+  public typealias Response = ListOf<Embedding>
 
-  public struct Embedding: Equatable, Codable {
-    public let embedding: [Double]
-    public let index: Int
-    
-    public init(embedding: [Double], index: Int) {
-      self.embedding = embedding
-      self.index = index
-    }
+  public let id: Model.ID
+
+  public let input: Prompt
+
+  public let user: String?
+
+  public init(id: Model.ID, input: Prompt, user: String? = nil) {
+    self.id = id
+    self.input = input
+    self.user = user
   }
 }

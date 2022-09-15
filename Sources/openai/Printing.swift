@@ -169,5 +169,5 @@ func print(choice: Completions.Choice, format: Format) {
 
 func print(usage: Usage, format: Format) {
   print("")
-  print(label: "Tokens Used", value: "Prompt: \(usage.promptTokens); Completion: \(usage.completionTokens); Total: \(usage.totalTokens)", format: format)
+  print(label: "Tokens Used", value: "Prompt: \(usage.promptTokens); Completion: \(usage.completionTokens ?? 0); Total: \(usage.totalTokens)", format: format)
 }

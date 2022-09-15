@@ -1,6 +1,7 @@
 import Foundation
 
-/// Used to call the API for a [Completions](https://beta.openai.com/docs/api-reference/completions) response.
+/// Used to call the API for a [Completions](https://beta.openai.com/docs/api-reference/completions)
+/// response.
 public struct Completions: JSONPostCall {
   public var path: String { "completions" }
   
@@ -59,31 +60,7 @@ public struct Completions: JSONPostCall {
 }
 
 extension Completions {
-  /// Represents a response from a completion request.
-  ///
-  /// Example:
-  ///
-  /// ```json
-  /// {
-  ///   "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
-  ///   "object": "text_completion",
-  ///   "created": 1589478378,
-  ///   "model": "text-davinci-002",
-  ///   "choices": [
-  ///     {
-  ///       "text": "\n\nThis is a test",
-  ///       "index": 0,
-  ///       "logprobs": null,
-  ///       "finish_reason": "length"
-  ///     }
-  ///   ],
-  ///   "usage": {
-  ///     "prompt_tokens": 5,
-  ///     "completion_tokens": 6,
-  ///     "total_tokens": 11
-  ///   }
-  /// }
-  /// ```
+  /// Response from a `completions` request.
   public struct Response: JSONResponse, Equatable {
     public struct ID: Identifier {
       public let value: String

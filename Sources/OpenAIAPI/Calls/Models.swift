@@ -3,7 +3,6 @@
 /// - SeeAlso ``Models/List``
 /// - SeeAlso ``Models/Details``
 public enum Models {
-  
   /// A ``GetCall`` that will respond with a ``ListOf`` available ``Model``s.
   public struct List: GetCall {
     public typealias Response = ListOf<Model>
@@ -12,7 +11,9 @@ public enum Models {
     
     public init() {}
   }
-  
+}
+
+extension Models { 
   /// A ``GetCall`` that is provided a ``Model.ID`` and will respond with an individual ``Model``, if available.
   public struct Details: GetCall {
     public typealias Response = Model
