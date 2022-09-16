@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "swift-openaibits",
+  name: "swift-openai-bits",
   platforms: [
     .macOS(.v12),
     .iOS(.v15),
