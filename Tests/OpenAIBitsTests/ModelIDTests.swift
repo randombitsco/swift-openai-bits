@@ -2,7 +2,7 @@
 //  ModelIDTests.swift
 
 import XCTest
-@testable import OpenAIAPI
+@testable import OpenAIBits
 
 final class ModelIDTests: XCTestCase {
 

@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIAPI
+import OpenAIBits
 
 struct EditsCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(

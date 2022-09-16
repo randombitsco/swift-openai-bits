@@ -1,5 +1,5 @@
 import UIKit
-import OpenAIAPI
+import OpenAIBits
 
 struct PlaygroundError: Error {
   let message: String

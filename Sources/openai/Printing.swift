@@ -1,4 +1,4 @@
-import OpenAIAPI
+import OpenAIBits
 
 struct Format {
   static let `default` = Format(indent: "")

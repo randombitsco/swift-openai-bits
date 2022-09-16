@@ -1,5 +1,5 @@
 import ArgumentParser
-import OpenAIAPI
+import OpenAIBits
 
 struct FineTunesCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(

@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "swift-openai-api",
+  name: "swift-openaibits",
   platforms: [
     .macOS(.v12),
     .iOS(.v15),
@@ -14,8 +14,8 @@ let package = Package(
   products: [
       // Products define the executables and libraries a package produces, and make them visible to other packages.
       .library(
-        name: "OpenAIAPI",
-        targets: ["OpenAIAPI"]),
+        name: "OpenAIBits",
+        targets: ["OpenAIBits"]),
       .executable(
         name: "openai",
         targets: ["openai"]),
@@ -30,19 +30,19 @@ let package = Package(
       // Targets are the basic building blocks of a package. A target can define a module or a test suite.
       // Targets can depend on other targets in this package, and on products in packages this package depends on.
       .target(
-        name: "OpenAIAPI",
+        name: "OpenAIBits",
         dependencies: ["MultipartForm"],
         resources: [.copy("models")]),
       .testTarget(
-        name: "OpenAIAPITests",
+        name: "OpenAIBitsTests",
         dependencies: [
-          "OpenAIAPI",
+          "OpenAIBits",
           .product(name: "CustomDump", package: "swift-custom-dump")
         ]),
       .executableTarget(
         name: "openai",
         dependencies: [
-          "OpenAIAPI",
+          "OpenAIBits",
           .product(name: "ArgumentParser", package: "swift-argument-parser"),
         ]),
   ]

@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIAPI
+import OpenAIBits
 
 extension Model.ID: ExpressibleByArgument {
   public init(argument: String) {

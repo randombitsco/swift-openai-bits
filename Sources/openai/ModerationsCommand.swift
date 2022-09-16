@@ -1,6 +1,6 @@
 import Foundation
 import ArgumentParser
-import OpenAIAPI
+import OpenAIBits
 
 struct ModerationsCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(

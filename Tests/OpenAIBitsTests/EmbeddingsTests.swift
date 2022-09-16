@@ -7,7 +7,7 @@
 
 import XCTest
 import CustomDump
-@testable import OpenAIAPI
+@testable import OpenAIBits
 
 final class EmbeddingsTests: XCTestCase {
 

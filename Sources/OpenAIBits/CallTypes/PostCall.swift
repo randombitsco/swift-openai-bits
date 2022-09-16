@@ -3,7 +3,7 @@ import Foundation
 /// Represents a `POST` HTTP request.
 public protocol PostCall {
   /// The response data type.
-  associatedtype Response: OpenAIAPI.Response
+  associatedtype Response: OpenAIBits.Response
 
   /// The path for the call
   var path: String { get }

@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2022, RandomBits
+Copyright (c) 2022, David Peterson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

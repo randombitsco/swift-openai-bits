@@ -7,7 +7,7 @@ public struct FineTune: JSONResponse {
 
   public let model: Model
   
-  public let fineTunedModel: OpenAIAPI.Model.ID?
+  public let fineTunedModel: OpenAIBits.Model.ID?
   
   public let createdAt: Date
   
@@ -27,7 +27,7 @@ public struct FineTune: JSONResponse {
   
   public let updatedAt: Date
   
-  public init(id: ID, model: Model, createdAt: Date, events: [Event]?, fineTunedModel: OpenAIAPI.Model.ID?, hyperparams: Hyperparams, organizationId: String, resultFiles: [File], status: String, validationFiles: [File], trainingFiles: [File], updatedAt: Date) {
+  public init(id: ID, model: Model, createdAt: Date, events: [Event]?, fineTunedModel: OpenAIBits.Model.ID?, hyperparams: Hyperparams, organizationId: String, resultFiles: [File], status: String, validationFiles: [File], trainingFiles: [File], updatedAt: Date) {
     self.id = id
     self.model = model
     self.createdAt = createdAt
@@ -61,7 +61,7 @@ extension FineTune {
     case babbage
     case curie
     case davinci
-    case fineTuned(_ id: OpenAIAPI.Model.ID)
+    case fineTuned(_ id: OpenAIBits.Model.ID)
     
     public typealias RawValue = String
     
@@ -72,7 +72,7 @@ extension FineTune {
       case "curie": self = .curie
       case "davinci": self = .davinci
       default:
-        let id = OpenAIAPI.Model.ID(rawValue)
+        let id = OpenAIBits.Model.ID(rawValue)
         if id.isFineTune {
           self = .fineTuned(id)
         } else {

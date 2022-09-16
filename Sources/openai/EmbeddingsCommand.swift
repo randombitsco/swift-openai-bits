@@ -1,6 +1,6 @@
 import ArgumentParser
 import Foundation
-import OpenAIAPI
+import OpenAIBits
 
 struct EmbeddingsCommand: AsyncParsableCommand {
   static var configuration = CommandConfiguration(
