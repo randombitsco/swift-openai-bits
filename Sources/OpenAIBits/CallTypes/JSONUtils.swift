@@ -41,4 +41,3 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
   })
   return try decoder.decode(targetType, from: value)
 }
-
