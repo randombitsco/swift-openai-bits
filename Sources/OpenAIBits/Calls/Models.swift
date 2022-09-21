@@ -1,7 +1,7 @@
 /// The `Models` namespace.
 ///
 /// - SeeAlso ``Models/List``
-/// - SeeAlso ``Models/Details``
+/// - SeeAlso ``Models/Detail``
 public enum Models {
   /// A ``GetCall`` that will respond with a ``ListOf`` available ``Model``s.
   public struct List: GetCall {
@@ -15,7 +15,7 @@ public enum Models {
 
 extension Models { 
   /// A ``GetCall`` that is provided a ``Model.ID`` and will respond with an individual ``Model``, if available.
-  public struct Details: GetCall {
+  public struct Detail: GetCall {
     public typealias Response = Model
     
     public var path: String { "models/\(id.value)"}

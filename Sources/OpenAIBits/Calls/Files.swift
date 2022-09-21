@@ -106,7 +106,7 @@ extension Files {
 
 extension Files { 
   /// Retrieves file information for the specified ``File/ID``.
-  public struct Details: GetCall {
+  public struct Detail: GetCall {
     public typealias Response = File
     
     public var path: String { "files/\(id)" }

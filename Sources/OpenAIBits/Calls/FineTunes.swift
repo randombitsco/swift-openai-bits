@@ -64,7 +64,7 @@ extension FineTunes {
 
 extension FineTunes {
   /// Call this to get the details of a `fine-tune` job.
-  public struct Details: GetCall {
+  public struct Detail: GetCall {
     public var path: String { "fine-tunes/\(id)" }
     
     public typealias Response = FineTune
