@@ -1,5 +1,13 @@
 /// Allows a ``Dictionary`` with a non-``String`` key to be ``Codable``.
 /// Solution found [here](https://www.fivestars.blog/articles/codable-swift-dictionaries/).
+/// Usage:
+/// ```swift
+/// enum MyKey: Codable {
+///   case alpha
+///   case beta
+/// }
+/// @CodableDictionary var dictionary: [MyKey, String] = [:]()
+/// ```
 @propertyWrapper
 public struct CodableDictionary<Key: Hashable & RawRepresentable, Value: Codable>: Codable where Key.RawValue: Codable & Hashable {
   public var wrappedValue: [Key: Value]
@@ -34,4 +42,5 @@ public struct CodableDictionary<Key: Hashable & RawRepresentable, Value: Codable
   }
 }
 
+extension CodableDictionary: Hashable where Key: Hashable, Value: Hashable {}
 extension CodableDictionary: Equatable where Key: Equatable, Value: Equatable {}
