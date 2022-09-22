@@ -16,6 +16,9 @@ let package = Package(
       .library(
         name: "OpenAIBits",
         targets: ["OpenAIBits"]),
+      .library(
+        name: "OpenAIBitsTestHelpers",
+        targets: ["OpenAIBitsTestHelpers"]),
   ],
   dependencies: [
       // Dependencies declare other packages that this package depends on.
@@ -29,6 +32,9 @@ let package = Package(
         name: "OpenAIBits",
         dependencies: ["MultipartForm"],
         resources: [.copy("models")]),
+      .target(
+        name: "OpenAIBitsTestHelpers",
+        dependencies: ["OpenAIBits"]),
       .testTarget(
         name: "OpenAIBitsTests",
         dependencies: [
