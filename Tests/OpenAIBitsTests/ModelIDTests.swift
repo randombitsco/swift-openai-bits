@@ -1,6 +1,3 @@
-//
-//  ModelIDTests.swift
-
 import XCTest
 @testable import OpenAIBits
 

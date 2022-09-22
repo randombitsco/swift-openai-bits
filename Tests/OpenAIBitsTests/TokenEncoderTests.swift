@@ -1,10 +1,3 @@
-//
-//  EncoderTests.swift
-//  
-//
-//  Created by David Peterson on 12/9/2022.
-//
-
 import XCTest
 import CustomDump
 @testable import OpenAIBits
@@ -58,5 +51,17 @@ final class TokenEncoderTests: XCTestCase {
       XCTAssertEqual(err as! TokenEncoder.Error, TokenEncoder.Error.invalidToken(value: 150000))
     }
   }
-
+  
+  func testMultibyteText() throws {
+    let text = "🇺🇸"
+    let tokens = [8582, 229, 118, 8582, 229, 116]
+    
+    let encoder = try TokenEncoder()
+    
+    print("text", Array(text.utf8))
+    print("tokens", Array(try encoder.decode(tokens: tokens).utf8))
+    
+    XCTAssertNoDifference(try encoder.encode(text: text), tokens)
+    XCTAssertNoDifference(try encoder.decode(tokens: tokens), text)
+  }
 }

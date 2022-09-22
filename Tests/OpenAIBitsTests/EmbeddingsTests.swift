@@ -1,10 +1,3 @@
-//
-//  EmbeddingsTests.swift
-//
-//
-//  Created by David Peterson on 19/7/2022.
-//
-
 import XCTest
 import CustomDump
 @testable import OpenAIBits
