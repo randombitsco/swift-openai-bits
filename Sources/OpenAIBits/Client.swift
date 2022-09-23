@@ -33,7 +33,7 @@ private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to lo
 
 extension Client {
   /// An error returned by the OpenAI API.
-  public struct Error: Swift.Error, Decodable, Equatable {
+  public struct Error: Swift.Error, Codable, Equatable {
     /// A message describing the error.
     public let message: String
     

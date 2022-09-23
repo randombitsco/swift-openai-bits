@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ListOf<Element>: JSONResponse where Element: Decodable, Element: Equatable {
+public struct ListOf<Element>: JSONResponse where Element: Codable, Element: Equatable {
   public let data: [Element]
   public let usage: Usage?
 
