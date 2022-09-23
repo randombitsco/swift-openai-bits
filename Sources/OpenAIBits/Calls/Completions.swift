@@ -18,7 +18,7 @@ public struct Completions: JSONPostCall {
   public let stop: [String]?
   public let presencePenalty: Penalty?
   public let frequencyPenalty: Penalty?
-  public let bestOf: Percentage?
+  public let bestOf: Int?
   public let logitBias: [Token: Double]?
   public let user: String?
 
@@ -36,7 +36,7 @@ public struct Completions: JSONPostCall {
     stop: [String]? = nil,
     presencePenalty: Penalty? = nil,
     frequencyPenalty: Penalty? = nil,
-    bestOf: Percentage? = nil,
+    bestOf: Int? = nil,
     logitBias: [Token: Double]? = nil,
     user: String? = nil
   ) {
