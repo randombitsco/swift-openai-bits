@@ -12,9 +12,9 @@ public struct Completions: JSONPostCall {
   public let temperature: Percentage?
   public let topP: Percentage?
   public let n: Int?
-  public let stream: Bool?
+  public let stream: Bool
   public let logprobs: Int?
-  public let echo: Bool?
+  public let echo: Bool
   public let stop: [String]?
   public let presencePenalty: Penalty?
   public let frequencyPenalty: Penalty?
@@ -30,9 +30,9 @@ public struct Completions: JSONPostCall {
     temperature: Percentage? = nil,
     topP: Percentage? = nil,
     n: Int? = nil,
-    stream: Bool? = nil,
+    stream: Bool = false,
     logprobs: Int? = nil,
-    echo: Bool? = nil,
+    echo: Bool = false,
     stop: [String]? = nil,
     presencePenalty: Penalty? = nil,
     frequencyPenalty: Penalty? = nil,
