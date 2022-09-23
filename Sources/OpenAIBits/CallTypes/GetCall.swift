@@ -1,10 +1,15 @@
 import Foundation
 
 /// Represents a `GET` HTTP request
-public protocol GetCall {
-  /// The response data type.
-  associatedtype Response: OpenAIBits.Response
+protocol GetCall: Call {}
+
+extension GetCall {
+  /// `"GET"`
+  var method: String { "GET" }
   
-  /// The path for the call
-  var path: String { get }
+  /// `nil`
+  var contentType: String? { nil }
+  
+  /// `nil`
+  func getBody() throws -> Data? { nil }
 }

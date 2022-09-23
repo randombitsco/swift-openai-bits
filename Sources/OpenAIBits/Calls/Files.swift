@@ -79,7 +79,7 @@ extension Files {
       /// Indicates if the file was successfully deleted.
       public let deleted: Bool
       
-      /// Initializes the ``Files//Delete`` call.
+      /// Initializes the ``Files/Delete`` call.
       ///
       /// - Parameter id: The ``File/ID`` to delete.
       /// - Parameter deleted: Indicates if the delete was successful.

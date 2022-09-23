@@ -3,12 +3,15 @@ import Foundation
 fileprivate let ATTACHMENT_FILENAME: Pattern = #"attachment; filename="(.*)""#
 
 /// Represents a ``Response`` that returns binary data, typically a file.
-public struct BinaryResponse: Response {
+public struct BinaryResponse {
   /// The filename, if available.
   public let filename: String?
   
   /// The binary data.
   public let data: Data
+}
+
+extension BinaryResponse: HTTPResponse {
   
   /// Initialises the response with the returned ``Data`` and ``HTTPURLResponse``.
   ///

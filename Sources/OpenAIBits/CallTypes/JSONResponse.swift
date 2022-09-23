@@ -4,7 +4,7 @@ fileprivate let CONTENT_TYPE = "Content-Type"
 fileprivate let APPLICATION_JSON = "application/json"
 
 /// A ``Response`` which will decode itself from `JSON`.
-public protocol JSONResponse: Response, Decodable {}
+public protocol JSONResponse: HTTPResponse, Decodable {}
 
 public extension JSONResponse {
   init(data: Data, response: HTTPURLResponse) throws {

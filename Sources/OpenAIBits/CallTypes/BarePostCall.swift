@@ -1,9 +1,9 @@
 import Foundation
 
 /// A convenience protocol for `POST` calls which have no body.
-public protocol BarePostCall: PostCall {}
+protocol BarePostCall: PostCall {}
 
-public extension BarePostCall {
+extension BarePostCall {
   /// Content-Type is `nil`
   var contentType: String? { nil }
   

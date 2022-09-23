@@ -5,6 +5,7 @@
 public enum Models {
   /// A ``GetCall`` that will respond with a ``ListOf`` available ``Model``s.
   public struct List: GetCall {
+    
     public typealias Response = ListOf<Model>
     
     public var path: String { "models" }

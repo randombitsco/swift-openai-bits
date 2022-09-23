@@ -1,9 +1,15 @@
 import Foundation
 
 /// Represents a `DELETE` HTTP request.
-public protocol DeleteCall {
-  /// The response data type.
-  associatedtype Response: OpenAIBits.Response
+protocol DeleteCall: HTTPCall {}
+
+extension DeleteCall {
+  /// `"DELETE"`
+  var method: String { "DELETE" }
   
-  var path: String { get }
+  /// `nil`
+  var contentType: String? { nil }
+  
+  /// `nil`
+  func getBody() throws -> Data? { nil }
 }

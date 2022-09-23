@@ -1,5 +1,5 @@
 import Foundation
 
-public protocol Response {
+public protocol HTTPResponse: Equatable {
   init(data: Data, response: HTTPURLResponse) throws
 }

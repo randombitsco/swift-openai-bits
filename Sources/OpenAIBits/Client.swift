@@ -33,7 +33,7 @@ private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to lo
 
 extension Client {
   /// An error returned by the OpenAI API.
-  public struct Error: Swift.Error, Decodable {
+  public struct Error: Swift.Error, Decodable, Equatable {
     /// A message describing the error.
     public let message: String
     
@@ -55,17 +55,50 @@ extension Client {
   }
 }
 
-extension Client {
-  private struct ErrorResponse: JSONResponse {
-    let error: Error
+protocol CallHandler {
+  func execute<C: Call>(call: C, with client: Client) async throws -> C.Response
+}
+
+struct HTTPCallHandler: CallHandler {
+  /// Used to parse an error response from the API.
+  struct ErrorResponse: JSONResponse {
+    let error: Client.Error
+  }
+
+  func execute<C: Call>(call: C, with client: Client) async throws -> C.Response {
+    guard let call = call as? any HTTPCall else {
+      throw Client.Error.unsupportedCall(C.self)
+    }
+    return try await execute(call: call, with: client) as! C.Response
   }
   
-  private func executeRequest<T: Response>(_ request: URLRequest, returning outputType: T.Type = T.self) async throws -> T {
+  func execute<C: HTTPCall>(call: C, with client: Client) async throws -> C.Response {
+    let urlStr = "\(BASE_URL)/\(call.path)"
+
+    guard let url = URL(string: urlStr) else {
+      throw Client.Error.invalidURL(urlStr)
+    }
+
+    var request = URLRequest(url: url)
+    request.setValue("Bearer \(client.apiKey)", forHTTPHeaderField: "Authorization")
+    if let organization = client.organization {
+      request.setValue(organization, forHTTPHeaderField: "OpenAI-Organization")
+    }
+    
+    request.httpMethod = call.method
+
+    if let contentType = call.contentType {
+      request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+    }
+    if let body = try call.getBody() {
+      request.httpBody = body
+    }
+    
     do {
-      log?("Request: \(request.httpMethod ?? "GET") \(request)")
-      logHeaders(request.allHTTPHeaderFields, from: "Request", to: self.log)
+      client.log?("Request: \(request.httpMethod ?? "GET") \(request)")
+      logHeaders(request.allHTTPHeaderFields, from: "Request", to: client.log)
       if let httpBody = request.httpBody {
-        log?("Request Data:\n\(String(decoding: httpBody, as: UTF8.self))")
+        client.log?("Request Data:\n\(String(decoding: httpBody, as: UTF8.self))")
       }
       
       let (result, response) = try await URLSession.shared.data(for: request)
@@ -74,8 +107,8 @@ extension Client {
         throw Client.Error.unexpectedResponse("Expected an HTTPURLResponse")
       }
 
-      log?("\nResponse Status: \(httpResponse.statusCode)")
-      logHeaders(httpResponse.allHeaderFields, from: "Response", to: self.log)
+      client.log?("\nResponse Status: \(httpResponse.statusCode)")
+      logHeaders(httpResponse.allHeaderFields, from: "Response", to: client.log)
       
       guard httpResponse.statusCode == 200 else {
         if ErrorResponse.isJSON(response: httpResponse) {
@@ -85,72 +118,31 @@ extension Client {
             throw error
           }
         } else {
-          throw Error.unexpectedResponse("\(httpResponse.statusCode): \(String(decoding: result, as: UTF8.self))")
+          throw Client.Error.unexpectedResponse("\(httpResponse.statusCode): \(String(decoding: result, as: UTF8.self))")
         }
       }
       
-      log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
-      return try T(data: result, response: httpResponse)
+      client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
+      return try C.Response(data: result, response: httpResponse)
     } catch {
-      log?("Error: \(error)")
+      client.log?("Error: \(error)")
       throw error
     }
+
   }
 }
 
 extension Client {
+  /// The current ``CallHandler``. Defaults to ``HTTPCallHandler``.
+  static var handler: CallHandler = HTTPCallHandler()
+}
 
-  private func buildRequest(to path: String, method: String) throws -> URLRequest {
-    let urlStr = "\(BASE_URL)/\(path)"
-
-    guard let url = URL(string: urlStr) else {
-      throw Client.Error.invalidURL(urlStr)
-    }
-
-    var request = URLRequest(url: url)
-    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-    if let organization = organization {
-      request.setValue(organization, forHTTPHeaderField: "OpenAI-Organization")
-    }
-    
-    request.httpMethod = method
-
-    return request
-  }
-  
-  private func buildRequest<C: GetCall>(for request: C) throws -> URLRequest {
-    return try buildRequest(to: request.path, method: "GET")
-  }
-  
-  /// Builds a `POST` request based on the ``PostCall`` provided.
+extension Client {
+  /// Execute the specified ``Call``, returning the specified ``Call/Response``.
   ///
-  /// - Parameter call: The ``PostCall`` instance.
-  /// - Returns the new ``URLRequest``.
-  private func buildRequest<C: PostCall>(for call: C) throws -> URLRequest {
-    var request = try buildRequest(to: call.path, method: "POST")
-    if let contentType = call.contentType {
-      request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-    }
-    if let body = try call.getBody() {
-      request.httpBody = body
-    }
-    return request
-  }
-  
-  private func buildRequest<C: DeleteCall>(for call: C) throws -> URLRequest {
-    return try buildRequest(to: call.path, method: "DELETE")
-  }
-  
-  public func call<C: GetCall>(_ request: C) async throws -> C.Response {
-    return try await executeRequest(buildRequest(for: request))
-  }
-
-  public func call<C: PostCall>(_ request: C) async throws -> C.Response {
-    return try await executeRequest(buildRequest(for: request))
-  }
-  
-  public func call<C: DeleteCall>(_ request: C) async throws -> C.Response {
-    return try await executeRequest(buildRequest(for: request))
+  /// - Parameter call: The ``Call`` to execute.
+  public func call<C: Call>(_ call: C) async throws -> C.Response {
+    return try await Client.handler.execute(call: call, with: self)
   }
 }
 
@@ -164,6 +156,10 @@ extension Client.Error: CustomStringConvertible {
       result.append("\nCode: \(code)")
     }
     return result
+  }
+  
+  static func unsupportedCall<C: Call>(_ request: C.Type) -> Client.Error {
+    .init(type: "unsupported_call", message: String(describing: request))
   }
   
   static func invalidURL(_ url: String) -> Client.Error {
