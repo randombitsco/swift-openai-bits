@@ -56,6 +56,6 @@ public func XCTAssertExpectOpenAICall<C: Call>(
   do {
     try await whileDoing()
   } catch let TestCallError.expected(call: expectedCall, received: receivedCall) {
-    XCTAssertNoDifference(String(describing: expectedCall), String(describing: receivedCall))
+    XCTAssertNoDifference(String(describing: expectedCall), String(describing: receivedCall), file: file, line: line)
   }
 }
