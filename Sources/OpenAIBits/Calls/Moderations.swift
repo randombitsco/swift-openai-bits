@@ -68,8 +68,8 @@ extension Moderations {
 extension Moderations {
   /// A single moderation result.
   public struct Result: Codable, Equatable {
-    @CodableDictionary public var categories: [Category: Bool]
-    @CodableDictionary public var categoryScores: [Category: Double]
+    @CodableDictionary public var categories: [Category: Bool]?
+    @CodableDictionary public var categoryScores: [Category: Double]?
     public let flagged: Bool
     
     public init(categories: [Category : Bool], categoryScores: [Category : Double], flagged: Bool) {

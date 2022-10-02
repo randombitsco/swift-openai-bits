@@ -1,19 +1,37 @@
 import Foundation
 
+/// An implementation of CodingKey that's useful for combining and transforming keys as strings.
+struct AnyKey: CodingKey {
+  var stringValue: String
+  var intValue: Int?
+
+  init?(stringValue: String) {
+    self.stringValue = stringValue
+    self.intValue = nil
+  }
+
+  init?(intValue: Int) {
+    self.stringValue = String(intValue)
+    self.intValue = intValue
+  }
+}
+
 /// Encodes the provided value to a JSON string
 ///
 /// - Parameter value: The value to encode
+/// - Parameter options: The output formatting options. Defaults to none.
 /// - Returns The encoded value.
-func jsonEncode<T: Encodable>(_ value: T) throws -> String {
-  return try String(decoding: jsonEncodeData(value), as: UTF8.self)
+func jsonEncode<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormatting = []) throws -> String {
+  return try String(decoding: jsonEncodeData(value, options: options), as: UTF8.self)
 }
 
 /// Encodes the provided value to a JSON ``Data`` value
 ///
 /// - Parameter value: The value to encode
 /// - Returns the encoded value.
-func jsonEncodeData<T: Encodable>(_ value: T) throws -> Data {
+func jsonEncodeData<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormatting = []) throws -> Data {
   let encoder = JSONEncoder()
+  encoder.outputFormatting = options
   encoder.keyEncodingStrategy = .convertToSnakeCase
   encoder.dateEncodingStrategy = .custom({ date, encoder in
     let seconds = Int64(date.timeIntervalSince1970)

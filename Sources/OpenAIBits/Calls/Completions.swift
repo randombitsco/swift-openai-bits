@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to call the API for a [Completions](https://beta.openai.com/docs/api-reference/completions)
-/// response.
+/// request.
 public struct Completions: JSONPostCall {
   public var path: String { "completions" }
   
@@ -12,14 +12,14 @@ public struct Completions: JSONPostCall {
   public let temperature: Percentage?
   public let topP: Percentage?
   public let n: Int?
-  public let stream: Bool
+  public let stream: Bool?
   public let logprobs: Int?
-  public let echo: Bool
+  public let echo: Bool?
   public let stop: [String]?
   public let presencePenalty: Penalty?
   public let frequencyPenalty: Penalty?
   public let bestOf: Int?
-  public let logitBias: [Token: Double]?
+  @CodableDictionary public var logitBias: [Token: Int8]?
   public let user: String?
 
   public init(
@@ -30,14 +30,14 @@ public struct Completions: JSONPostCall {
     temperature: Percentage? = nil,
     topP: Percentage? = nil,
     n: Int? = nil,
-    stream: Bool = false,
+    stream: Bool? = nil,
     logprobs: Int? = nil,
-    echo: Bool = false,
+    echo: Bool? = nil,
     stop: [String]? = nil,
     presencePenalty: Penalty? = nil,
     frequencyPenalty: Penalty? = nil,
     bestOf: Int? = nil,
-    logitBias: [Token: Double]? = nil,
+    logitBias: [Token: Int8] = [:],
     user: String? = nil
   ) {
     self.model = model
