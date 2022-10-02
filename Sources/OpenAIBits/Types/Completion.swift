@@ -31,29 +31,31 @@ public struct Completion: JSONResponse, Equatable {
   }
 }
 
-/// One of the completion choices.
-public struct Choice: Equatable, Codable {
-  /// The text of the completion.
-  public let text: String
-
-  /// Which completion number.
-  public let index: Int
-
-  /// The list of `logprobs`.
-  public let logprobs: [String]?
-
-  /// The reason for finishing.
-  public let finishReason: String
-
-  public init(
-    text: String,
-    index: Int,
-    logprobs: [String]? = nil,
-    finishReason: String
-  ) {
-    self.text = text
-    self.index = index
-    self.logprobs = logprobs
-    self.finishReason = finishReason
+extension Completion {
+  /// One of the completion choices.
+  public struct Choice: Equatable, Codable {
+    /// The text of the completion.
+    public let text: String
+    
+    /// Which completion number.
+    public let index: Int
+    
+    /// The list of `logprobs`.
+    public let logprobs: [String]?
+    
+    /// The reason for finishing.
+    public let finishReason: String
+    
+    public init(
+      text: String,
+      index: Int,
+      logprobs: [String]? = nil,
+      finishReason: String
+    ) {
+      self.text = text
+      self.index = index
+      self.logprobs = logprobs
+      self.finishReason = finishReason
+    }
   }
 }
