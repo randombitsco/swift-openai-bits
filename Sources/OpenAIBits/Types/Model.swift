@@ -136,7 +136,11 @@ extension Model.ID {
   public var isFineTune: Bool {
     return value.contains(":ft-")
   }
-  
+}
+
+// MARK: Common Model IDs.
+
+extension Model.ID {
   public static var text_davinci_002: Self { "text-davinci-002" }
   
   public static var text_davinci_edit_001: Self { "text-davinci-edit-001" }
@@ -183,21 +187,15 @@ extension Model.ID {
   
   public static var davinci_2020_05_03: Self { "davinci:2020-05-03" }
   
-  public static var ifDavinci200: Self { "if-davinci-v2" }
+  public static var if_davinci_200: Self { "if-davinci-v2" }
   
-  public static var ifCurie200: Self { "if-curie-v2" }
+  public static var if_curie_200: Self { "if-curie-v2" }
   
-  public static var ifDavinci300: Self { "if-davinci:3.0.0" }
+  public static var if_davinci_300: Self { "if-davinci:3.0.0" }
   
-  public static var davinciIf300: Self { "davinci-if:3.0.0" }
+  public static var davinci_if_300: Self { "davinci-if:3.0.0" }
   
-  public static var davinciInstructBeta200: Self { "davinci-instruct-beta:2.0.0" }
+  public static var davinci_instruct_beta_200: Self { "davinci-instruct-beta:2.0.0" }
   
-  public static var textAda001: Self { "text-ada:001" }
-  
-  public static var textDavinci001: Self { "text-davinci:001" }
-  
-  public static var textCurie001: Self { "text-curie:001" }
-  
-  public static var textBabbage001: Self { "text-babbage:001" }
+  public static var text_ada_001: Self { "text-ada:001" }
 }
