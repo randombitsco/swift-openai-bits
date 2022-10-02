@@ -52,16 +52,37 @@ final class TokenEncoderTests: XCTestCase {
     }
   }
   
-  func testMultibyteText() throws {
+  func testEncodeMultibyteText() throws {
     let text = "🇺🇸"
     let tokens = [8582, 229, 118, 8582, 229, 116]
     
     let encoder = try TokenEncoder()
     
-    print("text", Array(text.utf8))
-    print("tokens", Array(try encoder.decode(tokens: tokens).utf8))
-    
     XCTAssertNoDifference(try encoder.encode(text: text), tokens)
+  }
+  
+  func testDecodeMultibyteText() throws {
+    let text = "🇺🇸"
+    let tokens = [8582, 229, 118, 8582, 229, 116]
+    
+    let encoder = try TokenEncoder()
+    
     XCTAssertNoDifference(try encoder.decode(tokens: tokens), text)
+  }
+  
+  func testByteEncoder() throws {
+    XCTAssertEqual(256, TokenEncoder.byteEncoder.count)
+    for index in 0...UInt8.max {
+      XCTAssertNotNil(TokenEncoder.byteEncoder[index], "\(index)")
+    }
+  }
+  
+  func testByteDecoder() throws {
+    XCTAssertEqual(256, TokenEncoder.byteDecoder.count)
+    var valueSet = Set<UInt8>()
+    for (_, value) in TokenEncoder.byteDecoder {
+      valueSet.insert(value)
+    }
+    XCTAssertEqual(256, valueSet.count)
   }
 }

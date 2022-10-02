@@ -61,14 +61,16 @@ fileprivate func getPairs(word: [String]) -> Set<SymbolPair> {
 /// Provides the ability to ``encode(text:)`` (from text into tokens) and ``decode(tokens:)`` (from tokens into text).
 public struct TokenEncoder {
   // Should haved added re.IGNORECASE so BPE merges can happen for capitalized versions of contractions
-  fileprivate static let pattern: Pattern = #"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"#
+  static let pattern: Pattern = #"'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"#
   
   /// The UTF-8 byte encoder. Maps
-  fileprivate static let byteEncoder: [UInt8: Character] = bytesToUnicode()
-  fileprivate static let byteDecoder: [Character: UInt8] = {
-    TokenEncoder.byteEncoder.reduce(into: [Character: UInt8](), { result, item in
-      result[item.value] = item.key
-    })
+  static let byteEncoder: [UInt8: Character] = bytesToUnicode()
+  static let byteDecoder: [Character: UInt8] = {
+    var result: [Character: UInt8] = [:]
+    for (key, value) in Self.byteEncoder {
+      result[value] = key
+    }
+    return result
   }()
   
   /// The `text` -> `token` encoder.
@@ -188,8 +190,15 @@ public struct TokenEncoder {
       }
       return value
     }.joined()
-    let decoded = text.map { TokenEncoder.byteDecoder[$0] }.map { Character(UnicodeScalar($0!)) }
-    return String(decoded)
+    let decoded = try text.map {
+      let char = $0
+      guard let byte = TokenEncoder.byteDecoder[char] else {
+        throw TokenEncoder.Error.invalidCharacter(value: $0)
+      }
+      return byte
+    }
+    let decodedData = Data(decoded)
+    return String(decoding: decodedData, as: UTF8.self)
   }
 }
 
@@ -199,6 +208,7 @@ extension TokenEncoder {
     case invalidBytePair(value: String)
     case invalidEncoding(value: String)
     case invalidToken(value: Int)
+    case invalidCharacter(value: Character)
   }
 }
 
