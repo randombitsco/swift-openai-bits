@@ -1,3 +1,4 @@
+import CustomDump
 @testable import OpenAIBits
 import XCTest
 
@@ -11,7 +12,7 @@ import XCTest
 //}
 
 enum TestCallError: Swift.Error {
-  case unexpectedCall(Any)
+  case expected(call: Any, received: Any)
 }
 
 class TestCallHandler<E: Call>: CallHandler {
@@ -27,14 +28,14 @@ class TestCallHandler<E: Call>: CallHandler {
   
   func execute<C>(call: C, with client: OpenAIBits.Client) async throws -> C.Response where C : OpenAIBits.Call {
     guard !called else {
-      throw TestCallError.unexpectedCall(call)
+      throw TestCallError.expected(call: expectedCall, received: call)
     }
     guard let call = call as? E else {
-      throw TestCallError.unexpectedCall(call)
+      throw TestCallError.expected(call: expectedCall, received: call)
     }
     called = true
     guard call == expectedCall else {
-      throw TestCallError.unexpectedCall(call)
+      throw TestCallError.expected(call: expectedCall, received: call)
     }
     return returning as! C.Response
   }
@@ -54,7 +55,7 @@ public func XCTAssertExpectOpenAICall<C: Call>(
   
   do {
     try await whileDoing()
-  } catch TestCallError.unexpectedCall(let call) {
-    XCTFail("Unexpected Call: \(call)", file: file, line: line)
+  } catch let TestCallError.expected(call: expectedCall, received: receivedCall) {
+    XCTAssertNoDifference(String(describing: expectedCall), String(describing: receivedCall))
   }
 }
