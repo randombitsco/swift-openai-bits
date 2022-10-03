@@ -2,6 +2,8 @@ import Foundation
 
 /// Represents  [Edits](https://beta.openai.com/docs/api-reference/edits) requests to the OpenAI API.
 ///
+/// Given a prompt and an instruction, the model will return an edited version of the prompt.
+///
 /// The primary request is the ``Edits/Create`` call, which takes an `input` string and an `instruction`, and returns an ``Edit`` value with a list of choices for the edited input.
 public enum Edits {}
 
