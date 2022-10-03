@@ -4,9 +4,9 @@ fileprivate let CONTENT_TYPE = "Content-Type"
 fileprivate let APPLICATION_JSON = "application/json"
 
 /// A ``Response`` which will decode itself from `JSON`.
-public protocol JSONResponse: HTTPResponse, Codable {}
+protocol JSONResponse: HTTPResponse, Codable {}
 
-public extension JSONResponse {
+extension JSONResponse {
   init(data: Data, response: HTTPURLResponse) throws {
     let contentType = response.value(forHTTPHeaderField: CONTENT_TYPE)
     guard contentType == APPLICATION_JSON else {
