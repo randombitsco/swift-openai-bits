@@ -93,7 +93,7 @@ extension FineTunes {
 }
 
 extension FineTunes {
-  /// Call this to get a list of ``FineTune.Events`` for a given ``FineTune``.
+  /// Call this to get a list of ``FineTune/Event``s for a given ``FineTune``.
   /// TODO: Add support for streaming events.
   public struct Events: GetCall {
     public var path: String { "fine-tunes/\(id)/events" }

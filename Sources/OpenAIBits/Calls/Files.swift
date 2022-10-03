@@ -18,7 +18,7 @@ extension Files {
 }
 
 extension Files { 
-  /// Uploads the provided `file` with a nominated ``Files/Purpose``.
+  /// Uploads the provided `file` with a nominated `Purpose`.
   public struct Upload: MultipartPostCall {
     /// The purpose of the file
     public enum Purpose: String, Equatable, Codable {
@@ -30,7 +30,7 @@ extension Files {
     
     public typealias Response = File
     
-    public var path: String { "files" }
+    var path: String { "files" }
     
     /// The Multipart boundary marker.
     public let boundary: String = UUID().uuidString
@@ -69,11 +69,11 @@ extension Files {
 }
 
 extension Files {
-  /// Attempts to delete the nominated file, if one exists with the provided ``File/ID``.
+  /// Attempts to delete the nominated file, if one exists with the provided `File.ID`.
   public struct Delete: DeleteCall {
-    /// The `Response` to the ``Delete`` call.
+    /// The `Response` to the ``Files/Delete`` call.
     public struct Response: JSONResponse {
-      /// The ``File/ID`` that was attempted to be deleted.
+      /// The ``File`` `ID` that was attempted to be deleted.
       public let id: File.ID
       
       /// Indicates if the file was successfully deleted.
@@ -81,7 +81,7 @@ extension Files {
       
       /// Initializes the ``Files/Delete`` call.
       ///
-      /// - Parameter id: The ``File/ID`` to delete.
+      /// - Parameter id: The ``File`` `ID` to delete.
       /// - Parameter deleted: Indicates if the delete was successful.
       public init(id: File.ID, deleted: Bool) {
         self.id = id
@@ -92,12 +92,12 @@ extension Files {
     /// The path to the file deletion URL.
     public var path: String { "files/\(id)" }
     
-    /// The ``File/ID``.
+    /// The ``File`` `ID`.
     public let id: File.ID
     
-    /// Creates a new `Delete File` call, providing the ``File/ID`` to delete.
+    /// Creates a new `Delete File` call, providing the ``File`` `ID` to delete.
     ///
-    /// - Parameter id: The ``File/ID``.
+    /// - Parameter id: The ``File`` `ID`.
     public init(id: File.ID) {
       self.id = id
     }
@@ -105,7 +105,7 @@ extension Files {
 }
 
 extension Files { 
-  /// Retrieves file information for the specified ``File/ID``.
+  /// Retrieves file information for the specified ``File`` `ID`.
   public struct Detail: GetCall {
     public typealias Response = File
     
@@ -121,7 +121,7 @@ extension Files {
 }
 
 extension Files { 
-  /// Retrieves the file content for the specified ``File/ID``.
+  /// Retrieves the file content for the specified ``File`` `ID`.
   public struct Content: GetCall {
     public typealias Response = BinaryResponse
     

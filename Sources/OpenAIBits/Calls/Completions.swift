@@ -1,20 +1,39 @@
 import Foundation
 
-/// Represents [Completions](https://beta.openai.com/docs/api-reference/completions) requests to the OpenAI API.
+/// Represents `Completions` requests to the OpenAI API.
 ///
 /// Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
 ///
 /// The primary request is the ``Completions/Create`` call, which takes a `prompt` `String`, and returns a ``Completion`` value with a list of choices for the prompt.
 ///
-/// OpenAI API: [Completions](https://beta.openai.com/docs/api-reference/completions)
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions)
+/// - [Text Completion Guide](https://beta.openai.com/docs/guides/completion)
+/// - [Code Completion Guide](https://beta.openai.com/docs/guides/code)
 public enum Completions {}
 
 extension Completions {
   
   /// Creates a completion for the provided prompt and parameters.
   ///
-  /// OpenAI API: [Create Completions](https://beta.openai.com/docs/api-reference/completions/create)
+  /// ## Examples
+  /// 
+  /// *A simple call with the `Davinci` model.*
+  /// ```swift
+  /// let client = Client(apiKey: ...)
+  /// let completion = try await client.call(Completions.Create(
+  ///   model: .text_davinci_002,
+  ///   prompt: "Peter Piper picked",
+  ///   maxTokens: 10,
+  ///   temperature: 0.8
+  /// ))
+  /// ```
+  ///
+  /// ## See Also
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions/create)
   public struct Create: JSONPostCall {
+    /// Responds with a ``Completion``.
     public typealias Response = Completion
     
     var path: String { "completions" }

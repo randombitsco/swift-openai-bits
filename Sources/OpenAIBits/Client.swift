@@ -6,7 +6,7 @@ fileprivate let BASE_URL = "https://api.openai.com/v1"
 /// Represents the connection to the OpenAI API.
 /// You must provide at least the `apiKey`, and optionally an `organisation` key and a `log` function.
 public struct Client {
-  /// Typealias for a logger function, which takes a ``String`` and outputs it.
+  /// Typealias for a logger function, which takes a `String` and outputs it.
   public typealias Logger = (String) -> Void
 
   let apiKey: String

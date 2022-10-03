@@ -1,81 +1,64 @@
 import Foundation
 
-public struct Moderations: JSONPostCall {
-  public enum Model: String, Equatable, Encodable {
-    case latest = "text-moderation-latest"
-    case stable = "text-moderation-stable"
-  }
+/// Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/moderations)
+/// - [Moderations Guide](https://beta.openai.com/docs/guides/moderation)
+public enum Moderations {}
+
+extension Moderations {
   
-  public var path: String { "moderations" }
-  
-  /// The input text to classify.
-  public let input: Prompt
-  
-  /// Two content moderations models are available: ``Model/stable`` and ``Model/latest``.
+  /// Classifies if text violates OpenAI's Content Policy.
   ///
-  /// The default is ``Model/latest`` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use ``Model/stable``, we will provide advanced notice before updating the model. Accuracy of ``Model/stable`` may be slightly lower than for ``Model/latest``.
-  public let model: Model?
-  
-  public init(input: Prompt, model: Model?) {
-    self.input = input
-    self.model = model
-  }
-}
-
-extension Moderations {
-  /// Moderation categories.
-  public enum Category: String, Hashable, Codable, CaseIterable, CustomStringConvertible {
-    case hate
-    case hateThreatening = "hate/threatening"
-    case selfHarm = "self-harm"
-    case sexual
-    case sexualMinors = "sexual/minors"
-    case violence
-    case violenceGraphic = "violence/graphic"
-    
-    public var description: String { rawValue }
-  }
-}
-
-extension Moderations {
-  public struct Response: JSONResponse {
-    /// The unique identifier for the moderation response.
-    public struct ID: Identifier {
-      public var value: String
-      
-      public init(_ value: String) {
-        self.value = value
-      }
+  /// ## Examples
+  ///
+  /// *Simple call with the `.latest` model:*
+  ///
+  /// ```swift
+  /// let moderation = try await Client(apiKey: ...).call(Moderations.Create(
+  ///   input: "This is innocuous text."
+  /// ))
+  /// ```
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/moderations/create)
+  /// - [Moderations Guide](https://beta.openai.com/docs/guides/moderation)
+  public struct Create: JSONPostCall {
+    /// Two content moderations models are available: `.stable` and `.latest`.
+    public enum Model: String, Equatable, Encodable {
+      /// Moste accurate model, automatically upgraded over time.
+      case latest = "text-moderation-latest"
+      /// Advanced notice will be provided before updating the model.
+      case stable = "text-moderation-stable"
     }
     
-    /// The ``Moderations/Response/ID``.
-    public let id: ID
+    /// Response with a ``Moderation``.
+    public typealias Response = Moderation
     
-    /// The actual model used to perform the moderation.
-    public let model: String
+    var path: String { "moderations" }
     
-    /// The list of results.
-    public let results: [Result]
+    /// The input text to classify.
+    public let input: Prompt
     
-    public init(id: ID, model: String, results: [Result]) {
-      self.id = id
+    /// Two content moderations models are available: `.stable` and `.latest`.
+    ///
+    /// The default is `.latest` which will be automatically upgraded over time.
+    /// This ensures you are always using the most accurate model. If you use
+    /// `.stable`, we will provide advanced notice before updating the model.
+    /// Accuracy of `.stable` may be slightly lower than for `.latest`.
+    public let model: Model?
+    
+    /// Constructs a ``Moderations/Create`` call.
+    ///
+    /// - Parameters:
+    ///   - input: The input text to classify.
+    ///   - model: Two content moderations models are available: `.stable` and `.latest`. Defaults to `.latest`.
+    public init(input: Prompt, model: Model? = nil) {
+      self.input = input
       self.model = model
-      self.results = results
-    }
-  }
-}
-
-extension Moderations {
-  /// A single moderation result.
-  public struct Result: Codable, Equatable {
-    @CodableDictionary public var categories: [Category: Bool]?
-    @CodableDictionary public var categoryScores: [Category: Double]?
-    public let flagged: Bool
-    
-    public init(categories: [Category : Bool], categoryScores: [Category : Double], flagged: Bool) {
-      self.categories = categories
-      self.categoryScores = categoryScores
-      self.flagged = flagged
     }
   }
 }

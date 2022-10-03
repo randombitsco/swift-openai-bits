@@ -1,4 +1,4 @@
-/// Allows a ``Dictionary`` with a non-``String`` key to be ``Codable``.
+/// Allows a `Dictionary` with a non-`String` key to be `Codable`.
 /// Solution found [here](https://www.fivestars.blog/articles/codable-swift-dictionaries/).
 /// 
 /// Usage:
