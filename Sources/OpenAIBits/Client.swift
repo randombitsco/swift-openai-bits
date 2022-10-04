@@ -146,7 +146,7 @@ extension Client {
   }
 }
 
-extension Client.Error: CustomStringConvertible {
+extension Client.Error: CustomStringConvertible, CustomDebugStringConvertible {
   public var description: String {
     var result = message
     if let param = param {
@@ -156,6 +156,10 @@ extension Client.Error: CustomStringConvertible {
       result.append("\nCode: \(code)")
     }
     return result
+  }
+  
+  public var debugDescription: String {
+    description
   }
   
   static func unsupportedCall<C: Call>(_ request: C.Type) -> Client.Error {
