@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a `GET` HTTP request
-protocol GetCall: Call {}
+protocol GetCall: HTTPCall {}
 
 extension GetCall {
   /// `"GET"`
