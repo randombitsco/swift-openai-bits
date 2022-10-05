@@ -10,7 +10,7 @@ final class CompletionsTests: XCTestCase {
       prompt: "Input string."
     )
     XCTAssertNoDifference(
-      #"{"logit_bias":null,"model":"text-davinci-002","prompt":"Input string."}"#,
+      #"{"logit_bias":{},"model":"text-davinci-002","prompt":"Input string."}"#,
       try jsonEncode(value, options: [.sortedKeys])
     )
   }
