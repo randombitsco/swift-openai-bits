@@ -47,7 +47,8 @@ public struct CodableDictionary<Key: Hashable & RawRepresentable, Value: Codable
   }
 
   public func encode(to encoder: Encoder) throws {
-    guard let wrappedValue = wrappedValue else { return }
+    // OpenAI API doesn't like receiving `null` keys, and property wrappers always get exported.
+    let wrappedValue = wrappedValue ?? [:]
     var container = encoder.singleValueContainer()
     let rawKeyedDictionary = Dictionary(uniqueKeysWithValues: wrappedValue.map { ($0.rawValue, $1) })
     try container.encode(rawKeyedDictionary)
