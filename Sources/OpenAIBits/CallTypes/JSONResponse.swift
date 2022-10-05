@@ -19,6 +19,6 @@ extension JSONResponse {
   ///
   /// - Parameter response: The ``HTTPURLResponse``.
   static func isJSON(response: HTTPURLResponse) -> Bool {
-    response.value(forHTTPHeaderField: CONTENT_TYPE) == APPLICATION_JSON
+    response.value(forHTTPHeaderField: CONTENT_TYPE)?.starts(with: APPLICATION_JSON) ?? false
   }
 }
