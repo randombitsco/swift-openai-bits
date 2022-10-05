@@ -47,13 +47,10 @@ public struct CodableDictionary<Key: Hashable & RawRepresentable, Value: Codable
   }
 
   public func encode(to encoder: Encoder) throws {
+    guard let wrappedValue = wrappedValue else { return }
     var container = encoder.singleValueContainer()
-    if let wrappedValue = wrappedValue {
-      let rawKeyedDictionary = Dictionary(uniqueKeysWithValues: wrappedValue.map { ($0.rawValue, $1) })
-      try container.encode(rawKeyedDictionary)
-    } else {
-      try container.encodeNil()
-    }
+    let rawKeyedDictionary = Dictionary(uniqueKeysWithValues: wrappedValue.map { ($0.rawValue, $1) })
+    try container.encode(rawKeyedDictionary)
   }
 }
 
