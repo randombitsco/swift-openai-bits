@@ -61,6 +61,8 @@ struct HTTPCallHandler: CallHandler {
       client.log?("\nResponse Status: \(httpResponse.statusCode)")
       logHeaders(httpResponse.allHeaderFields, from: "Response", to: client.log)
       
+      client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
+      
       guard httpResponse.statusCode == 200 else {
         if ErrorResponse.isJSON(response: httpResponse) {
           do {
@@ -73,13 +75,12 @@ struct HTTPCallHandler: CallHandler {
         }
       }
       
-      client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
       guard let responseType = C.Response.self as? any HTTPResponse.Type else {
         throw Client.Error.unexpectedResponse(String(decoding: result, as: UTF8.self))
       }
       return try createResponse(as: responseType, data: result, response: httpResponse) as! C.Response
     } catch {
-      client.log?("Error: \(error)")
+      client.log?("Error: \(error)\n")
       throw error
     }
 
