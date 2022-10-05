@@ -1,34 +1,29 @@
-import Foundation
-import MultipartForm
-
-fileprivate let BASE_URL = "https://api.openai.com/v1"
-
 /// Represents the connection to the OpenAI API.
 /// You must provide at least the `apiKey`, and optionally an `organisation` key and a `log` function.
 public struct Client {
   /// Typealias for a logger function, which takes a `String` and outputs it.
   public typealias Logger = (String) -> Void
 
+  /// The OpenAI API Key to use.
   let apiKey: String
+  
+  /// The OpenAI Organization Key to use (optional).
   let organization: String?
+  
+  /// A ``Logger`` function, if desired. Used for debug logging if present. Defaults to `nil`.
   let log: Logger?
-
+  
+  /// Initializes the ``Client``.
+  ///
+  /// - Parameters:
+  ///   - apiKey: The OpenAI API Key to use.
+  ///   - organization: The OpenAI Organization Key to use (optional).
+  ///   - log: A ``Logger`` function, if desired. Used for debug logging if present. Defaults to `nil`.
   public init(apiKey: String, organization: String? = nil, log: Logger? = nil) {
     self.apiKey = apiKey
     self.organization = organization
     self.log = log
   }
-}
-
-private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to log: Client.Logger?) {
-  guard let log = log, let headers = headers else { return }
-  
-  log("\(label) Headers:")
-  log("-------------------------------------------")
-  for (k,v) in headers {
-    log("\(k): \(v)")
-  }
-  log("-------------------------------------------")
 }
 
 extension Client {
@@ -55,89 +50,10 @@ extension Client {
   }
 }
 
-protocol CallHandler {
-  func execute<C: Call>(call: C, with client: Client) async throws -> C.Response
-}
-
-struct HTTPCallHandler: CallHandler {
-  /// Used to parse an error response from the API.
-  struct ErrorResponse: JSONResponse {
-    let error: Client.Error
-  }
-
-  func execute<C: Call>(call: C, with client: Client) async throws -> C.Response {
-    guard let call = call as? any HTTPCall else {
-      throw Client.Error.unsupportedCall(C.self)
-    }
-    return try await execute(call: call, with: client) as! C.Response
-  }
-  
-  func execute<C: HTTPCall>(call: C, with client: Client) async throws -> C.Response {
-    let urlStr = "\(BASE_URL)/\(call.path)"
-
-    guard let url = URL(string: urlStr) else {
-      throw Client.Error.invalidURL(urlStr)
-    }
-
-    var request = URLRequest(url: url)
-    request.setValue("Bearer \(client.apiKey)", forHTTPHeaderField: "Authorization")
-    if let organization = client.organization {
-      request.setValue(organization, forHTTPHeaderField: "OpenAI-Organization")
-    }
-    
-    request.httpMethod = call.method
-
-    if let contentType = call.contentType {
-      request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-    }
-    if let body = try call.getBody() {
-      request.httpBody = body
-    }
-    
-    do {
-      client.log?("Request: \(request.httpMethod ?? "GET") \(request)")
-      logHeaders(request.allHTTPHeaderFields, from: "Request", to: client.log)
-      if let httpBody = request.httpBody {
-        client.log?("Request Data:\n\(String(decoding: httpBody, as: UTF8.self))")
-      }
-      
-      let (result, response) = try await URLSession.shared.data(for: request)
-
-      guard let httpResponse = response as? HTTPURLResponse else {
-        throw Client.Error.unexpectedResponse("Expected an HTTPURLResponse")
-      }
-
-      client.log?("\nResponse Status: \(httpResponse.statusCode)")
-      logHeaders(httpResponse.allHeaderFields, from: "Response", to: client.log)
-      
-      guard httpResponse.statusCode == 200 else {
-        if ErrorResponse.isJSON(response: httpResponse) {
-          do {
-            throw try ErrorResponse(data: result, response: httpResponse).error
-          } catch {
-            throw error
-          }
-        } else {
-          throw Client.Error.unexpectedResponse("\(httpResponse.statusCode): \(String(decoding: result, as: UTF8.self))")
-        }
-      }
-      
-      client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
-      return try C.Response(data: result, response: httpResponse)
-    } catch {
-      client.log?("Error: \(error)")
-      throw error
-    }
-
-  }
-}
-
 extension Client {
   /// The current ``CallHandler``. Defaults to ``HTTPCallHandler``.
   static var handler: CallHandler = HTTPCallHandler()
-}
 
-extension Client {
   /// Execute the specified ``Call``, returning the specified ``Call/Response``.
   ///
   /// - Parameter call: The ``Call`` to execute.
