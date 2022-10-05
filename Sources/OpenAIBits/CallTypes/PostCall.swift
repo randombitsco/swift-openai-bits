@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a `POST` HTTP request.
-protocol PostCall: Call {}
+protocol PostCall: HTTPCall {}
 
 extension PostCall {
   /// Returns `"POST"`
