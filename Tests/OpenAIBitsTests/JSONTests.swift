@@ -28,4 +28,10 @@ final class JSONTests: XCTestCase {
       12: 34, 56: 78
     ])
   }
+  
+  func testIsJSON() {
+    XCTAssertTrue(isJSON(contentType: "application/json"), "application/json")
+    XCTAssertTrue(isJSON(contentType: "application/json"), "application/json; charset=utf-8")
+    XCTAssertFalse(isJSON(contentType: "foo/bar"), "foo/bar")
+  }
 }

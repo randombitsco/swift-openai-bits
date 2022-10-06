@@ -64,7 +64,7 @@ struct HTTPCallHandler: CallHandler {
       client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
       
       guard httpResponse.statusCode == 200 else {
-        if ErrorResponse.isJSON(response: httpResponse) {
+        if isJSON(response: httpResponse) {
           do {
             throw try ErrorResponse(data: result, response: httpResponse).error
           } catch {

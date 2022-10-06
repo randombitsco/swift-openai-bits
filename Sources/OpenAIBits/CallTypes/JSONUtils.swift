@@ -59,3 +59,19 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
   })
   return try decoder.decode(targetType, from: value)
 }
+
+let CONTENT_TYPE = "Content-Type"
+let APPLICATION_JSON = "application/json"
+
+
+func isJSON(contentType: String) -> Bool {
+  contentType.starts(with: APPLICATION_JSON)
+}
+
+/// Checks if the value in the provided ``HTTPURLResponse`` is ``JSON``.
+///
+/// - Parameter response: The ``HTTPURLResponse``.
+func isJSON(response: HTTPURLResponse) -> Bool {
+  guard let contentType = response.value(forHTTPHeaderField: CONTENT_TYPE) else { return false }
+  return isJSON(contentType: contentType)
+}
