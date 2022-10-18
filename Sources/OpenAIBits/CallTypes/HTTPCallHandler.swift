@@ -58,7 +58,7 @@ struct HTTPCallHandler: CallHandler {
         throw Client.Error.unexpectedResponse("Expected an HTTPURLResponse")
       }
 
-      client.log?("\nResponse Status: \(httpResponse.statusCode)")
+      client.log?("Response Status: \(httpResponse.statusCode)")
       logHeaders(httpResponse.allHeaderFields, from: "Response", to: client.log)
       
       client.log?("Response Data:\n\(String(decoding: result, as: UTF8.self))")
