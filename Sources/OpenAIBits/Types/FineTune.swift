@@ -1,7 +1,15 @@
 import Foundation
 
 /// Represents a `fine-tune`, which may be in progress or complete.
-public struct FineTune: JSONResponse {
+public struct FineTune: Identified, JSONResponse {
+  /// A unique ID for a ``FineTune``.
+  public struct ID: Identifier {
+    public let value: String
+    
+    public init(_ value: String) {
+      self.value = value
+    }
+  }
   
   public let id: ID
 
@@ -40,17 +48,6 @@ public struct FineTune: JSONResponse {
     self.validationFiles = validationFiles
     self.trainingFiles = trainingFiles
     self.updatedAt = updatedAt
-  }
-}
-
-extension FineTune {
-  /// A unique ID for a ``FineTune``.
-  public struct ID: Identifier {
-    public let value: String
-    
-    public init(_ value: String) {
-      self.value = value
-    }
   }
 }
 

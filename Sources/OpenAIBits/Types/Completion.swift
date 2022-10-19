@@ -1,7 +1,7 @@
 import Foundation
 
 /// Response from a ``Completions/Create`` request.
-public struct Completion: JSONResponse, Equatable {
+public struct Completion: Identified, JSONResponse, Equatable {
   /// The unique identifier for a ``Completion``.
   public struct ID: Identifier {
     public let value: String

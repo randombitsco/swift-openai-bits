@@ -1,7 +1,7 @@
 // MARK: Moderation
 
 /// The response from a ``Moderations/Create`` call.
-public struct Moderation: JSONResponse {
+public struct Moderation: Identified, JSONResponse {
   /// The unique identifier for the moderation response.
   public struct ID: Identifier {
     public var value: String

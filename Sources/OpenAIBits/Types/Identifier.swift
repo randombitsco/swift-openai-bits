@@ -1,7 +1,3 @@
-// Represents a value that is an ID.
-
-import Foundation
-
 /// Describes a value intended to be a single `String` that is `Codable` and can be created via a hard-coded `String`
 public protocol Identifier: Hashable, Codable, ExpressibleByStringLiteral, CustomStringConvertible {
   var value: String { get }

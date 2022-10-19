@@ -1,6 +1,6 @@
 import Foundation
 
-public struct File: JSONResponse, Equatable {
+public struct File: Identified, JSONResponse, Equatable {
   
   public struct ID: Identifier {
     public let value: String

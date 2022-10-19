@@ -1,7 +1,7 @@
 //  Represents a Model's Details
 import Foundation
 
-public struct Model: JSONResponse, Equatable {
+public struct Model: Identified, JSONResponse, Equatable {
   public struct ID: Identifier {
     public let value: String
     public init(_ value: String) {
@@ -36,7 +36,7 @@ public struct Model: JSONResponse, Equatable {
 }
 
 extension Model {
-  public struct Permission: Equatable, Codable {
+  public struct Permission: Identified, Equatable, Codable {
     public struct ID: Identifier {
       public var value: String
       
