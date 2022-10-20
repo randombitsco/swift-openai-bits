@@ -36,8 +36,23 @@ final class CompletionsTests: XCTestCase {
         created: .init(timeIntervalSince1970: .zero),
         model: "b",
         choices: [
-          .init(text: "choice 1", index: 0, finishReason: "length"),
-          .init(text: "choice 2", index: 1, finishReason: "finished"),
+          .init(
+            text: "choice 1", index: 0,
+            logprobs: .init(
+              tokens: ["choice", " 1"],
+              tokenLogprobs: [-1, -2],
+              topLogprobs: [
+                ["a": -1, "b": -2, "c": -3],
+                ["d": -4, "e": -5, "f": -6],
+              ],
+              textOffset: [1, 7]
+            ),
+            finishReason: "length"
+          ),
+          .init(
+            text: "choice 2", index: 1,
+            finishReason: "finished"
+          ),
         ],
         usage: .init(promptTokens: 1, completionTokens: 2, totalTokens: 3))
       ,
@@ -45,7 +60,20 @@ final class CompletionsTests: XCTestCase {
       {
         "id": "a", "created": 0, "model": "b",
         "choices": [
-          {"text": "choice 1", "index": 0, "finish_reason": "length"},
+          {
+            "text": "choice 1",
+            "index": 0,
+            "logprobs": {
+              "tokens": ["choice", " 1"],
+              "token_logprobs": [-1, -2],
+              "top_logprobs": [
+                {"a": -1, "b": -2, "c": -3},
+                {"d": -4, "e": -5, "f": -6}
+              ],
+              "text_offset": [1, 7]
+            },
+            "finish_reason": "length"
+          },
           {"text": "choice 2", "index": 1, "finish_reason": "finished"}
         ],
         "usage": {"prompt_tokens": 1, "completion_tokens": 2, "total_tokens": 3}
