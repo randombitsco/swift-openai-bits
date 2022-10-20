@@ -15,10 +15,12 @@ extension FineTunes {
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/list)
   public struct List: GetCall {
-    public var path: String { "fine-tunes" }
+    var path: String { "fine-tunes" }
     
+    /// Responds with a ``ListOf`` ``FineTune``s.
     public typealias Response = ListOf<FineTune>
     
+    /// List your organization's fine-tuning jobs.
     public init() {}
   }
 }
@@ -152,14 +154,24 @@ extension FineTunes {
 }
 
 extension FineTunes {
-  /// Call this to get the details of a `fine-tune` job.
+  /// Gets info about the fine-tune job.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/retrieve)
+  /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
   public struct Detail: GetCall {
-    public var path: String { "fine-tunes/\(id)" }
+    var path: String { "fine-tunes/\(id)" }
     
+    /// Responds with a ``FineTune``.
     public typealias Response = FineTune
     
+    /// The ``FineTune/ID`` of the fine-tune job.
     public let id: FineTune.ID
     
+    /// Gets info about the fine-tune job.
+    ///
+    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -167,14 +179,19 @@ extension FineTunes {
 }
 
 extension FineTunes {
-  /// Call this to immediately cancel a `fine-tune` job.
+  /// Immediately cancel a `fine-tune` job.
   public struct Cancel: BarePostCall {
-    public var path: String { "fine-tunes/\(id)/cancel" }
+    var path: String { "fine-tunes/\(id)/cancel" }
     
+    /// Responds with a ``FineTune``.
     public typealias Response = FineTune
     
+    /// The ``FineTune/ID`` of the fine-tune job to cancel.
     public let id: FineTune.ID
     
+    /// Immediately cancel a `fine-tune` job.
+    ///
+    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job to cancel.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -183,14 +200,24 @@ extension FineTunes {
 
 extension FineTunes {
   /// Call this to get a list of ``FineTune/Event``s for a given ``FineTune``.
+  ///
   /// TODO: Add support for streaming events.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/events)
   public struct Events: GetCall {
-    public var path: String { "fine-tunes/\(id)/events" }
+    var path: String { "fine-tunes/\(id)/events" }
     
+    /// Responds with a ``ListOf`` ``FineTune/Event``s.
     public typealias Response = ListOf<FineTune.Event>
     
+    /// The ``FineTune/ID`` of the fine-tune job to get events for.
     public let id: FineTune.ID
     
+    /// Call this to get a list of ``FineTune/Event``s for a given ``FineTune``.
+    ///
+    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job to get events for.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -198,22 +225,39 @@ extension FineTunes {
 }
 
 extension FineTunes {
-  /// Deletes a fine-tuned model. You must have the `Owner` role in your organization.
+  /// Delete a fine-tuned model. You must have the `Owner` role in your organization.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/delete-model)
   public struct Delete: DeleteCall {
     public var path: String { "models/\(id)" }
     
+    /// The ``Delete`` ``Response``.
     public struct Response: JSONResponse {
+      /// The ``Model/ID`` for the fine-tuned ``Model`` that was deleted.
       public let id: Model.ID
+
+      /// Indicates if it was deleted.
       public let deleted: Bool
       
+      /// The ``Delete`` ``Response``.
+      ///
+      /// - Parameter id: The ``Model/ID`` for the fine-tuned ``Model`` that was deleted.
+      /// - Parameter deleted: Indicates if it was deleted.
       public init(id: Model.ID, deleted: Bool) {
         self.id = id
         self.deleted = deleted
       }
     }
     
+    /// The ``Model/ID`` to delete.
     public let id: Model.ID
     
+
+    /// Delete a fine-tuned model. You must have the `Owner` role in your organization.
+    ///
+    /// - Parameter id: The ``Model/ID`` to delete.
     public init(id: Model.ID) {
       self.id = id
     }
