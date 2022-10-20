@@ -83,7 +83,7 @@ final class CompletionsTests: XCTestCase {
   }
   
   func testCompletionsCreateStop() throws {
-    typealias Stop = Completions.Create.Stop
+    typealias Stop = Completions.Stop
     
     XCTAssertEqual(["One"], Stop("One").value)
     XCTAssertEqual(["One", "Two"], Stop("One", "Two").value)
@@ -92,7 +92,7 @@ final class CompletionsTests: XCTestCase {
   }
   
   func testCompletionsCreateStopToJSON() throws {
-    let value = Completions.Create.Stop("One", "Two")
+    let value = Completions.Stop("One", "Two")
     try XCTAssertEqual(jsonEncode(value), """
     ["One","Two"]
     """)

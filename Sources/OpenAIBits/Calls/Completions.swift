@@ -159,7 +159,7 @@ extension Completions {
   }
 }
 
-extension Completions.Create {
+extension Completions {
   /// Represents 1 to 4 "stop" `String` values.
   public struct Stop: Equatable, Encodable {
     /// The "stop" values.
