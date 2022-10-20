@@ -43,7 +43,7 @@ extension FineTunes {
     /// Responds with a ``FineTune``.
     public typealias Response = FineTune
     
-    /// The ``File/ID`` of an uploaded file that contains training data.
+    /// The ``File/ID-swift.struct`` of an uploaded file that contains training data.
     ///
     /// See [upload file](https://beta.openai.com/docs/api-reference/files/upload) for how to upload a file.
     ///
@@ -56,12 +56,12 @@ extension FineTunes {
     ///
     /// If you provide this file, the data is used to generate validation metrics periodically during fine-tuning. These metrics can be viewed in the [fine-tuning results file](https://beta.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model). Your train and validation data should be mutually exclusive.
     ///
-    /// Your dataset must be formatted as a JSONL file, where each validation example is a JSON object with the keys "prompt" and "completion". Additionally, you must upload your file with the purpose ``FineTunes/Upload/Purpose/fineTune``.
+    /// Your dataset must be formatted as a JSONL file, where each validation example is a JSON object with the keys "prompt" and "completion". Additionally, you must ``Files/Upload`` your file with the purpose ``Files/Upload/Purpose-swift.enum``.
     ///
     /// See the [fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.
     public let validationFile: File.ID?
     
-    /// The name of the base model to fine-tune. You can select one of ``FineTune/Model/ada``, ``FineTune/Model/babbage``, ``FineTune/Model//curie``, ``FineTune/Model/davinci``, or a fine-tuned model created after 2022-04-21. To learn more about these models, see the ``Models`` documentation.
+    /// The name of the base ``FineTune/Model-swift.enum`` to fine-tune. You can select one of ``FineTune/Model-swift.enum/ada``, ``FineTune/Model-swift.enum/babbage``, ``FineTune/Model-swift.enum/curie``, ``FineTune/Model-swift.enum/davinci``, or a fine-tuned model created after 2022-04-21. To learn more about these models, see the ``Models`` documentation.
     public let model: FineTune.Model?
     
     /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
@@ -130,7 +130,7 @@ extension FineTunes {
     ///   - nEpochs: The ``nEpochs``.
     ///   - batchSize: The ``batchSize``.
     ///   - learningRateMultiplier: The ``learningRateMultiplier``.
-    ///   - promptLossWeight: The ``propmtLossWeight``.
+    ///   - promptLossWeight: The ``promptLossWeight``.
     ///   - computeClassificationMetrics: The ``computeClassificationMetrics``.
     ///   - classificationNClasses: The ``classificationNClasses``.
     ///   - classificationPositiveClass: The ``classificationPositiveClass``.
@@ -166,12 +166,12 @@ extension FineTunes {
     /// Responds with a ``FineTune``.
     public typealias Response = FineTune
     
-    /// The ``FineTune/ID`` of the fine-tune job.
+    /// The ``FineTune/ID-swift.struct`` of the fine-tune job.
     public let id: FineTune.ID
     
     /// Gets info about the fine-tune job.
     ///
-    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job.
+    /// - Parameter id: The ``FineTune/ID-swift.struct`` of the fine-tune job.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -186,12 +186,12 @@ extension FineTunes {
     /// Responds with a ``FineTune``.
     public typealias Response = FineTune
     
-    /// The ``FineTune/ID`` of the fine-tune job to cancel.
+    /// The ``FineTune/ID-swift.struct`` of the fine-tune job to cancel.
     public let id: FineTune.ID
     
     /// Immediately cancel a `fine-tune` job.
     ///
-    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job to cancel.
+    /// - Parameter id: The ``FineTune/ID-swift.struct`` of the fine-tune job to cancel.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -212,12 +212,12 @@ extension FineTunes {
     /// Responds with a ``ListOf`` ``FineTune/Event``s.
     public typealias Response = ListOf<FineTune.Event>
     
-    /// The ``FineTune/ID`` of the fine-tune job to get events for.
+    /// The ``FineTune/ID-swift.struct`` of the fine-tune job to get events for.
     public let id: FineTune.ID
     
     /// Call this to get a list of ``FineTune/Event``s for a given ``FineTune``.
     ///
-    /// - Parameter id: The ``FineTune/ID`` of the fine-tune job to get events for.
+    /// - Parameter id: The ``FineTune/ID-swift.struct`` of the fine-tune job to get events for.
     public init(id: FineTune.ID) {
       self.id = id
     }
@@ -233,17 +233,17 @@ extension FineTunes {
   public struct Delete: DeleteCall {
     public var path: String { "models/\(id)" }
     
-    /// The ``Delete`` ``Response``.
+    /// The ``FineTunes/Delete`` `Response`.
     public struct Response: JSONResponse {
-      /// The ``Model/ID`` for the fine-tuned ``Model`` that was deleted.
+      /// The ``Model/ID-swift.struct`` for the fine-tuned ``Model`` that was deleted.
       public let id: Model.ID
 
       /// Indicates if it was deleted.
       public let deleted: Bool
       
-      /// The ``Delete`` ``Response``.
+      /// The ``FineTunes/Delete`` `Response`.
       ///
-      /// - Parameter id: The ``Model/ID`` for the fine-tuned ``Model`` that was deleted.
+      /// - Parameter id: The ``Model/ID-swift.struct`` for the fine-tuned ``Model`` that was deleted.
       /// - Parameter deleted: Indicates if it was deleted.
       public init(id: Model.ID, deleted: Bool) {
         self.id = id
@@ -251,13 +251,13 @@ extension FineTunes {
       }
     }
     
-    /// The ``Model/ID`` to delete.
+    /// The ``Model/ID-swift.struct`` to delete.
     public let id: Model.ID
     
 
     /// Delete a fine-tuned model. You must have the `Owner` role in your organization.
     ///
-    /// - Parameter id: The ``Model/ID`` to delete.
+    /// - Parameter id: The ``Model/ID-swift.struct`` to delete.
     public init(id: Model.ID) {
       self.id = id
     }

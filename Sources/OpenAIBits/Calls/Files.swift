@@ -1,7 +1,7 @@
 import Foundation
 import MultipartForm
 
-/// Files are used to upload documents that can be used with features like ``FineTunings``.
+/// Files are used to upload documents that can be used with features like ``FineTunes``.
 ///
 /// ## See Also
 ///
@@ -16,11 +16,11 @@ extension Files {
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/list)
   public struct List: GetCall {
     /// Results in a ``ListOf`` ``File``s.
-    public struct Response: ListOf<File>
+    public typealias Response = ListOf<File>
 
     var path: String { "files" }
 
-    /// Initializes a ``List`` call.
+    /// Initializes a ``Files/List`` call.
     public init() {}
   }
 }
@@ -51,14 +51,12 @@ extension Files {
 
     /// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
     ///
-    /// If the purpose is set to ``Purpose/fineTune``, each line is a JSON record with
-    /// "prompt" and "completion" fields representing your
-    /// [training examples](https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data).
+    /// If the purpose is set to `.fineTune`, each line is a JSON record with "prompt" and "completion" fields representing your [training examples](https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data).
     public let file: String?
     
     /// The intended purpose of the uploaded documents.
     ///
-    /// Use ``Purpose/fineTune`` for [Fine-tuning](https://beta.openai.com/docs/api-reference/fine-tunes).
+    /// Use `.fineTune` for [Fine-tuning](https://beta.openai.com/docs/api-reference/fine-tunes).
     /// This allows OpenAI to validate the format of the uploaded file.
     public let purpose: Purpose
     
@@ -68,7 +66,7 @@ extension Files {
     /// Create a new upload call.
     ///
     /// - Parameter file: The filename. If not provided, the filename from the `source` is used.
-    /// - Parameter purpose: The ``Purpose`` of the upload.
+    /// - Parameter purpose: The ``Files/Upload/Purpose-swift.enum`` of the upload.
     /// - Parameter source: The `URL` to the file to upload.
     public init(file: String? = nil, purpose: Purpose, source: URL) {
       self.file = file
@@ -81,7 +79,7 @@ extension Files {
     /// - Returns the form.
     /// - Throws an error if unable to load the file.
     public func getForm() throws -> MultipartForm {
-      let data = try Data(contentsOf: file)
+      let data = try Data(contentsOf: source)
 
       let file = file ?? source.lastPathComponent
 
@@ -97,7 +95,7 @@ extension Files {
 }
 
 extension Files {
-  /// Attempts to delete the nominated file, if one exists with the provided `File.ID`.
+  /// Attempts to delete the nominated file, if one exists with the provided ``File/ID-swift.struct``.
   ///
   /// ## See Also
   ///
@@ -105,7 +103,7 @@ extension Files {
   public struct Delete: DeleteCall {
     /// The `Response` to the ``Files/Delete`` call.
     public struct Response: JSONResponse {
-      /// The ``File/ID`` of the filedeleted.
+      /// The ``File/ID-swift.struct`` of the filedeleted.
       public let id: File.ID
       
       /// Indicates if the file was successfully deleted.
@@ -124,7 +122,7 @@ extension Files {
     /// The path to the file deletion `URL`.
     var path: String { "files/\(id)" }
     
-    /// The ``File/ID`` of the file to use for this request.
+    /// The ``File/ID-swift.struct`` of the file to use for this request.
     public let id: File.ID
     
     /// Creates a new `Delete File` call, providing the ``File`` `ID` to delete.
@@ -137,7 +135,7 @@ extension Files {
 }
 
 extension Files { 
-  /// Returns information about a specific file ``File/ID``.
+  /// Returns information about a specific file ``File/ID-swift.struct``.
   ///
   /// ## See Also
   ///
@@ -147,12 +145,12 @@ extension Files {
     
     public var path: String { "files/\(id)" }
     
-    /// The ``File/ID`` of the file to use for this request.
+    /// The ``File/ID-swift.struct`` of the file to use for this request.
     public let id: File.ID
     
-    /// Creates a call to request information about a specific file ``File/ID``.
+    /// Creates a call to request information about a specific file ``File/ID-swift.struct``.
     ///
-    /// - Parameter id: The ``File/ID`` of the file to use for this request.
+    /// - Parameter id: The ``File/ID-swift.struct`` of the file to use for this request.
     public init(id: File.ID) {
       self.id = id
     }
@@ -160,7 +158,7 @@ extension Files {
 }
 
 extension Files { 
-  /// Returns the contents of the specified file ``File/ID``.
+  /// Returns the contents of the specified file ``File/ID-swift.struct``.
   ///
   /// ## See Also
   ///
@@ -172,12 +170,12 @@ extension Files {
     /// The path to the request.
     var path: String { "files/\(id)/content" }
     
-    /// The ``File/ID`` of the file to use for this request.
+    /// The ``File/ID-swift.struct`` of the file to use for this request.
     public let id: File.ID
     
-    /// Creates a call to return the contents of the specified file ``File/ID``.
+    /// Creates a call to return the contents of the specified file ``File/ID-swift.struct``.
     ///
-    /// - Parameter id: The ``File/ID``.
+    /// - Parameter id: The ``File/ID-swift.struct``.
     public init(id: File.ID) {
       self.id = id
     }

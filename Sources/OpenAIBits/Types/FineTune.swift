@@ -1,6 +1,6 @@
 import Foundation
 
-/// Represents a `fine-tune`, which may be in progress or complete.
+/// Represents a `fine-tune` job, which may be in progress or complete.
 public struct FineTune: Identified, JSONResponse {
   /// A unique ID for a ``FineTune``.
   public struct ID: Identifier {
@@ -11,10 +11,13 @@ public struct FineTune: Identified, JSONResponse {
     }
   }
   
+  /// The ``FineTune/ID-swift.struct`` for the fine-tune job.
   public let id: ID
 
+  /// The ``FineTune/Model-swift.enum`` being fine-tuned.
   public let model: Model
   
+  /// The ``OpenAIBits/Model/ID-swift.struct`` being fine-tuned.
   public let fineTunedModel: OpenAIBits.Model.ID?
   
   public let createdAt: Date
