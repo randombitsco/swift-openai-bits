@@ -59,7 +59,7 @@ extension Completion {
     public let index: Int
     
     /// The list of `logprobs`, if present.
-    public let logprobs: [String]?
+    public let logprobs: [Logprob]?
     
     /// The reason for finishing.
     public let finishReason: String
@@ -74,7 +74,7 @@ extension Completion {
     public init(
       text: String,
       index: Int,
-      logprobs: [String]? = nil,
+      logprobs: [Logprob]? = nil,
       finishReason: String
     ) {
       self.text = text
