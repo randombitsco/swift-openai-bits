@@ -1,24 +1,38 @@
 import Foundation
 import MultipartForm
 
-/// A namespace for Files calls.
+/// Files are used to upload documents that can be used with features like ``FineTunings``.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)
 public enum Files {}
 
 extension Files {
-  /// Retrieves a list of all uploaded files.
+  /// Returns a list of files that belong to the user's organization.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/list)
   public struct List: GetCall {
-    public struct Response: JSONResponse, Equatable {
-      public let data: [File]
-    }
+    /// Results in a ``ListOf`` ``File``s.
+    public struct Response: ListOf<File>
 
-    public var path: String { "files" }
+    var path: String { "files" }
 
+    /// Initializes a ``List`` call.
     public init() {}
   }
 }
 
 extension Files { 
-  /// Uploads the provided `file` with a nominated `Purpose`.
+  /// Upload a file that contains document(s) to be used across various endpoints/features. 
+  /// Currently, the size of all the files uploaded by one organization can be up to 1 GB. 
+  /// Please contact OpenAI if you need to increase the storage limit.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/upload)
   public struct Upload: MultipartPostCall {
     /// The purpose of the file
     public enum Purpose: String, Equatable, Codable {
@@ -33,21 +47,33 @@ extension Files {
     var path: String { "files" }
     
     /// The Multipart boundary marker.
-    public let boundary: String = UUID().uuidString
+    let boundary: String = UUID().uuidString
+
+    /// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
+    ///
+    /// If the purpose is set to ``Purpose/fineTune``, each line is a JSON record with
+    /// "prompt" and "completion" fields representing your
+    /// [training examples](https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data).
+    public let file: String?
     
-    /// The purpose of the upload.
+    /// The intended purpose of the uploaded documents.
+    ///
+    /// Use ``Purpose/fineTune`` for [Fine-tuning](https://beta.openai.com/docs/api-reference/fine-tunes).
+    /// This allows OpenAI to validate the format of the uploaded file.
     public let purpose: Purpose
     
-    /// The file URL.
-    public let file: URL
+    /// The file `URL`, pointing at the file data to upload.
+    public let source: URL
     
     /// Create a new upload call.
     ///
-    /// - Parameter purpose: The purpose of the upload.
-    /// - Parameter file: The URL to the file to upload.
-    public init(purpose: Purpose, file: URL) {
-      self.purpose = purpose
+    /// - Parameter file: The filename. If not provided, the filename from the `source` is used.
+    /// - Parameter purpose: The ``Purpose`` of the upload.
+    /// - Parameter source: The `URL` to the file to upload.
+    public init(file: String? = nil, purpose: Purpose, source: URL) {
       self.file = file
+      self.purpose = purpose
+      self.source = source
     }
     
     /// Returns a ```MultipartForm`` based on the purpose and file.
@@ -57,10 +83,12 @@ extension Files {
     public func getForm() throws -> MultipartForm {
       let data = try Data(contentsOf: file)
 
+      let file = file ?? source.lastPathComponent
+
       return MultipartForm(
         parts: [
           .init(name: "purpose", value: purpose.rawValue),
-          .init(name: "file", data: data, filename: file.lastPathComponent),
+          .init(name: "file", data: data, filename: file),
         ],
         boundary: boundary
       )
@@ -70,10 +98,14 @@ extension Files {
 
 extension Files {
   /// Attempts to delete the nominated file, if one exists with the provided `File.ID`.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/delete)
   public struct Delete: DeleteCall {
     /// The `Response` to the ``Files/Delete`` call.
     public struct Response: JSONResponse {
-      /// The ``File`` `ID` that was attempted to be deleted.
+      /// The ``File/ID`` of the filedeleted.
       public let id: File.ID
       
       /// Indicates if the file was successfully deleted.
@@ -81,7 +113,7 @@ extension Files {
       
       /// Initializes the ``Files/Delete`` call.
       ///
-      /// - Parameter id: The ``File`` `ID` to delete.
+      /// - Parameter id: The `File` ``File/ID` to delete.
       /// - Parameter deleted: Indicates if the delete was successful.
       public init(id: File.ID, deleted: Bool) {
         self.id = id
@@ -89,10 +121,10 @@ extension Files {
       }
     }
     
-    /// The path to the file deletion URL.
-    public var path: String { "files/\(id)" }
+    /// The path to the file deletion `URL`.
+    var path: String { "files/\(id)" }
     
-    /// The ``File`` `ID`.
+    /// The ``File/ID`` of the file to use for this request.
     public let id: File.ID
     
     /// Creates a new `Delete File` call, providing the ``File`` `ID` to delete.
@@ -105,15 +137,22 @@ extension Files {
 }
 
 extension Files { 
-  /// Retrieves file information for the specified ``File`` `ID`.
+  /// Returns information about a specific file ``File/ID``.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/retrieve)
   public struct Detail: GetCall {
     public typealias Response = File
     
     public var path: String { "files/\(id)" }
     
-    /// The File ID.
+    /// The ``File/ID`` of the file to use for this request.
     public let id: File.ID
     
+    /// Creates a call to request information about a specific file ``File/ID``.
+    ///
+    /// - Parameter id: The ``File/ID`` of the file to use for this request.
     public init(id: File.ID) {
       self.id = id
     }
@@ -121,15 +160,24 @@ extension Files {
 }
 
 extension Files { 
-  /// Retrieves the file content for the specified ``File`` `ID`.
+  /// Returns the contents of the specified file ``File/ID``.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/retrieve-content)
   public struct Content: GetCall {
+    /// Returns a ``BinaryResponse``.
     public typealias Response = BinaryResponse
     
-    public var path: String { "files/\(id)/content" }
+    /// The path to the request.
+    var path: String { "files/\(id)/content" }
     
-    /// The File.ID
+    /// The ``File/ID`` of the file to use for this request.
     public let id: File.ID
     
+    /// Creates a call to return the contents of the specified file ``File/ID``.
+    ///
+    /// - Parameter id: The ``File/ID``.
     public init(id: File.ID) {
       self.id = id
     }
