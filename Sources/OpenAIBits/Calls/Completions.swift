@@ -80,7 +80,7 @@ extension Completions {
     public let echo: Bool?
     
     /// Up to `4` sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
-    public let stop: [String]?
+    public let stop: Stop?
     
     /// Number between `-2.0` and `2.0`. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics. [See more information about frequency and presence penalties](https://beta.openai.com/docs/api-reference/parameter-details)
     public let presencePenalty: Penalty?
@@ -133,7 +133,7 @@ extension Completions {
       n: Int? = nil,
       logprobs: Int? = nil,
       echo: Bool? = nil,
-      stop: [String]? = nil,
+      stop: Stop? = nil,
       presencePenalty: Penalty? = nil,
       frequencyPenalty: Penalty? = nil,
       bestOf: Int? = nil,
@@ -155,6 +155,33 @@ extension Completions {
       self.bestOf = bestOf
       self.logitBias = logitBias
       self.user = user
+    }
+  }
+}
+
+extension Completions.Create {
+  public struct Stop: Equatable, Encodable {
+    public let value: [String]
+    
+    public init(_ v1: String) {
+      self.value = [v1]
+    }
+    
+    public init(_ v1: String, _ v2: String) {
+      self.value = [v1, v2]
+    }
+    
+    public init(_ v1: String, _ v2: String, _ v3: String) {
+      self.value = [v1, v2, v3]
+    }
+    
+    public init(_ v1: String, _ v2: String, _ v3: String, _ v4: String) {
+      self.value = [v1, v2, v3, v4]
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+      var container = encoder.singleValueContainer()
+      try container.encode(value)
     }
   }
 }

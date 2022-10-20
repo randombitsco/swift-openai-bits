@@ -19,12 +19,12 @@ final class CompletionsTests: XCTestCase {
     let value = Completions.Create(
       model: "foo", prompt: "bar", suffix: "yada",
       maxTokens: 100, temperature: 0.5, topP: 0.6, n: 2, logprobs: 3, echo: false,
-      stop: ["stop"], presencePenalty: 0.7, frequencyPenalty: 0.8, bestOf: 4,
+      stop: .init("four"), presencePenalty: 0.7, frequencyPenalty: 0.8, bestOf: 4,
       logitBias: [5234: -100],
       user: "jblogs"
     )
     XCTAssertNoDifference(
-      #"{"best_of":4,"echo":false,"frequency_penalty":0.8,"logit_bias":{"5234":-100},"logprobs":3,"max_tokens":100,"model":"foo","n":2,"presence_penalty":0.7,"prompt":"bar","stop":["stop"],"suffix":"yada","temperature":0.5,"top_p":0.6,"user":"jblogs"}"#,
+      #"{"best_of":4,"echo":false,"frequency_penalty":0.8,"logit_bias":{"5234":-100},"logprobs":3,"max_tokens":100,"model":"foo","n":2,"presence_penalty":0.7,"prompt":"bar","stop":["four"],"suffix":"yada","temperature":0.5,"top_p":0.6,"user":"jblogs"}"#,
       try jsonEncode(value, options: [.sortedKeys])
     )
   }
@@ -80,5 +80,21 @@ final class CompletionsTests: XCTestCase {
       }
       """)
     )
+  }
+  
+  func testCompletionsCreateStop() throws {
+    typealias Stop = Completions.Create.Stop
+    
+    XCTAssertEqual(["One"], Stop("One").value)
+    XCTAssertEqual(["One", "Two"], Stop("One", "Two").value)
+    XCTAssertEqual(["One", "Two", "Three"], Stop("One", "Two", "Three").value)
+    XCTAssertEqual(["One", "Two", "Three", "Four"], Stop("One", "Two", "Three", "Four").value)
+  }
+  
+  func testCompletionsCreateStopToJSON() throws {
+    let value = Completions.Create.Stop("One", "Two")
+    try XCTAssertEqual(jsonEncode(value), """
+    ["One","Two"]
+    """)
   }
 }
