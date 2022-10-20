@@ -47,11 +47,11 @@ final class CompletionsTests: XCTestCase {
               ],
               textOffset: [1, 7]
             ),
-            finishReason: "length"
+            finishReason: .length
           ),
           .init(
             text: "choice 2", index: 1,
-            finishReason: "finished"
+            finishReason: .stop
           ),
         ],
         usage: .init(promptTokens: 1, completionTokens: 2, totalTokens: 3))
@@ -74,7 +74,7 @@ final class CompletionsTests: XCTestCase {
             },
             "finish_reason": "length"
           },
-          {"text": "choice 2", "index": 1, "finish_reason": "finished"}
+          {"text": "choice 2", "index": 1, "finish_reason": "stop"}
         ],
         "usage": {"prompt_tokens": 1, "completion_tokens": 2, "total_tokens": 3}
       }

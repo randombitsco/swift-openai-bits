@@ -49,6 +49,36 @@ public struct Completion: Identified, JSONResponse, Equatable {
   }
 }
 
+// MARK: Completion.FinishReason
+
+extension Completion {
+  public enum FinishReason: RawRepresentable, Equatable, Codable, CustomStringConvertible {
+    case length
+    case stop
+    case other(String)
+    
+    public var rawValue: String {
+      switch self {
+      case .length: return "length"
+      case .stop: return "stop"
+      case .other(let value): return value
+      }
+    }
+    
+    public init(rawValue: String) {
+      switch rawValue {
+      case "length": self = .length
+      case "stop": self = .stop
+      default: self = .other(rawValue)
+      }
+    }
+    
+    public var description: String { rawValue }
+  }
+}
+
+// MARK: Completion.Choice
+
 extension Completion {
   /// One of the completion choices.
   public struct Choice: Equatable, Codable {
@@ -62,7 +92,7 @@ extension Completion {
     public let logprobs: Logprobs?
     
     /// The reason for finishing.
-    public let finishReason: String
+    public let finishReason: FinishReason
     
     /// Creates a ``Completion/Choice``.
     ///
@@ -75,7 +105,7 @@ extension Completion {
       text: String,
       index: Int,
       logprobs: Logprobs? = nil,
-      finishReason: String
+      finishReason: FinishReason
     ) {
       self.text = text
       self.index = index
