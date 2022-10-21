@@ -11,6 +11,7 @@ import XCTest
 //  try await cmd.run()
 //}
 
+/// An `Error` implementation for problems while running a call.
 enum TestCallError: Swift.Error {
   case expected(call: Any, received: Any)
 }
@@ -41,20 +42,49 @@ class TestCallHandler<E: Call>: CallHandler {
   }
 }
 
+/// A function for use during `XCTestCase` evaluation to test an `OpenAIBits` `Client` call.
+///
+/// ## Examples
+///
+/// ```swift
+/// func testModelsDetail() async throws {
+///   let client = Client(apiKey: "foobar")
+///   let now = Date()
+///
+///   XCTAssertExpectOpenAICall {
+///     Models.Detail(id: "my-model")
+///   } response: {
+///     Model(id: "my-model", created: now, organization: "my-org")
+///   } doing: {
+///     let response = try await client.call(Models.Detail(id: "my-model"))
+///     XCTAssertEqual(response, Model(id: "my-model", created: now, organization: "my-org")
+///   }
+/// }
+/// ```
+///
+/// Of course, this is pretty useless by itself. Where it is helpful is when working with another library that is making calls to the `Client` on your behalf.
+///
+/// - Parameters:
+///   - call: Returns the expected `OpenAIBits.Call` instance.
+///   - response: Returns the `OpenAIBits.Call.Response` instance.
+///   - doing: A closure containing the code that will exercise the `OpenAIBits.Client.run()` function.
+///   - file: The originating file (defaults to the calling file).
+///   - line: The originating line number (defaults to the originating line number).
+/// - Throws: An error if `whileDoing` throws an error.
 public func XCTAssertExpectOpenAICall<C: Call>(
   _ call: () -> C,
-  returning: () -> C.Response,
-  whileDoing: () async throws -> Void,
+  response: () -> C.Response,
+  doing: () async throws -> Void,
   file: StaticString = #file,
   line: UInt = #line
-) async throws {
+) async rethrows {
   let oldHandler = Client.handler
   defer { Client.handler = oldHandler }
   
-  Client.handler = TestCallHandler(expectedCall: call(), returning: returning())
+  Client.handler = TestCallHandler(expectedCall: call(), returning: response())
   
   do {
-    try await whileDoing()
+    try await doing()
   } catch let TestCallError.expected(call: expectedCall, received: receivedCall) {
     XCTAssertNoDifference(String(describing: expectedCall), String(describing: receivedCall), file: file, line: line)
   }
