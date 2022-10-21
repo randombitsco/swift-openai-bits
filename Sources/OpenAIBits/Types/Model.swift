@@ -1,22 +1,46 @@
-//  Represents a Model's Details
 import Foundation
 
+/// Describes a trained model.
 public struct Model: Identified, JSONResponse, Equatable {
+  /// The `ID` for a ``Model``.
   public struct ID: Identifier {
+    /// The actual value.
     public let value: String
+    
+    /// Creates a new ``Model`` `ID`.
+    /// - Parameter value: The `ID` value.
     public init(_ value: String) {
       self.value = value
     }
   }
   
+  /// The unique ``Model/ID-swift.struct``.
   public let id: Model.ID
-  private let object: String
+  
+  /// The creation date.
   public let created: Date
+  
+  /// The owner ID.
   public let ownedBy: String
+  
+  /// The list of ``Permission``s for the ``Model``.
   public let permission: [Model.Permission]
+  
+  /// The root ``Model/ID-swift.struct``.
   public let root: Model.ID
+  
+  /// The parent ``Model/ID-swift.struct``.
   public let parent: Model.ID?
   
+  /// Constructs a ``Model``.
+  ///
+  /// - Parameters:
+  ///   - id: The ``id``.
+  ///   - created: The ``created`` date.
+  ///   - ownedBy: The ``ownedBy`` ID.
+  ///   - permission: The ``permission`` list.
+  ///   - root: The ``root`` ID.
+  ///   - parent: The ``parent`` ID.
   public init(
     id: Model.ID,
     created: Date,
@@ -26,7 +50,6 @@ public struct Model: Identified, JSONResponse, Equatable {
     parent: Model.ID? = nil
   ) {
     self.id = id
-    self.object = "model"
     self.created = created
     self.ownedBy = ownedBy
     self.permission = permission
@@ -36,7 +59,9 @@ public struct Model: Identified, JSONResponse, Equatable {
 }
 
 extension Model {
+  /// Describes ther permissions allowed for a model.
   public struct Permission: Identified, Equatable, Codable {
+    /// The unique `ID` for the ``Permission``.
     public struct ID: Identifier {
       public var value: String
       
@@ -45,18 +70,56 @@ extension Model {
       }
     }
     
+    /// The unique ``Model/Permission-swift.struct/ID-swift.struct``.
     public let id: Model.Permission.ID
+    
+    /// The creation date.
     public let created: Date
+    
+    /// Can an engine be created from this model?
+    ///
+    /// - Note: Sampling is deprecated. Use ``allowFineTuning`` instead.
+    @available(*, deprecated, message: "Use allowFineTuning instead")
     public let allowCreateEngine: Bool
+    
+    /// Can the model be used for sampling?
     public let allowSampling: Bool
+    
+    /// Does it support outputting logprobs?
     public let allowLogprobs: Bool
+    
+    /// Does it allow search indices?
     public let allowSearchIndices: Bool
+    
+    /// Does it allow viewing?
     public let allowView: Bool
+    
+    /// Does it allow fine-tuning?
     public let allowFineTuning: Bool
+    
+    /// What organisations do the permissions apply to?
     public let organization: String
+    
+    /// What group owns the engine?
     public let group: String?
+    
+    /// Is it currently blocking?
     public let isBlocking: Bool
     
+    /// Constructs permissions.
+    ///
+    /// - Parameters:
+    ///   - id: The ``id``.
+    ///   - created: The ``created`` date.
+    ///   - allowCreateEngine: Does it ``allowCreateEngine``?
+    ///   - allowSampling: Does it ``allowSampling``?
+    ///   - allowLogprobs: Does it ``allowLogprobs``?
+    ///   - allowSearchIndices: Does it ``allowSearchIndices``?
+    ///   - allowView: Does it ``allowView``?
+    ///   - allowFineTuning: Does it ``allowFineTuning``?
+    ///   - organization: What organizations can use it?
+    ///   - group: What group owns it?
+    ///   - isBlocking: Check if it ``isBlocking``.
     public init(
       id: Model.Permission.ID,
       created: Date,

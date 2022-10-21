@@ -1,19 +1,22 @@
 /// Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
 ///
-/// The primary ``Call`` for ``Embeddings`` is ``Embeddings/Create``.
+/// ## Calls
+///
+/// - ``Embeddings/Create`` - Creates a new embedding vector for a given text input.
 ///
 /// ## See Also
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings)
 /// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
 public enum Embeddings {}
 
-// MARK: Embeddings.Create
+// MARK: Create
 
 extension Embeddings {
   
   /// A ``Call`` that creates an embedding vector representing the input text.
   ///
   /// ## See Also
+  /// 
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings/create)
   /// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
   public struct Create: JSONPostCall, Equatable {
@@ -66,6 +69,8 @@ extension Embeddings {
   }
 }
 
+// MARK: Expressible
+
 extension Embeddings.Create.Input: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
   /// Initializes the `Input` with a `String` literal value.
   ///
@@ -83,6 +88,8 @@ extension Embeddings.Create.Input: ExpressibleByArrayLiteral {
     self = .tokens(elements)
   }
 }
+
+// MARK: Codable
 
 extension Embeddings.Create.Input: Codable {
   public init(from decoder: Decoder) throws {

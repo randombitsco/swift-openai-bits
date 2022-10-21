@@ -3,10 +3,20 @@ import MultipartForm
 
 /// Files are used to upload documents that can be used with features like ``FineTunes``.
 ///
+/// ## Calls
+///
+/// - ``Files/List`` - Lists available ``File``s.
+/// - ``Files/Upload`` - Uploads a new ``File`` with a specific ``Files/Upload/Purpose-swift.enum``.
+/// - ``Files/Delete`` - Deletes a specific ``File``.
+/// - ``Files/Detail`` - Retrieves details of a specific ``File``.
+/// - ``Files/Content`` - Downloads the content of a ``File``.
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)
 public enum Files {}
+
+// MARK: List
 
 extension Files {
   /// Returns a list of files that belong to the user's organization.
@@ -25,6 +35,8 @@ extension Files {
   }
 }
 
+// MARK: Upload
+
 extension Files { 
   /// Upload a file that contains document(s) to be used across various endpoints/features. 
   /// Currently, the size of all the files uploaded by one organization can be up to 1 GB. 
@@ -42,8 +54,10 @@ extension Files {
       case classifications
     }
     
+    /// Responds with a ``File``.
     public typealias Response = File
     
+    /// The path.
     var path: String { "files" }
     
     /// The Multipart boundary marker.
@@ -94,6 +108,8 @@ extension Files {
   }
 }
 
+// MARK: Delete
+
 extension Files {
   /// Attempts to delete the nominated file, if one exists with the provided ``File/ID-swift.struct``.
   ///
@@ -134,6 +150,8 @@ extension Files {
   }
 }
 
+// MARK: Detail
+
 extension Files { 
   /// Returns information about a specific file ``File/ID-swift.struct``.
   ///
@@ -156,6 +174,8 @@ extension Files {
     }
   }
 }
+
+// MARK: Content
 
 extension Files { 
   /// Returns the contents of the specified file ``File/ID-swift.struct``.

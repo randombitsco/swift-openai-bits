@@ -11,10 +11,10 @@ public struct Moderation: Identified, JSONResponse {
     }
   }
   
-  /// The ``Moderation`` `ID`.
+  /// The ``Moderation/ID-swift.struct``.
   public let id: ID
   
-  /// The actual moderation model `ID` used to perform the moderation.
+  /// The actual moderation ``Model/ID-swift.struct`` used to perform the moderation.
   public let model: Model.ID
   
   /// The list of ``Moderation/Result``s.
@@ -23,8 +23,8 @@ public struct Moderation: Identified, JSONResponse {
   /// Creates a ``Moderation`` with a specified `id`, `model` and `result`.
   ///
   /// - Parameters:
-  ///   - id: The ``Moderation`` `ID`.
-  ///   - model: The actual ``Model`` `ID` used to perform the moderation.
+  ///   - id: The ``Moderation/ID-swift.struct``.
+  ///   - model: The actual ``Model/ID-swift.struct`` used to perform the moderation.
   ///   - results: The list of ``Moderation/Result``s.
   public init(id: ID, model: Model.ID, results: [Result]) {
     self.id = id

@@ -5,6 +5,6 @@ import Foundation
 /// returning the ``Call/Response`` when successful, or throwing an `Error` if not.
 public protocol Call<Response>: Equatable {
   
-  /// The response data type.
+  /// Every call has a `Response` type, which must be `Equitable`.
   associatedtype Response: Equatable
 }

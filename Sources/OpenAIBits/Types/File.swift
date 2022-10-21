@@ -1,6 +1,10 @@
 import Foundation
 
-/// Represents a file that has been uploaded to OpenAI.
+/// Represents a file that has been uploaded to OpenAI. Created via the ``Files/Upload`` and retrieved by ``Files/Detail``.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)
 public struct File: Identified, JSONResponse, Equatable {
   /// A ``File`` `ID`.
   public struct ID: Identifier {

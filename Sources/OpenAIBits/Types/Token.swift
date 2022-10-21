@@ -1,5 +1,4 @@
-// A single token
-
+/// A single token.
 public struct Token: Equatable, Hashable {
   public let value: Int
   

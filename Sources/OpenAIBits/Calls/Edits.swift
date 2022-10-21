@@ -1,30 +1,46 @@
 import Foundation
 
-/// Represents  [Edits](https://beta.openai.com/docs/api-reference/edits) requests to the OpenAI API.
-///
 /// Given a prompt and an instruction, the model will return an edited version of the prompt.
 ///
-/// The primary request is the ``Edits/Create`` call, which takes an `input` string and an `instruction`, and returns an ``Edit`` value with a list of choices for the edited input.
+/// ## Calls
+///
+/// - ``Edits/Create`` - Creates an ``Edit`` based on an `input` and `instruction`.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits)
+/// - [Editing code guide](https://beta.openai.com/docs/guides/code/editing-code)
 public enum Edits {}
 
+// MARK: Create
+
 extension Edits {
-  /// Send to the API via ``Client/call(_:)`` to create a new ``Edit`` for the provided `input`, `instruction`, and parameters.
+  /// A ``Call`` that creates a new ``Edit`` for the provided ``input``, ``instruction``, and other parameters.
   ///
-  /// For example:
+  /// ## Examples
+  ///
+  /// ### A simple edit
   ///
   /// ```swift
   /// let client = Client(apiKey: "...")
   /// let edit = try await client.call(Edits.Create(
-  ///   model: .davinci
+  ///   model: .davinci,
+  ///   input: "The quick brown fox jumps over the lazy dog."
+  ///   instruction: "Change the dog to a cat."
   /// ))
   /// ```
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits/create)
   public struct Create: JSONPostCall {
     /// Response with an ``Edit``.
     public typealias Response = Edit
     
+    /// The path to the call.
     var path: String { "edits" }
     
-    /// ID of the model to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://beta.openai.com/docs/models/overview) for descriptions of them.
+    /// `ID` of the ``Model`` to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://beta.openai.com/docs/models/overview) for descriptions of them.
     public let model: Model.ID
     
     /// The input text to use as a starting point for the edit.

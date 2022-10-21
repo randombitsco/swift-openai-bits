@@ -1,6 +1,6 @@
 import Foundation
 
-/// Represents a value that can be between `0` and `1`.
+/// Represents a value that can be between `0.0` and `1.0`.
 public struct Percentage: Equatable {
   public let value: Decimal
   

@@ -2,42 +2,34 @@ import Foundation
 
 /// Manage fine-tuning jobs to tailor a model to your specific training data.
 ///
+/// ## Calls
+///
+/// - ``FineTunes/Create`` - Creates a new ``FineTune`` job.
+/// - ``FineTunes/List`` - Lists the organization's ``FineTune`` jobs.
+/// - ``FineTunes/Detail`` - Retrieves the details of a specific ``FineTune`` job.
+/// - ``FineTunes/Cancel`` - Cancels a running ``FineTune`` job, if still in progress.
+/// - ``FineTunes/Events`` - Retrieves the ``FineTune/Event``s for a given job.
+/// - ``FineTunes/Delete`` - Deletes a ``FineTune`` model you own.
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes)
 /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
 public enum FineTunes {}
 
-extension FineTunes {
-  /// Call this to retrieve a list of the organization's fine-tuning jobs.
-  ///
-  /// ## See Also
-  ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/list)
-  public struct List: GetCall {
-    var path: String { "fine-tunes" }
-    
-    /// Responds with a ``ListOf`` ``FineTune``s.
-    public typealias Response = ListOf<FineTune>
-    
-    /// List your organization's fine-tuning jobs.
-    public init() {}
-  }
-}
+// MARK: Create
 
 extension FineTunes {
-  /// Creates a job that fine-tunes a specified model from a given dataset.
+  /// A ``Call`` that creates a ``FineTune`` job that fine-tunes a specified ``Model`` from a given dataset.
   ///
-  /// Response includes details of the enqueued job including job status and the
-  /// name of the fine-tuned models once complete.
-  ///
-  /// Learn more about Fine-tuning
+  /// Response includes details of the enqueued job including job status and the name of the fine-tuned ``Model`` once complete.
   ///
   /// ## See Also
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/create)
   /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
   public struct Create: JSONPostCall {
+    /// The HTTP path for the call.
     var path: String { "fine-tunes" }
     
     /// Responds with a ``FineTune``.
@@ -153,14 +145,36 @@ extension FineTunes {
   }
 }
 
+// MARK: List
+
 extension FineTunes {
-  /// Gets info about the fine-tune job.
+  /// A ``Call`` to list your organization's fine-tuning jobs.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/list)
+  public struct List: GetCall {
+    var path: String { "fine-tunes" }
+    
+    /// Responds with a ``ListOf`` ``FineTune``s.
+    public typealias Response = ListOf<FineTune>
+    
+    /// List your organization's fine-tuning jobs.
+    public init() {}
+  }
+}
+
+// MARK: Detail
+
+extension FineTunes {
+  /// A ``Call`` that gets info about the ``FineTune`` job.
   ///
   /// ## See Also
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/retrieve)
   /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
   public struct Detail: GetCall {
+    /// The HTTP call path.
     var path: String { "fine-tunes/\(id)" }
     
     /// Responds with a ``FineTune``.
@@ -178,8 +192,14 @@ extension FineTunes {
   }
 }
 
+// MARK: Cancel
+
 extension FineTunes {
-  /// Immediately cancel a `fine-tune` job.
+  /// A ``Call`` to immediately cancel a ``FineTune`` job.
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/cancel)
   public struct Cancel: BarePostCall {
     var path: String { "fine-tunes/\(id)/cancel" }
     
@@ -198,15 +218,18 @@ extension FineTunes {
   }
 }
 
+// MARK: Events
+
 extension FineTunes {
-  /// Call this to get a list of ``FineTune/Event``s for a given ``FineTune``.
+  /// A ``Call`` to get fine-grained status updates for a ``FineTune`` job.
   ///
-  /// TODO: Add support for streaming events.
+  /// **TODO:** Add support for streaming events.
   ///
   /// ## See Also
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/events)
   public struct Events: GetCall {
+    /// The HTTP call path.
     var path: String { "fine-tunes/\(id)/events" }
     
     /// Responds with a ``ListOf`` ``FineTune/Event``s.
@@ -224,42 +247,13 @@ extension FineTunes {
   }
 }
 
+// MARK: Delete
+
 extension FineTunes {
   /// Delete a fine-tuned model. You must have the `Owner` role in your organization.
   ///
   /// ## See Also
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/delete-model)
-  public struct Delete: DeleteCall {
-    public var path: String { "models/\(id)" }
-    
-    /// The ``FineTunes/Delete`` `Response`.
-    public struct Response: JSONResponse {
-      /// The ``Model/ID-swift.struct`` for the fine-tuned ``Model`` that was deleted.
-      public let id: Model.ID
-
-      /// Indicates if it was deleted.
-      public let deleted: Bool
-      
-      /// The ``FineTunes/Delete`` `Response`.
-      ///
-      /// - Parameter id: The ``Model/ID-swift.struct`` for the fine-tuned ``Model`` that was deleted.
-      /// - Parameter deleted: Indicates if it was deleted.
-      public init(id: Model.ID, deleted: Bool) {
-        self.id = id
-        self.deleted = deleted
-      }
-    }
-    
-    /// The ``Model/ID-swift.struct`` to delete.
-    public let id: Model.ID
-    
-
-    /// Delete a fine-tuned model. You must have the `Owner` role in your organization.
-    ///
-    /// - Parameter id: The ``Model/ID-swift.struct`` to delete.
-    public init(id: Model.ID) {
-      self.id = id
-    }
-  }
+  public typealias Delete = Models.Delete
 }

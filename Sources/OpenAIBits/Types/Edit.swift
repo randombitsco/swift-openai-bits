@@ -1,6 +1,11 @@
 import Foundation
 
 /// An ``Edit`` is the response from an ``Edits/Create`` call.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits)
+/// - [Editing code guide](https://beta.openai.com/docs/guides/code/editing-code)
 public struct Edit: JSONResponse, Equatable {
   /// The creation date.
   public let created: Date
@@ -30,11 +35,11 @@ public struct Edit: JSONResponse, Equatable {
 
 extension Edit {
   /// A choice returned from an ``Edit`` request.
-  public struct Choice: Equatable, Codable {
+  public struct Choice: Equatable, Codable, CustomStringConvertible {
     /// The text of the generated choice.
     public let text: String
     
-    /// The index of the choice.
+    /// The index of the choice (`0`-based).
     public let index: Int
 
     /// Initializes the choice.
@@ -45,9 +50,7 @@ extension Edit {
       self.text = text
       self.index = index
     }
+    
+    public var description: String { text }
   }
-}
-
-extension Edit.Choice: CustomStringConvertible {
-  public var description: String { text }
 }

@@ -4,6 +4,10 @@ import Foundation
 protocol JSONResponse: HTTPResponse, Codable {}
 
 extension JSONResponse {
+  /// Constructs a new response based on the data and the `HTTPURLResponse`.
+  /// - Parameters:
+  ///   - data: The data.
+  ///   - response: The HTTP response.
   init(data: Data, response: HTTPURLResponse) throws {
     guard isJSON(response: response) else {
       let contentType = response.value(forHTTPHeaderField: CONTENT_TYPE)

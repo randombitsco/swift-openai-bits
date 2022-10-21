@@ -4,7 +4,9 @@ import Foundation
 ///
 /// Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
 ///
-/// The primary request is the ``Completions/Create`` call, which takes a `prompt` `String`, and returns a ``Completion`` value with a list of choices for the prompt.
+/// ## Calls
+///
+/// - ``Completions/Create`` - Creates a new ``Completion`` based on a `prompt`.
 ///
 /// ## See Also
 ///
@@ -13,9 +15,11 @@ import Foundation
 /// - [Code Completion Guide](https://beta.openai.com/docs/guides/code)
 public enum Completions {}
 
+// MARK: Create
+
 extension Completions {
   
-  /// Creates a completion for the provided prompt and parameters.
+  /// A ``Call`` that creates a ``Completion`` for the provided prompt and parameters.
   ///
   /// ## Examples
   /// 
@@ -31,6 +35,7 @@ extension Completions {
   /// ```
   ///
   /// ## See Also
+  ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions/create)
   public struct Create: JSONPostCall {
     /// Responds with a ``Completion``.
@@ -159,8 +164,10 @@ extension Completions {
   }
 }
 
+// MARK: Completions.Stop
+
 extension Completions {
-  /// Represents 1 to 4 "stop" `String` values.
+  /// Represents 1 to 4 "stop" `String` values for a ``Completions/Create`` call.
   public struct Stop: Equatable, Encodable {
     /// The "stop" values.
     public let value: [String]

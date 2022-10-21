@@ -13,6 +13,7 @@ private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to lo
   log("-------------------------------------------")
 }
 
+/// An implementation of ``CallHandler`` that supports subclasses of ``Call`` that are also implement the ``HTTPCall`` protocol.
 struct HTTPCallHandler: CallHandler {
   /// Used to parse an error response from the API.
   struct ErrorResponse: JSONResponse {

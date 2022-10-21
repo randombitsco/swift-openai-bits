@@ -16,6 +16,8 @@ struct AnyKey: CodingKey {
   }
 }
 
+// MARK: jsonEncode
+
 /// Encodes the provided value to a JSON string
 ///
 /// - Parameter value: The value to encode
@@ -24,6 +26,8 @@ struct AnyKey: CodingKey {
 func jsonEncode<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormatting = []) throws -> String {
   return try String(decoding: jsonEncodeData(value, options: options), as: UTF8.self)
 }
+
+// MARK: jsonEncodeData
 
 /// Encodes the provided value to a JSON ``Data`` value
 ///
@@ -41,6 +45,8 @@ func jsonEncodeData<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormat
   return try encoder.encode(value)
 }
 
+// MARK: jsonDecode
+
 /// Attempts to decode the provided `String` value into the target type `T`.
 ///
 /// - Parameters:
@@ -50,6 +56,15 @@ func jsonDecode<T: Decodable>(_ value: String, as targetType: T.Type = T.self) t
   return try jsonDecodeData(value.data(using: .utf8)!)
 }
 
+// MARK: jsonDecodeData
+
+/// Attempts to decode the provided `Data` value into the target type `T`.
+///
+/// - Parameters:
+///   - value: The value to decode.
+///   - targetType: The type the decoded value must escape to.
+/// - Throws: An error if there is a decoding issue.
+/// - Returns: The decoded value.
 func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self) throws -> T {
   let decoder = JSONDecoder()
   decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -63,6 +78,8 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
 let CONTENT_TYPE = "Content-Type"
 let APPLICATION_JSON = "application/json"
 
+// MARK: isJSON
+
 /// Tests if the provided `contentType` is JSON.
 ///
 /// - Parameter contentType: The value to test.
@@ -71,7 +88,7 @@ func isJSON(contentType: String) -> Bool {
   contentType.starts(with: APPLICATION_JSON)
 }
 
-/// Checks if the `"Content-Type"` header in the provided ``HTTPURLResponse`` is JSON.
+/// Checks if the `"Content-Type"` header in the provided ``HTTPURLResponse`` is `JSON`.
 ///
 /// - Parameter response: The ``HTTPURLResponse``.
 /// - Returns `true` if the `"Content-Type"` header is JSON.

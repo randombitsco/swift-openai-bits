@@ -1,6 +1,6 @@
 import Foundation
 
-/// Represents a value that can be between `0` and `1`.
+/// Represents a value that can be between `-2.0` and `2.0`.
 public struct Penalty: Equatable {
   public let value: Decimal
   
@@ -13,13 +13,14 @@ extension Penalty {
   /// Clamps the value between `-2.0` and `2.0`.
   ///
   /// - Parameter value: The value to clamp.
-  /// - Returns the clamped value.
+  /// - Returns: The clamped value.
   public static func clamp(_ value: Decimal) -> Decimal {
     return min(2.0, max(-2.0, value))
   }
 }
 
 extension Penalty: ExpressibleByFloatLiteral {
+  /// Allows creation of a penalty directly with a `Double`.
   public init(floatLiteral value: Double) {
     self.init(Decimal(value))
   }

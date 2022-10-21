@@ -1,6 +1,6 @@
 import Foundation
 
-/// A convenience protocol for `POST` calls which have no body.
+/// A convenience protocol for `POST` HTTP calls which have no body.
 protocol BarePostCall: PostCall {}
 
 extension BarePostCall {

@@ -1,6 +1,12 @@
 import Foundation
 
 /// Response from a ``Completions/Create`` request.
+///
+/// ## See Also
+///
+/// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions)
+/// - [Text Completion Guide](https://beta.openai.com/docs/guides/completion)
+/// - [Code Completion Guide](https://beta.openai.com/docs/guides/code)
 public struct Completion: Identified, JSONResponse, Equatable {
   /// The unique identifier for a ``Completion``.
   public struct ID: Identifier {
@@ -52,11 +58,16 @@ public struct Completion: Identified, JSONResponse, Equatable {
 // MARK: Completion.FinishReason
 
 extension Completion {
+  /// The reason that the result ``Completion/Choice`` finished.
   public enum FinishReason: RawRepresentable, Equatable, Codable, CustomStringConvertible {
+    /// It finished due to hitting the token maximum.
     case length
+    /// The model has no further predictions given the input.
     case stop
+    /// Some other result.
     case other(String)
     
+    /// The raw value, as a `String`.
     public var rawValue: String {
       switch self {
       case .length: return "length"
@@ -65,6 +76,8 @@ extension Completion {
       }
     }
     
+    /// Initialize given a raw `String` value.
+    /// - Parameter rawValue: The value.
     public init(rawValue: String) {
       switch rawValue {
       case "length": self = .length
@@ -73,6 +86,7 @@ extension Completion {
       }
     }
     
+    /// The `String` value.
     public var description: String { rawValue }
   }
 }
@@ -80,7 +94,7 @@ extension Completion {
 // MARK: Completion.Choice
 
 extension Completion {
-  /// One of the completion choices.
+  /// One of the ``Completion`` choices.
   public struct Choice: Equatable, Codable {
     /// The text of the completion.
     public let text: String
