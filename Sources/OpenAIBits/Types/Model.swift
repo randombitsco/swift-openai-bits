@@ -123,12 +123,12 @@ extension Model {
     public init(
       id: Model.Permission.ID,
       created: Date,
-      allowCreateEngine: Bool = true,
-      allowSampling: Bool = true,
-      allowLogprobs: Bool = true,
-      allowSearchIndices: Bool = true,
-      allowView: Bool = true,
-      allowFineTuning: Bool = true,
+      allowCreateEngine: Bool = false,
+      allowSampling: Bool = false,
+      allowLogprobs: Bool = false,
+      allowSearchIndices: Bool = false,
+      allowView: Bool = false,
+      allowFineTuning: Bool = false,
       organization: String,
       group: String? = nil,
       isBlocking: Bool = false
