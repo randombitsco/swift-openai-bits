@@ -1,3 +1,5 @@
+import Foundation
+
 /// Represents an embedding, a vector representation of a given input that can be easily consumed by machine learning models and algorithms. Created via ``Embeddings/Create``.
 ///
 /// ## See Also
@@ -6,7 +8,7 @@
 /// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
 public struct Embedding: Equatable, Codable {
   /// The embedding digits.
-  public let embedding: [Double]
+  public let embedding: [Decimal]
   
   /// The index of the embedding result (`0`-based).
   public let index: Int
@@ -15,7 +17,7 @@ public struct Embedding: Equatable, Codable {
   /// - Parameters:
   ///   - embedding: The embedding vector values.
   ///   - index: The index of the result.
-  public init(embedding: [Double], index: Int) {
+  public init(embedding: [Decimal], index: Int) {
     self.embedding = embedding
     self.index = index
   }
