@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "MultipartForm",
-        "repositoryURL": "https://github.com/davbeck/MultipartForm",
-        "state": {
-          "branch": null,
-          "revision": "c91979ea956a360bf84f0cc480afbcc7c946c753",
-          "version": "0.1.0"
-        }
-      },
-      {
-        "package": "swift-custom-dump",
-        "repositoryURL": "https://github.com/pointfreeco/swift-custom-dump",
-        "state": {
-          "branch": null,
-          "revision": "819d9d370cd721c9d87671e29d947279292e4541",
-          "version": "0.6.0"
-        }
-      },
-      {
-        "package": "xctest-dynamic-overlay",
-        "repositoryURL": "https://github.com/pointfreeco/xctest-dynamic-overlay",
-        "state": {
-          "branch": null,
-          "revision": "30314f1ece684dd60679d598a9b89107557b67d9",
-          "version": "0.4.1"
-        }
+  "pins" : [
+    {
+      "identity" : "multipartform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/davbeck/MultipartForm",
+      "state" : {
+        "revision" : "c91979ea956a360bf84f0cc480afbcc7c946c753",
+        "version" : "0.1.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swift-custom-dump",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-custom-dump",
+      "state" : {
+        "revision" : "819d9d370cd721c9d87671e29d947279292e4541",
+        "version" : "0.6.0"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "16e6409ee82e1b81390bdffbf217b9c08ab32784",
+        "version" : "0.5.0"
+      }
+    }
+  ],
+  "version" : 2
 }
