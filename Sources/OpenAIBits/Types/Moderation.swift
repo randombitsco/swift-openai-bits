@@ -1,3 +1,5 @@
+import Foundation
+
 // MARK: Moderation
 
 /// The response from a ``Moderations/Create`` call.
@@ -59,7 +61,7 @@ extension Moderation {
     @CodableDictionary public var categories: [Category: Bool]?
     
     /// The set of ``Moderation/Category`` scores in the ``Moderation/Result``.
-    @CodableDictionary public var categoryScores: [Category: Double]?
+    @CodableDictionary public var categoryScores: [Category: Decimal]?
     
     /// Indicates if the result was flagged in any category.
     public let flagged: Bool
@@ -70,7 +72,7 @@ extension Moderation {
     ///   - categories: The set of ``Moderation/Category`` results.
     ///   - categoryScores: The set of ``Moderation/Category`` scores.
     ///   - flagged: Is `true` if any category was flagged.
-    public init(categories: [Category : Bool], categoryScores: [Category : Double], flagged: Bool) {
+    public init(categories: [Category : Bool], categoryScores: [Category : Decimal], flagged: Bool) {
       self.categories = categories
       self.categoryScores = categoryScores
       self.flagged = flagged

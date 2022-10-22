@@ -68,7 +68,7 @@ extension Moderations {
 
 extension Moderations {
   /// Two content moderations models are available: ``stable`` and ``latest``.
-  public enum Model: String, Equatable, Encodable {
+  public enum Model: String, Equatable, CaseIterable, Encodable {
     /// The most accurate model, automatically upgraded over time.
     case latest = "text-moderation-latest"
     /// Advanced notice will be provided before updating the model.
