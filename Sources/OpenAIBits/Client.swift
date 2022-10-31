@@ -50,9 +50,22 @@ extension Client {
   }
 }
 
+struct DefaultCallHandler: CallHandler {
+  func execute<C>(call: C, with client: Client) async throws -> C.Response where C : Call {
+    guard let call = call as? any ExecutableCall else {
+      throw Client.Error.unsupportedCall(C.self)
+    }
+    let response = try await call.execute(with: client)
+    guard let response = response as? C.Response else {
+      throw Client.Error.unexpectedResponse(String(describing: response))
+    }
+    return response
+  }
+}
+
 extension Client {
   /// The current ``CallHandler``. Defaults to ``HTTPCallHandler``.
-  static var handler: CallHandler = HTTPCallHandler()
+  static var handler: CallHandler = DefaultCallHandler()
 
   /// Execute the specified ``Call``, returning the specified ``Call/Response``.
   ///
