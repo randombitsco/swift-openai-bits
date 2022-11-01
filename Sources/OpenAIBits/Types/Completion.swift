@@ -7,7 +7,7 @@ import Foundation
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions)
 /// - [Text Completion Guide](https://beta.openai.com/docs/guides/completion)
 /// - [Code Completion Guide](https://beta.openai.com/docs/guides/code)
-public struct Completion: Identified, JSONResponse, Equatable {
+public struct Completion: Identifiable, JSONResponse, Equatable {
   /// The unique identifier for a ``Completion``.
   public struct ID: Identifier {
     public let value: String

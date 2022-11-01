@@ -5,7 +5,7 @@ import Foundation
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)
-public struct File: Identified, JSONResponse, Equatable {
+public struct File: Identifiable, JSONResponse, Equatable {
   /// A ``File`` `ID`.
   public struct ID: Identifier {
     /// The value.

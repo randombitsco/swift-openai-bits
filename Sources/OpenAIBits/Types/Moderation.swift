@@ -3,7 +3,7 @@ import Foundation
 // MARK: Moderation
 
 /// The response from a ``Moderations/Create`` call.
-public struct Moderation: Identified, JSONResponse {
+public struct Moderation: Identifiable, JSONResponse {
   /// The unique identifier for the moderation response.
   public struct ID: Identifier {
     public var value: String

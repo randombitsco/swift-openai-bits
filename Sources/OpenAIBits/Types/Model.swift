@@ -1,7 +1,7 @@
 import Foundation
 
 /// Describes a trained model.
-public struct Model: Identified, JSONResponse, Equatable {
+public struct Model: Identifiable, JSONResponse, Equatable {
   /// The `ID` for a ``Model``.
   public struct ID: Identifier {
     /// The actual value.
@@ -60,7 +60,7 @@ public struct Model: Identified, JSONResponse, Equatable {
 
 extension Model {
   /// Describes ther permissions allowed for a model.
-  public struct Permission: Identified, Equatable, Codable {
+  public struct Permission: Identifiable, Equatable, Codable {
     /// The unique `ID` for the ``Permission``.
     public struct ID: Identifier {
       public var value: String
