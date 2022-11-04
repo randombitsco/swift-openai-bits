@@ -1,11 +1,16 @@
-/// A single token.
+/// A single token. Each token references a string of one or more characters.
 public struct Token: Equatable, Hashable {
+  /// The `Int` value of the token.
   public let value: Int
   
+  /// Initializes a new token.
+  /// - Parameter value: The token value.
   public init(_ value: Int) {
     self.value = value
   }
 }
+
+// MARK: Codable
 
 extension Token: Codable {
   public init(from decoder: Decoder) throws {
@@ -20,10 +25,16 @@ extension Token: Codable {
 }
 
 extension Token: ExpressibleByIntegerLiteral {
+  /// A ``Token`` can be initialized directly with an `Int` literal.
+  /// - Parameter value: The value.
   public init(integerLiteral value: Int) {
     self.init(value)
   }
 }
+
+// MARK: RawRepresentable
+
+// Note: This allows Tokens to be converted to and from `String`s, which are used when tokens are used as dictionary key in ``Embedding`` results.
 
 extension Token: RawRepresentable {
   public var rawValue: String {

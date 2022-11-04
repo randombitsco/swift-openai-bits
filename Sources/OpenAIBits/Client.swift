@@ -40,7 +40,13 @@ extension Client {
 
     /// The error code, if any.
     public let code: Int?
-
+    
+    /// Initializes a new ``Client``.
+    /// - Parameters:
+    ///   - type: The type of the error.
+    ///   - code: The code (optional)
+    ///   - param: The parameter name.
+    ///   - message: The message.
     public init(type: String, code: Int? = nil, param: String? = nil, message: String) {
       self.type = type
       self.code = code
@@ -50,7 +56,14 @@ extension Client {
   }
 }
 
-struct DefaultCallHandler: CallHandler {
+/// The default implementation for ``CallHandler``.
+struct ExecutableCallHandler: CallHandler {
+  /// Executes the call if it implements ``ExecutableCall``.
+  /// - Parameters:
+  ///   - call: The ``Call``.
+  ///   - client: The ``Client.``
+  /// - Returns: The ``Call/Response``.
+  /// - Throws: An ``Client/Error`` if the ``Call`` does not implement ``ExecutableCall``, or if executing the throws an error.
   func execute<C>(call: C, with client: Client) async throws -> C.Response where C : Call {
     guard let call = call as? any ExecutableCall else {
       throw Client.Error.unsupportedCall(C.self)
@@ -65,7 +78,7 @@ struct DefaultCallHandler: CallHandler {
 
 extension Client {
   /// The current ``CallHandler``. Defaults to ``HTTPCallHandler``.
-  static var handler: CallHandler = DefaultCallHandler()
+  static var handler: CallHandler = ExecutableCallHandler()
 
   /// Execute the specified ``Call``, returning the specified ``Call/Response``.
   ///
@@ -91,14 +104,23 @@ extension Client.Error: CustomStringConvertible, CustomDebugStringConvertible {
     description
   }
   
-  static func unsupportedCall<C: Call>(_ request: C.Type) -> Client.Error {
-    .init(type: "unsupported_call", message: String(describing: request))
+  /// Creates an ``Client/Error`` indicating the provided ``Call`` type is not supported.
+  /// - Parameter request: The call.
+  /// - Returns: The ``Client/Error``.
+  static func unsupportedCall<C: Call>(_ call: C.Type) -> Client.Error {
+    .init(type: "unsupported_call", message: String(describing: call))
   }
   
+  /// Creates an ``Client/Error`` indicating a URL was invalid. This is usually a bug in the API.
+  /// - Parameter url: The URL.
+  /// - Returns: The ``Client/Error``.
   static func invalidURL(_ url: String) -> Client.Error {
     .init(type: "invalid_url", message: url)
   }
   
+  /// Creates an ``Client/Error`` indicating the response was unexpected.
+  /// - Parameter message: The message.
+  /// - Returns: The ``Client/Error``.
   static func unexpectedResponse(_ message: String) -> Client.Error {
     .init(type: "unexpected_response", message: message)
   }

@@ -3,14 +3,19 @@ import Foundation
 /// A ``Prompt`` can be a single `String`, an array of `String`s, a ``Token`` array, or an array of ``Token`` arrays.
 /// You can also assign it directly with `String` literal value, which will result in a ``Prompt/string(_:)`` value.
 public enum Prompt: Equatable {
+  /// The prompt, as a `String`.
   case string(String)
+  /// The prompt, as an array of `String`s.
   case strings([String])
+  /// The prompt, as an array of ``Token``s.
   case tokenArray([Token])
+  /// The prompt, as an array of ``Token`` arrays.
   case tokenArrays([[Token]])
 }
 
 extension Prompt: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
   /// Initialises the ``Prompt`` with a `String` literal value.
+  /// - Parameter value: The value.
   public init(stringLiteral value: String) {
     self = .string(value)
   }

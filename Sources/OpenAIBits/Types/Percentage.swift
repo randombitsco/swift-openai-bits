@@ -4,6 +4,8 @@ import Foundation
 public struct Percentage: Equatable {
   public let value: Decimal
   
+  /// Creates the percentage, clamping between `0.0` and `1.0`.
+  /// - Parameter value: The value.
   public init(_ value: Decimal) {
     self.value = Self.clamp(value)
   }
@@ -20,6 +22,8 @@ extension Percentage {
 }
 
 extension Percentage: ExpressibleByFloatLiteral {
+  /// Allows the ``Percentage`` to be created via direct assignment from a `Double`.
+  /// - Parameter value: The double value.
   public init(floatLiteral value: Double) {
     self.init(Decimal(value))
   }

@@ -2,6 +2,10 @@ import Foundation
 
 /// Represents an embedding, a vector representation of a given input that can be easily consumed by machine learning models and algorithms. Created via ``Embeddings/Create``.
 ///
+/// ## Related Calls
+///
+///- ``Embeddings/Create``
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings)

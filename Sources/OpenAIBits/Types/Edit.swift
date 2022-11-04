@@ -2,6 +2,10 @@ import Foundation
 
 /// An ``Edit`` is the response from an ``Edits/Create`` call.
 ///
+/// ## Related Calls
+///
+///- ``Edits/Create``
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits)

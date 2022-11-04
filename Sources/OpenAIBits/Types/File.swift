@@ -2,6 +2,14 @@ import Foundation
 
 /// Represents a file that has been uploaded to OpenAI. Created via the ``Files/Upload`` and retrieved by ``Files/Detail``.
 ///
+/// ## Related Calls
+///
+/// - ``Files/Content
+/// - ``Files/Delete``
+/// - ``Files/Detail``
+/// - ``Files/List``
+/// - ``Files/Upload``
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)

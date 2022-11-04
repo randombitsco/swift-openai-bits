@@ -2,6 +2,10 @@ import Foundation
 
 /// Response from a ``Completions/Create`` request.
 ///
+/// ## Related Calls
+///
+/// - ``Completions/Create``
+///
 /// ## See Also
 ///
 /// - [OpenAI API](https://beta.openai.com/docs/api-reference/completions)
