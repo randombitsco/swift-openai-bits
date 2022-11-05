@@ -21,8 +21,10 @@ extension Images {
 
   /// The options for the response format.
   public enum ResponseFormat: String, Codable {
-    case url
-    case base64 = "b64_json"
+    /// The response will be a URL link to the image.
+    case link = "url"
+    /// The response will be binary data for the image.
+    case bytes = "b64_json"
   }
 }
 
@@ -42,6 +44,7 @@ extension Images {
   ///   prompt: "a white siamese cat",
   ///   n: 1,
   ///   size: .of1024x1024
+  ///   responseFormat: .link
   /// ))
   /// ```
   ///

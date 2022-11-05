@@ -5,7 +5,7 @@ import CustomDump
 final class ImagesTests: XCTestCase {
 
   func testImageDataURLToJSON() throws {
-    let value = Image.Data.url(URL(string: "http://foo.bar")!)
+    let value = Image.Data.link(URL(string: "http://foo.bar")!)
     XCTAssertNoDifference(
       #"{"url":"http://foo.bar"}"#,
       try jsonEncode(value, options: [.withoutEscapingSlashes]))
@@ -14,14 +14,14 @@ final class ImagesTests: XCTestCase {
   func testImageDataURLFromJSON() throws {
     let value: Image.Data = try jsonDecode(#"{"url":"http://foo.bar"}"#)
     XCTAssertNoDifference(
-      Image.Data.url(URL(string: "http://foo.bar")!),
+      Image.Data.link(URL(string: "http://foo.bar")!),
       value
     )
   }
 
   func testImageDataBase64ToJSON() throws {
     let data = "ABC".data(using: .utf8)!
-    let value = Image.Data.base64(data)
+    let value = Image.Data.bytes(data)
     XCTAssertNoDifference(
       #"{"b64_json":"QUJD"}"#,
       try jsonEncode(value, options: [.withoutEscapingSlashes]))
@@ -31,7 +31,7 @@ final class ImagesTests: XCTestCase {
     let data = "ABC".data(using: .utf8)!
     let value: Image.Data = try jsonDecode(#"{"b64_json":"QUJD"}"#)
     XCTAssertNoDifference(
-      Image.Data.base64(data),
+      Image.Data.bytes(data),
       value
     )
   }
@@ -40,7 +40,7 @@ final class ImagesTests: XCTestCase {
     let now = Date(timeIntervalSince1970: 1589478378)
     let value = Image(
       created: now,
-      data: [.url(URL(string: "http://foo.bar")!)]
+      data: [.link(URL(string: "http://foo.bar")!)]
     )
 
     XCTAssertNoDifference("""
@@ -51,7 +51,7 @@ final class ImagesTests: XCTestCase {
   }
   
   func testImagesRequestFormatToJSON() throws {
-    let value = Images.ResponseFormat.base64
+    let value = Images.ResponseFormat.bytes
     XCTAssertEqual(#""b64_json""#, try jsonEncode(value))
   }
   
@@ -60,7 +60,7 @@ final class ImagesTests: XCTestCase {
       prompt: "foobar",
       n: 2,
       size: .of256x256,
-      responseFormat: .base64,
+      responseFormat: .bytes,
       user: "jblogs"
     )
     
