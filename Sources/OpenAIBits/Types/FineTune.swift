@@ -160,9 +160,15 @@ extension FineTune {
 extension FineTune {
   /// Event
   public struct Event: Equatable, Codable {
-    public let createdAt: Date
+    public let created: Date
     public let level: String
     public let message: String
+    
+    enum CodingKeys: String, CodingKey {
+      case created = "createdAt"
+      case level
+      case message
+    }
   }
 }
 
