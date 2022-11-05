@@ -28,7 +28,7 @@ extension Images {
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/images/generations)
   public struct Generations: JSONPostCall {
-    public typealias Response = ListOf<Image>
+    public typealias Response = Image
 
     /// The options for image size generated.
     public enum Size: String, Codable {
