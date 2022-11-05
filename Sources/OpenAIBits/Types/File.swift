@@ -34,7 +34,7 @@ public struct File: Identifiable, JSONResponse, Equatable {
   public let bytes: Int64
   
   /// The date it was created at.
-  public let createdAt: Date
+  public let created: Date
   
   /// The filename.
   public let filename: String
@@ -47,4 +47,16 @@ public struct File: Identifiable, JSONResponse, Equatable {
   
   /// The details of the file status.
   public let statusDetails: String?
+}
+
+extension File {
+  enum CodingKeys: String, CodingKey {
+    case id
+    case bytes
+    case created = "createdAt"
+    case filename
+    case purpose
+    case status
+    case statusDetails
+  }
 }

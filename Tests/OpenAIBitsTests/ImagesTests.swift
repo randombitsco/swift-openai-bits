@@ -5,23 +5,23 @@ import CustomDump
 final class ImagesTests: XCTestCase {
 
   func testImageDataURLToJSON() throws {
-    let value = Image.Data.link(URL(string: "http://foo.bar")!)
+    let value = Generations.Image.url(URL(string: "http://foo.bar")!)
     XCTAssertNoDifference(
       #"{"url":"http://foo.bar"}"#,
       try jsonEncode(value, options: [.withoutEscapingSlashes]))
   }
 
   func testImageDataURLFromJSON() throws {
-    let value: Image.Data = try jsonDecode(#"{"url":"http://foo.bar"}"#)
+    let value: Generations.Image = try jsonDecode(#"{"url":"http://foo.bar"}"#)
     XCTAssertNoDifference(
-      Image.Data.link(URL(string: "http://foo.bar")!),
+      Generations.Image.url(URL(string: "http://foo.bar")!),
       value
     )
   }
 
   func testImageDataBase64ToJSON() throws {
     let data = "ABC".data(using: .utf8)!
-    let value = Image.Data.bytes(data)
+    let value = Generations.Image.data(data)
     XCTAssertNoDifference(
       #"{"b64_json":"QUJD"}"#,
       try jsonEncode(value, options: [.withoutEscapingSlashes]))
@@ -29,18 +29,18 @@ final class ImagesTests: XCTestCase {
 
   func testImageDataBase64FromJSON() throws {
     let data = "ABC".data(using: .utf8)!
-    let value: Image.Data = try jsonDecode(#"{"b64_json":"QUJD"}"#)
+    let value: Generations.Image = try jsonDecode(#"{"b64_json":"QUJD"}"#)
     XCTAssertNoDifference(
-      Image.Data.bytes(data),
+      Generations.Image.data(data),
       value
     )
   }
 
   func testImageToJSON() throws {
     let now = Date(timeIntervalSince1970: 1589478378)
-    let value = Image(
+    let value = Generations(
       created: now,
-      data: [.link(URL(string: "http://foo.bar")!)]
+      images: [.url(URL(string: "http://foo.bar")!)]
     )
 
     XCTAssertNoDifference("""
@@ -51,16 +51,16 @@ final class ImagesTests: XCTestCase {
   }
   
   func testImagesRequestFormatToJSON() throws {
-    let value = Images.ResponseFormat.bytes
+    let value = Images.ResponseFormat.data
     XCTAssertEqual(#""b64_json""#, try jsonEncode(value))
   }
   
   func testImagesGenerationsToJSON() throws {
-    let value = Images.Generations(
+    let value = Images.Create(
       prompt: "foobar",
       n: 2,
       size: .of256x256,
-      responseFormat: .bytes,
+      responseFormat: .data,
       user: "jblogs"
     )
     

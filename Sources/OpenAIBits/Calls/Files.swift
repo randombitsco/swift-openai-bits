@@ -66,7 +66,7 @@ extension Files {
     /// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
     ///
     /// If the purpose is set to `.fineTune`, each line is a JSON record with "prompt" and "completion" fields representing your [training examples](https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data).
-    public let file: String?
+    public let filename: String
     
     /// The intended purpose of the uploaded documents.
     ///
@@ -74,33 +74,52 @@ extension Files {
     /// This allows OpenAI to validate the format of the uploaded file.
     public let purpose: Purpose
     
-    /// The file `URL`, pointing at the file data to upload.
-    public let source: URL
+    /// The file `Data`.
+    public let data: Data
     
     /// Create a new upload call.
     ///
-    /// - Parameter file: The filename. If not provided, the filename from the `source` is used.
+    /// - Parameter filename: The filename.
     /// - Parameter purpose: The ``Files/Upload/Purpose-swift.enum`` of the upload.
-    /// - Parameter source: The `URL` to the file to upload.
-    public init(file: String? = nil, purpose: Purpose, source: URL) {
-      self.file = file
+    /// - Parameter data: The `Data` to the file to upload.
+    public init(
+      filename: String,
+      purpose: Purpose,
+      data: Data
+    ) {
+      self.filename = filename
       self.purpose = purpose
-      self.source = source
+      self.data = data
     }
+    
+    /// Create a new upload call from a `URL`.
+    /// - Parameters:
+    ///   - filename: The filename. Uses the `URL`s `lastPathComponent` if not provided.
+    ///   - purpose: The ``purpose-swift.property``.
+    ///   - url: The `URL` to load the file from.
+    public init(
+      filename: String? = nil,
+      purpose: Purpose,
+      url: URL
+    ) throws {
+      self.filename = filename ?? url.lastPathComponent
+      self.purpose = purpose
+      self.data = try Data(contentsOf: url)
+    }
+    
+    /// Create a new upload call.
+    ///
+    /// - Parameter file: The filename. If not specified, it uses the
     
     /// Returns a `MultipartForm` based on the purpose and file.
     ///
     /// - Returns the form.
     /// - Throws an error if unable to load the file.
     public func getForm() throws -> MultipartForm {
-      let data = try Data(contentsOf: source)
-
-      let file = file ?? source.lastPathComponent
-
       return MultipartForm(
         parts: [
           .init(name: "purpose", value: purpose.rawValue),
-          .init(name: "file", data: data, filename: file),
+          .init(name: "file", data: data, filename: filename),
         ],
         boundary: boundary
       )

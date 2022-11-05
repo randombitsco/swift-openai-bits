@@ -1,30 +1,42 @@
 import Foundation
 
-public struct Image: JSONResponse, Equatable {
-  public enum Data: Codable, Equatable {
-    case link(URL)
-    case bytes(Foundation.Data)
+public struct Generations: JSONResponse, Equatable {
+  /// The image data.
+  public enum Image: Codable, Equatable {
+    case url(URL)
+    case data(Foundation.Data)
   }
-
+  
+  /// The `Date` the images were created.
   public let created: Date
-
-  public let data: [Data]
+  
+  /// The list of images.
+  public let images: [Image]
 }
 
-extension Image.Data {
+extension Generations {
+  enum CodingKeys: String, CodingKey {
+    case created
+    case images = "data"
+  }
+}
+
+extension Generations.Image {
   
+  /// Loads the `Data` for the image, no matter which response type is nominated.
+  /// - Returns: The `Data`.
   public func getData() throws -> Foundation.Data {
     switch self {
-    case .link(let url):
+    case .url(let url):
       return try Data(contentsOf: url)
-    case .bytes(let data):
+    case .data(let data):
       return data
     }
   }
 
   enum CodingKeys: String, CodingKey {
-    case link = "url"
-    case bytes = "b64Json"
+    case url
+    case data = "b64Json"
   }
 
   /// Decodes an image from a response data. It will be either an object with a `url` field, containing a string with the URL, or a `b64_json` field, containing a string with the base64-encoded string value for the image data.
@@ -32,13 +44,13 @@ extension Image.Data {
     // get a keyed container
     let container = try decoder.container(keyedBy: CodingKeys.self)
     // try to decode the url
-    if let url = try container.decodeIfPresent(URL.self, forKey: .link) {
-      self = .link(url)
+    if let url = try container.decodeIfPresent(URL.self, forKey: .url) {
+      self = .url(url)
       return
     }
     // try to decode the base64
-    if let base64 = try container.decodeIfPresent(Data.self, forKey: .bytes) {
-      self = .bytes(base64)
+    if let base64 = try container.decodeIfPresent(Data.self, forKey: .data) {
+      self = .data(base64)
       return
     }
     // if we get here, we couldn't decode either
@@ -48,10 +60,10 @@ extension Image.Data {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     switch self {
-    case .link(let url):
-      try container.encode(url, forKey: .link)
-    case .bytes(let data):
-      try container.encode(data, forKey: .bytes)
+    case .url(let url):
+      try container.encode(url, forKey: .url)
+    case .data(let data):
+      try container.encode(data, forKey: .data)
     }
   }
 }

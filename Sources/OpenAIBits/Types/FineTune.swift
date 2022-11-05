@@ -34,7 +34,7 @@ public struct FineTune: Identifiable, JSONResponse {
   public let fineTunedModel: OpenAIBits.Model.ID?
   
   /// The creation date.
-  public let createdAt: Date
+  public let created: Date
   
   /// The list of ``Event``s related to the job.
   public let events: [Event]?
@@ -58,14 +58,14 @@ public struct FineTune: Identifiable, JSONResponse {
   public let trainingFiles: [File]
   
   /// The last update date.
-  public let updatedAt: Date
+  public let updated: Date
   
   /// Constructs a `fine-tune` job description.
   ///
   /// - Parameters:
   ///   - id: The unique ``FineTune/ID-swift.struct``.
   ///   - model: The ``Model-swift.enum`` being fine-tuned.
-  ///   - createdAt: The creation date.
+  ///   - created: The creation date.
   ///   - events: The list of ``Event``s.
   ///   - fineTunedModel: The ``Model/ID-swift.struct`` of the resulting fine-tuned ``Model``.
   ///   - hyperparams: The ``Hyperparams-swift.struct``.
@@ -74,11 +74,11 @@ public struct FineTune: Identifiable, JSONResponse {
   ///   - status: The current status.
   ///   - validationFiles: The list of ``File``s used for validation of the training.
   ///   - trainingFiles: The list of ``File``s used for training.
-  ///   - updatedAt: The last update date.
-  public init(id: ID, model: Model, createdAt: Date, events: [Event]?, fineTunedModel: OpenAIBits.Model.ID?, hyperparams: Hyperparams, organizationId: String, resultFiles: [File], status: String, validationFiles: [File], trainingFiles: [File], updatedAt: Date) {
+  ///   - updated: The last update date.
+  public init(id: ID, model: Model, created: Date, events: [Event]?, fineTunedModel: OpenAIBits.Model.ID?, hyperparams: Hyperparams, organizationId: String, resultFiles: [File], status: String, validationFiles: [File], trainingFiles: [File], updated: Date) {
     self.id = id
     self.model = model
-    self.createdAt = createdAt
+    self.created = created
     self.events = events
     self.fineTunedModel = fineTunedModel
     self.hyperparams = hyperparams
@@ -87,7 +87,24 @@ public struct FineTune: Identifiable, JSONResponse {
     self.status = status
     self.validationFiles = validationFiles
     self.trainingFiles = trainingFiles
-    self.updatedAt = updatedAt
+    self.updated = updated
+  }
+}
+
+extension FineTune {
+  enum CodingKeys: String, CodingKey {
+    case id
+    case model
+    case created = "createdAt"
+    case events
+    case fineTunedModel
+    case hyperparams
+    case organizationId
+    case resultFiles
+    case status
+    case validationFiles
+    case trainingFiles
+    case updated = "updatedAt"
   }
 }
 
