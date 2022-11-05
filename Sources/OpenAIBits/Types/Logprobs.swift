@@ -1,6 +1,6 @@
 /// The `logprobs` for a ``Completion/Choice``. Each array is the same length, and refers to the token in the
 public struct Logprobs: Codable, Equatable {
-  /// The list of tokens in the text of the ``Choice``.
+  /// The list of tokens in the text of the ``Completion/Choice``.
   public let tokens: [String]
   
   /// The logprobs for the matching token.

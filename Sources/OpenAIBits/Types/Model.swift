@@ -23,7 +23,7 @@ public struct Model: Identifiable, JSONResponse, Equatable {
   /// The owner ID.
   public let ownedBy: String
   
-  /// The list of ``Permission``s for the ``Model``.
+  /// The list of ``Model/Permission-swift.struct``s for the ``Model``.
   public let permission: [Model.Permission]
   
   /// The root ``Model/ID-swift.struct``.
@@ -35,10 +35,10 @@ public struct Model: Identifiable, JSONResponse, Equatable {
   /// Constructs a ``Model``.
   ///
   /// - Parameters:
-  ///   - id: The ``id``.
+  ///   - id: The ``ID-swift.struct``.
   ///   - created: The ``created`` date.
   ///   - ownedBy: The ``ownedBy`` ID.
-  ///   - permission: The ``permission`` list.
+  ///   - permission: The ``permission-swift.property`` list.
   ///   - root: The ``root`` ID.
   ///   - parent: The ``parent`` ID.
   public init(
@@ -61,7 +61,7 @@ public struct Model: Identifiable, JSONResponse, Equatable {
 extension Model {
   /// Describes ther permissions allowed for a model.
   public struct Permission: Identifiable, Equatable, Codable {
-    /// The unique `ID` for the ``Permission``.
+    /// The unique `ID` for the ``Model/Permission-swift.struct``.
     public struct ID: Identifier {
       public var value: String
       
@@ -109,7 +109,7 @@ extension Model {
     /// Constructs permissions.
     ///
     /// - Parameters:
-    ///   - id: The ``id``.
+    ///   - id: The ``Model/Permission-swift.struct/ID-swift.struct``.
     ///   - created: The ``created`` date.
     ///   - allowCreateEngine: Does it ``allowCreateEngine``?
     ///   - allowSampling: Does it ``allowSampling``?
