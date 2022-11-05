@@ -4,13 +4,13 @@ import CustomDump
 
 final class ImagesTests: XCTestCase {
 
-    func testImageDataURLToJSON() throws {
-      let value = Image.Data.url(URL(string: "http://foo.bar")!)
-      XCTAssertNoDifference(
-        #"{"url":"http://foo.bar"}"#,
-        try jsonEncode(value, options: [.withoutEscapingSlashes]))
-    }
-  
+  func testImageDataURLToJSON() throws {
+    let value = Image.Data.url(URL(string: "http://foo.bar")!)
+    XCTAssertNoDifference(
+      #"{"url":"http://foo.bar"}"#,
+      try jsonEncode(value, options: [.withoutEscapingSlashes]))
+  }
+
   func testImageDataURLFromJSON() throws {
     let value: Image.Data = try jsonDecode(#"{"url":"http://foo.bar"}"#)
     XCTAssertNoDifference(
@@ -42,11 +42,31 @@ final class ImagesTests: XCTestCase {
       created: now,
       data: [.url(URL(string: "http://foo.bar")!)]
     )
-    
+
     XCTAssertNoDifference("""
       {"created":1589478378,"data":[{"url":"http://foo.bar"}]}
       """,
       try jsonEncode(value, options: [.withoutEscapingSlashes])
+    )
+  }
+  
+  func testImagesRequestFormatToJSON() throws {
+    let value = Images.ResponseFormat.base64
+    XCTAssertEqual(#""b64_json""#, try jsonEncode(value))
+  }
+  
+  func testImagesGenerationsToJSON() throws {
+    let value = Images.Generations(
+      prompt: "foobar",
+      n: 2,
+      size: .of256x256,
+      responseFormat: .base64,
+      user: "jblogs"
+    )
+    
+    XCTAssertNoDifference(
+      #"{"n":2,"prompt":"foobar","response_format":"b64_json","size":"256x256","user":"jblogs"}"#,
+      try jsonEncode(value, options: [.withoutEscapingSlashes,.sortedKeys])
     )
   }
 
