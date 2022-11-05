@@ -43,6 +43,11 @@ func jsonEncodeData<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormat
     try singleValueEnc.encode(seconds)
   })
   encoder.dataEncodingStrategy = .base64
+//  encoder.dataEncodingStrategy = .custom({ data, encoder in
+//    let value = data.base64EncodedString()
+//    var container = encoder.singleValueContainer()
+//    try container.encode(value)
+//  })
   return try encoder.encode(value)
 }
 
@@ -74,6 +79,14 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
     return Date(timeIntervalSince1970: TimeInterval(seconds))
   })
   decoder.dataDecodingStrategy = .base64
+//  decoder.dataDecodingStrategy = .custom({ decoder in
+//    let container = try decoder.singleValueContainer()
+//    let value = try container.decode(String.self)
+//    guard let result = Data(base64Encoded: value) else {
+//      throw Client.Error.unexpectedResponse("Unable to parse base64 value: \(value)")
+//    }
+//    return result
+//  })
   return try decoder.decode(targetType, from: value)
 }
 
