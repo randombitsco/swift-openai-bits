@@ -22,7 +22,7 @@ extension Images {
   /// The options for the response format.
   public enum ResponseFormat: String, Codable {
     case url
-    case base64 = "b64_json"
+    case base64
   }
 }
 

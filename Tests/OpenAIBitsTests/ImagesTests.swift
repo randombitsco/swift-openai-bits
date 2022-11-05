@@ -23,13 +23,13 @@ final class ImagesTests: XCTestCase {
     let data = "ABC".data(using: .utf8)!
     let value = Image.Data.base64(data)
     XCTAssertNoDifference(
-      #"{"base64":"QUJD"}"#,
+      #"{"b64_json":"QUJD"}"#,
       try jsonEncode(value, options: [.withoutEscapingSlashes]))
   }
 
   func testImageDataBase64FromJSON() throws {
     let data = "ABC".data(using: .utf8)!
-    let value: Image.Data = try jsonDecode(#"{"base64":"QUJD"}"#)
+    let value: Image.Data = try jsonDecode(#"{"b64_json":"QUJD"}"#)
     XCTAssertNoDifference(
       Image.Data.base64(data),
       value
