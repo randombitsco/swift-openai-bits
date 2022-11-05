@@ -37,8 +37,8 @@ extension Image.Data {
       return
     }
     // try to decode the base64
-    if let base64 = try container.decodeIfPresent(String.self, forKey: .base64) {
-      self = .base64(Data(base64Encoded: base64)!)
+    if let base64 = try container.decodeIfPresent(Data.self, forKey: .base64) {
+      self = .base64(base64)
       return
     }
     // if we get here, we couldn't decode either
@@ -51,7 +51,7 @@ extension Image.Data {
     case .url(let url):
       try container.encode(url, forKey: .url)
     case .base64(let data):
-      try container.encode(data.base64EncodedString(), forKey: .base64)
+      try container.encode(data, forKey: .base64)
     }
   }
 }

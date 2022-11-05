@@ -42,6 +42,7 @@ func jsonEncodeData<T: Encodable>(_ value: T, options:  JSONEncoder.OutputFormat
     var singleValueEnc = encoder.singleValueContainer()
     try singleValueEnc.encode(seconds)
   })
+  encoder.dataEncodingStrategy = .base64
   return try encoder.encode(value)
 }
 
@@ -72,6 +73,7 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
     let seconds: Int64 = try decoder.singleValueContainer().decode(Int64.self)
     return Date(timeIntervalSince1970: TimeInterval(seconds))
   })
+  decoder.dataDecodingStrategy = .base64
   return try decoder.decode(targetType, from: value)
 }
 
