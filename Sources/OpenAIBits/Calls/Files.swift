@@ -180,7 +180,7 @@ extension Files {
   public struct Detail: GetCall {
     public typealias Response = File
     
-    public var path: String { "files/\(id)" }
+    var path: String { "files/\(id)" }
     
     /// The ``File/ID-swift.struct`` of the file to use for this request.
     public let id: File.ID

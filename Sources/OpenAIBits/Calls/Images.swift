@@ -1,7 +1,7 @@
 import Foundation
 import MultipartForm
 
-/// Given a prompt and/or an input image, the model will generate a new image.
+/// Given a prompt and/or an input image, the model will create ``Generations`` of images.
 ///
 /// ## See Also
 ///

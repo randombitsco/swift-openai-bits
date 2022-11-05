@@ -30,6 +30,19 @@ extension Tokens.Encode {
 
 extension Tokens {
   
+  fileprivate static var encoder: TokenEncoder?
+  
+  /// Retrieves or creates a new ``TokenEncoder``
+  /// - Returns: The ``TokenEncoder``
+  static func getEncoder() throws -> TokenEncoder {
+    if let encoder = encoder {
+      return encoder
+    }
+    let encoder = try TokenEncoder()
+    Self.encoder = encoder
+    return encoder
+  }
+  
   /// Decodes the provided list of ``Token``s into a `String`.
   public struct Decode: ExecutableCall {
     /// Responds with a `String.
@@ -45,7 +58,7 @@ extension Tokens.Decode {
   /// - Parameter client: The ``Client`` details.
   /// - Returns: The `String` result.
   func execute(with client: Client) async throws -> String {
-    let encoder = try TokenEncoder()
+    let encoder = try Tokens.getEncoder()
     let input = input.map(\.value)
     return try encoder.decode(tokens: input)
   }
@@ -60,7 +73,7 @@ extension Tokens {
     public let input: String
     
     func execute(with client: Client) async throws -> Int {
-      let encoder = try TokenEncoder()
+      let encoder = try Tokens.getEncoder()
       return try encoder.encode(text: input).count
     }
   }

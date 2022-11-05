@@ -24,6 +24,8 @@ extension Generations {
 extension Generations.Image {
   
   /// Loads the `Data` for the image, no matter which response type is nominated.
+  /// If it is a ``Generations/Image/url(_:)``, the destination will be attempted to be read.
+  /// If it is a ``Generations``
   /// - Returns: The `Data`.
   public func getData() throws -> Foundation.Data {
     switch self {
