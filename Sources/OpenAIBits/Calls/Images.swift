@@ -197,8 +197,8 @@ extension Images {
     /// - Returns: The form.
     public func getForm() throws -> MultipartForm {
       var parts: [MultipartForm.Part] = [
-        .init(name: "image", data: image),
-        .init(name: "mask", data: mask),
+        .init(name: "image", data: image, contentType: "image/png"),
+        .init(name: "mask", data: mask, contentType: "image/png"),
         .init(name: "prompt", value: prompt),
       ]
       
@@ -284,8 +284,6 @@ extension Images {
     ///   - user: The ``user``.
     public init(
       imageSource: URL,
-      maskSource: URL,
-      prompt: String,
       n: Int? = nil,
       size: Size? = nil,
       responseFormat: ResponseFormat? = nil,
@@ -303,7 +301,7 @@ extension Images {
     /// - Returns: The form.
     public func getForm() throws -> MultipartForm {
       var parts: [MultipartForm.Part] = [
-        .init(name: "image", data: image),
+        .init(name: "image", data: image, contentType: "image/png"),
       ]
       
       if let n = n {
