@@ -197,8 +197,8 @@ extension Images {
     /// - Returns: The form.
     public func getForm() throws -> MultipartForm {
       var parts: [MultipartForm.Part] = [
-        .init(name: "image", data: image, contentType: "image/png"),
-        .init(name: "mask", data: mask, contentType: "image/png"),
+        .init(name: "image", data: image, contentType: "application/octet-stream"),
+        .init(name: "mask", data: mask, contentType: "application/octet-stream"),
         .init(name: "prompt", value: prompt),
       ]
       
