@@ -11,7 +11,7 @@ extension JSONResponse {
   init(data: Data, response: HTTPURLResponse) throws {
     guard isJSON(response: response) else {
       let contentType = response.value(forHTTPHeaderField: CONTENT_TYPE)
-      throw Client.Error.unexpectedResponse("Expected 'Content-Type' of '\(APPLICATION_JSON)' but got '\(contentType ?? "")'")
+      throw OpenAI.Error.unexpectedResponse("Expected 'Content-Type' of '\(APPLICATION_JSON)' but got '\(contentType ?? "")'")
     }
     self = try jsonDecodeData(data)
   }

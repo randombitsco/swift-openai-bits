@@ -44,7 +44,7 @@ extension Images {
   ///   prompt: "a white siamese cat",
   ///   n: 1,
   ///   size: .of1024x1024
-  ///   responseFormat: .link
+  ///   responseFormat: .data
   /// ))
   /// ```
   ///
@@ -72,7 +72,7 @@ extension Images {
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
     public let user: String?
-    
+
     /// Creates a call to generate images based on a prompt.
     ///
     /// - Parameters:
@@ -109,21 +109,21 @@ extension Images {
   public struct Edit: MultipartPostCall {
     /// Responds with ``Generations``.
     public typealias Response = Generations
-    
+
     var path: String { "images/edits" }
-    
+
     /// The Multipart boundary ID.
     let boundary: String = UUID().uuidString
-    
+
     /// The image to edit. Must be a valid PNG file, less than 4MB, and square.
     public let image: Data
-    
+
     /// An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where image should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as image.
     public let mask: Data
-    
+
     /// A text description of the desired image(s). The maximum length is 1000 characters.
     public let prompt: String
-    
+
     /// The number of images to generate. Must be between `1` and `10`. (defaults to `1`)
     public let n: Int?
 
@@ -135,7 +135,7 @@ extension Images {
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
     public let user: String?
-    
+
     /// Constructs an `Edit` call.
     ///
     /// - Parameters:
@@ -163,7 +163,7 @@ extension Images {
       self.responseFormat = responseFormat
       self.user = user
     }
-    
+
     /// Creates an edit call.
     ///
     /// - Parameters:
@@ -191,33 +191,33 @@ extension Images {
       self.responseFormat = responseFormat
       self.user = user
     }
-    
+
     /// Returns a `MultipartForm`  based on the parameters.
     ///
     /// - Returns: The form.
     public func getForm() throws -> MultipartForm {
       var parts: [MultipartForm.Part] = [
-        .init(name: "image", data: image, filename: "image.png", contentType: "image/png"),
-        .init(name: "mask", data: mask, filename: "mask.png", contentType: "image/png"),
-        .init(name: "prompt", value: prompt),
+          .init(name: "image", data: image, filename: "image.png", contentType: "image/png"),
+          .init(name: "mask", data: mask, filename: "mask.png", contentType: "image/png"),
+          .init(name: "prompt", value: prompt),
       ]
-      
+
       if let n = n {
         parts.append(.init(name: "n", value: String(describing: n)))
       }
-      
+
       if let size = size {
         parts.append(.init(name: "size", value: size.rawValue))
       }
-      
+
       if let responseFormat = responseFormat {
         parts.append(.init(name: "response_format", value: responseFormat.rawValue))
       }
-      
+
       if let user = user {
         parts.append(.init(name: "user", value: user))
       }
-      
+
       return MultipartForm(
         parts: parts,
         boundary: boundary
@@ -229,17 +229,38 @@ extension Images {
 // MARK: Variation
 
 extension Images {
+
+  /// Creates a variation of a given image.
+  ///
+  /// ## Examples
+  ///
+  /// ### A simple image generation
+  ///
+  /// ```swift
+  /// let client = Client(apiKey: "...")
+  /// let image = try await client.call(Images.Create(
+  ///   prompt: "a white siamese cat",
+  ///   n: 1,
+  ///   size: .of1024x1024
+  ///   responseFormat: .data
+  /// ))
+  /// ```
+  ///
+  /// ## See Also
+  ///
+  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/images/create)
+  /// - [Image Creation Guide](https://beta.openai.com/docs/guides/images/generations)
   public struct Variation: MultipartPostCall {
     /// Responds with ``Generations``.
     public typealias Response = Generations
-    
+
     var path: String { "images/variations" }
-    
+
     let boundary: String = UUID().uuidString
-    
-    /// The image to edit. Must be a valid PNG file, less than 4MB, and square.
+
+    /// The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
     public let image: Data
-    
+
     /// The number of images to generate. Must be between `1` and `10`. (defaults to `1`)
     public let n: Int?
 
@@ -251,15 +272,15 @@ extension Images {
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
     public let user: String?
-    
+
     /// Creates a variations call.
     ///
     /// - Parameters:
     ///   - image: The ``image`` `Data`.
     ///   - n: The number of variations to generate. Must be between `1` and `10`. (defaults to `1`)
-    ///   - size: <#size description#>
-    ///   - responseFormat: <#responseFormat description#>
-    ///   - user: <#user description#>
+    ///   - size: The ``size``.
+    ///   - responseFormat: The ``responseFormat``.
+    ///   - user: A unique identifier representing your end-user.
     public init(
       image: Data,
       n: Int?,
@@ -273,7 +294,7 @@ extension Images {
       self.responseFormat = responseFormat
       self.user = user
     }
-    
+
     /// Creates a variation call.
     ///
     /// - Parameters:
@@ -301,25 +322,25 @@ extension Images {
     /// - Returns: The form.
     public func getForm() throws -> MultipartForm {
       var parts: [MultipartForm.Part] = [
-        .init(name: "image", data: image, filename: "image.png", contentType: "image/png"),
+          .init(name: "image", data: image, filename: "image.png", contentType: "image/png"),
       ]
-      
+
       if let n = n {
         parts.append(.init(name: "n", value: String(describing: n)))
       }
-      
+
       if let size = size {
         parts.append(.init(name: "size", value: size.rawValue))
       }
-      
+
       if let responseFormat = responseFormat {
         parts.append(.init(name: "response_format", value: responseFormat.rawValue))
       }
-      
+
       if let user = user {
         parts.append(.init(name: "user", value: user))
       }
-      
+
       return MultipartForm(
         parts: parts,
         boundary: boundary

@@ -51,16 +51,16 @@ Add this to your project with Swift Package Manager.
 
 # Usage
 
-Basic useage requires importing `OpenAIBits`, and setting up a `Client` instance, with an OpenAI API Key (and Organization key, if relevant):
+Basic useage requires importing `OpenAIBits`, and setting up an `OpenAI` instance, with an OpenAI API Key (and Organization Key, if relevant):
 
 ```swift
 import OpenAIBits
 
 let apiKey: String // your API key. Don't store this in code!
-let client = Client(apiKey: apiKey)
+let openai = OpenAI(apiKey: apiKey)
 
 // send a request to the API
-let result = try await client.call(...)
+let result = try await openai.call(...)
 ```
 
 ## Completions
@@ -68,7 +68,7 @@ let result = try await client.call(...)
 Completions are the core text generation call. Keep in mind it will use tokens from your account on every call.
 
 ```swift
-let result = try await client.call(Completions.Create(
+let result = try await openai.call(Completions.Create(
   model: .text_davinci_002,
   prompt: "You complete",
   maxTokens: 50,
@@ -85,7 +85,7 @@ print("[Used \(result.usage.totalTokens") tokens]")
 Edits allow you to provide a starting `input` and a an `instruction`, and it will return a new result based on the input, modified according to the instruction.
 
 ```swift
-let result = try await client.call(Edits.Create(
+let result = try await openai.call(Edits.Create(
   model: .text_davinci_002,
   input: """
   We is going to the market.
@@ -100,25 +100,24 @@ print("[Used \(result.usage.totalTokens") tokens]")
 
 ## Tokens
 
-Along side the `Client` is the `TokenEncoder`. It is a `struct` that can be used and reused, with two methods: `encode(text:)` and `decode(tokens:)`.
+Along side the `OpenAI` is the `TokenEncoder`. It is a `struct` that can be used and reused, with two methods: `encode(text:)` and `decode(tokens:)`.
 
 ```swift
 let encoder = TokenEncoder()
-let tokens: [Int] = encoder.encoder(text: "A sentence.")
+let tokens: [Token] = encoder.encoder(text: "A sentence.")
 let text: String = encoder.decode(tokens: tokens)
 
 print("Tokens: \(tokens)") // Tokens: [32, 6827, 13]
 print("Text: \(text)")     // Text: A sentence.
 ```
 
-You can also use the `Tokens.Encode` and `Tokens.Decode` `Call`s which can be sent to a `Client`, if you prefer. They do not send anything over the internet either way.
+You can also use the `Tokens.Encode` and `Tokens.Decode` `Call`s which can be sent to a `OpenAI`, if you prefer. All processing is done locally.
 
 ```swift
-let client = Client(apiKey: ...)
-let tokens = try await client.call(Tokens.Encode("A sentence."))
-let text = try await client.call(Tokens.Decode(tokens))
+let openai = OpenAI(apiKey: ...)
+let tokens: [Token] = try await openai.call(Tokens.Encode("A sentence."))
+let text: String = try await openai.call(Tokens.Decode(tokens))
 
 print("Tokens: \(tokens)") // Tokens: [32, 6827, 13]
 print("Text: \(text)")     // Text: A sentence.
 ```
-

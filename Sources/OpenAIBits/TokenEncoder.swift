@@ -74,10 +74,10 @@ public struct TokenEncoder {
   }()
   
   /// The `text` -> `token` encoder.
-  let encoder: [String: Int]
+  let encoder: [String: Token]
   
   /// The `token` -> `text` decoder.
-  let decoder: [Int: String]
+  let decoder: [Token: String]
   
   /// The BPE Rankings for given ``SymbolPair`` values.
   fileprivate let bpeRanks: [SymbolPair: Int]
@@ -88,7 +88,7 @@ public struct TokenEncoder {
   /// - Throws errors if unable to load the required resources for the encoder.
   public init(model: Model = .gpt3) throws {
     encoder = try model.encoder()
-    decoder = encoder.reduce(into: [Int: String]()) { result, item in
+    decoder = encoder.reduce(into: [Token: String]()) { result, item in
       result[item.value] = item.key
     }
     
@@ -150,8 +150,8 @@ public struct TokenEncoder {
   ///
   /// - Parameter text: The text to encode.
   /// - Returns the list of tokens.
-  public func encode(text: String) throws -> [Int] {
-    var bpeTokens: [Int] = []
+  public func encode(text: String) throws -> [Token] {
+    var bpeTokens: [Token] = []
     var cache = [String: String]()
     
     // split the text into chunks
@@ -183,7 +183,7 @@ public struct TokenEncoder {
   /// - Parameter tokens: The tokens to decode.
   /// - Returns the decoded text
   /// - Throws an error if invalid tokens are provided.
-  public func decode(tokens: [Int]) throws -> String {
+  public func decode(tokens: [Token]) throws -> String {
     let text = try tokens.map {
       guard let value = decoder[$0] else {
         throw TokenEncoder.Error.invalidToken(value: $0)
@@ -203,11 +203,12 @@ public struct TokenEncoder {
 }
 
 extension TokenEncoder {
+  /// The errors that can be thrown during the encoding process.
   public enum Error: Swift.Error, Equatable {
     case missingResource(name: String)
     case invalidBytePair(value: String)
     case invalidEncoding(value: String)
-    case invalidToken(value: Int)
+    case invalidToken(value: Token)
     case invalidCharacter(value: Character)
   }
 }
@@ -220,12 +221,12 @@ extension TokenEncoder {
     // case codex // [[ TODO: Figure out if there are actually different values for Codex. ]]
     
     /// Loads the encoder array, mapping between token strings and their integer representation.
-    func encoder() throws -> [String: Int] {
+    func encoder() throws -> [String: Token] {
       guard let encoderPath = Bundle.module.url(forResource: "models/\(rawValue)/encoder", withExtension: "json") else {
         throw TokenEncoder.Error.missingResource(name: "models/\(rawValue)/encoder.json")
       }
       let encoderData = try Data(contentsOf: encoderPath)
-      return try JSONDecoder().decode([String: Int].self, from: encoderData)
+      return try JSONDecoder().decode([String: Token].self, from: encoderData)
     }
     
     fileprivate func bpeRanks() throws -> [SymbolPair: Int] {

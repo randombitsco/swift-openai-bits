@@ -4,11 +4,11 @@ import Foundation
 protocol HTTPCall: Call, HTTPRequestable, ExecutableCall where Response: HTTPResponse {}
 
 extension HTTPCall {
-  func execute(with client: Client) async throws -> Response {
+  func execute(with client: OpenAI) async throws -> Response {
     let urlStr = "\(BASE_URL)/\(path)"
 
     guard let url = URL(string: urlStr) else {
-      throw Client.Error.invalidURL(urlStr)
+      throw OpenAI.Error.invalidURL(urlStr)
     }
 
     var request = URLRequest(url: url)
@@ -36,7 +36,7 @@ extension HTTPCall {
       let (result, response) = try await URLSession.shared.data(for: request)
 
       guard let httpResponse = response as? HTTPURLResponse else {
-        throw Client.Error.unexpectedResponse("Expected an HTTPURLResponse")
+        throw OpenAI.Error.unexpectedResponse("Expected an HTTPURLResponse")
       }
 
       client.log?("Response Status: \(httpResponse.statusCode)")
@@ -52,7 +52,7 @@ extension HTTPCall {
             throw error
           }
         } else {
-          throw Client.Error.unexpectedResponse("\(httpResponse.statusCode): \(String(decoding: result, as: UTF8.self))")
+          throw OpenAI.Error.unexpectedResponse("\(httpResponse.statusCode): \(String(decoding: result, as: UTF8.self))")
         }
       }
       return try Response(data: result, response: httpResponse)
@@ -69,10 +69,10 @@ fileprivate let BASE_URL = "https://api.openai.com/v1"
 
 /// Used to parse an error response from the API.
 private struct ErrorResponse: JSONResponse {
-  let error: Client.Error
+  let error: OpenAI.Error
 }
 
-private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to log: Client.Logger?) {
+private func logHeaders(_ headers: [AnyHashable:Any]?, from label: String, to log: OpenAI.Logger?) {
   guard let log = log, let headers = headers else { return }
   
   log("\(label) Headers:")

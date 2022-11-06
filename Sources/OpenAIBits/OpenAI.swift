@@ -1,6 +1,6 @@
 /// Represents the connection to the OpenAI API.
 /// You must provide at least the `apiKey`, and optionally an `organisation` key and a `log` function.
-public struct Client {
+public struct OpenAI {
   /// Typealias for a logger function, which takes a `String` and outputs it.
   public typealias Logger = (String) -> Void
 
@@ -26,7 +26,7 @@ public struct Client {
   }
 }
 
-extension Client {
+extension OpenAI {
   /// An error returned by the OpenAI API.
   public struct Error: Swift.Error, Codable, Equatable {
     /// A message describing the error.
@@ -64,19 +64,19 @@ struct ExecutableCallHandler: CallHandler {
   ///   - client: The ``Client.``
   /// - Returns: The ``Call/Response``.
   /// - Throws: An ``Client/Error`` if the ``Call`` does not implement ``ExecutableCall``, or if executing the throws an error.
-  func execute<C>(call: C, with client: Client) async throws -> C.Response where C : Call {
+  func execute<C>(call: C, with client: OpenAI) async throws -> C.Response where C : Call {
     guard let call = call as? any ExecutableCall else {
-      throw Client.Error.unsupportedCall(C.self)
+      throw OpenAI.Error.unsupportedCall(C.self)
     }
     let response = try await call.execute(with: client)
     guard let response = response as? C.Response else {
-      throw Client.Error.unexpectedResponse(String(describing: response))
+      throw OpenAI.Error.unexpectedResponse(String(describing: response))
     }
     return response
   }
 }
 
-extension Client {
+extension OpenAI {
   /// The current ``CallHandler``. Defaults to ``HTTPCallHandler``.
   static var handler: CallHandler = ExecutableCallHandler()
 
@@ -84,11 +84,11 @@ extension Client {
   ///
   /// - Parameter call: The ``Call`` to execute.
   public func call<C: Call>(_ call: C) async throws -> C.Response {
-    return try await Client.handler.execute(call: call, with: self)
+    return try await OpenAI.handler.execute(call: call, with: self)
   }
 }
 
-extension Client.Error: CustomStringConvertible, CustomDebugStringConvertible {
+extension OpenAI.Error: CustomStringConvertible, CustomDebugStringConvertible {
   public var description: String {
     var result = message
     if let param = param {
@@ -107,21 +107,21 @@ extension Client.Error: CustomStringConvertible, CustomDebugStringConvertible {
   /// Creates an ``Client/Error`` indicating the provided ``Call`` type is not supported.
   /// - Parameter request: The call.
   /// - Returns: The ``Client/Error``.
-  static func unsupportedCall<C: Call>(_ call: C.Type) -> Client.Error {
+  static func unsupportedCall<C: Call>(_ call: C.Type) -> OpenAI.Error {
     .init(type: "unsupported_call", message: String(describing: call))
   }
   
   /// Creates an ``Client/Error`` indicating a URL was invalid. This is usually a bug in the API.
   /// - Parameter url: The URL.
   /// - Returns: The ``Client/Error``.
-  static func invalidURL(_ url: String) -> Client.Error {
+  static func invalidURL(_ url: String) -> OpenAI.Error {
     .init(type: "invalid_url", message: url)
   }
   
   /// Creates an ``Client/Error`` indicating the response was unexpected.
   /// - Parameter message: The message.
   /// - Returns: The ``Client/Error``.
-  static func unexpectedResponse(_ message: String) -> Client.Error {
+  static func unexpectedResponse(_ message: String) -> OpenAI.Error {
     .init(type: "unexpected_response", message: message)
   }
 }

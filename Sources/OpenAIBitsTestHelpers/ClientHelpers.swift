@@ -27,7 +27,7 @@ class TestCallHandler<E: Call>: CallHandler {
     self.returning = returning
   }
   
-  func execute<C>(call: C, with client: OpenAIBits.Client) async throws -> C.Response where C : OpenAIBits.Call {
+  func execute<C>(call: C, with client: OpenAIBits.OpenAI) async throws -> C.Response where C : OpenAIBits.Call {
     guard !called else {
       throw TestCallError.expected(call: expectedCall, received: call)
     }
@@ -78,10 +78,10 @@ public func XCTAssertExpectOpenAICall<C: Call>(
   file: StaticString = #file,
   line: UInt = #line
 ) async rethrows {
-  let oldHandler = Client.handler
-  defer { Client.handler = oldHandler }
+  let oldHandler = OpenAI.handler
+  defer { OpenAI.handler = oldHandler }
   
-  Client.handler = TestCallHandler(expectedCall: call(), returning: response())
+  OpenAI.handler = TestCallHandler(expectedCall: call(), returning: response())
   
   do {
     try await doing()

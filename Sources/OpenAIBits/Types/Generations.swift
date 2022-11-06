@@ -56,7 +56,7 @@ extension Generations.Image {
       return
     }
     // if we get here, we couldn't decode either
-    throw Client.Error.unexpectedResponse("Unknown response format for image.")
+    throw OpenAI.Error.unexpectedResponse("Unknown response format for image.")
   }
 
   public func encode(to encoder: Encoder) throws {
