@@ -28,7 +28,6 @@ extension Images {
   }
 }
 
-
 // MARK: Create
 
 extension Images {
@@ -39,8 +38,8 @@ extension Images {
   /// ### A simple image generation
   ///
   /// ```swift
-  /// let client = Client(apiKey: "...")
-  /// let image = try await client.call(Images.Create(
+  /// let openai = OpenAI(apiKey: "...")
+  /// let image = try await openai.call(Images.Create(
   ///   prompt: "a white siamese cat",
   ///   n: 1,
   ///   size: .of1024x1024
@@ -67,7 +66,7 @@ extension Images {
     /// The size of the generated images. Must be one of ``Images/Size-swift.enum/of256x256``, ``Images/Size-swift.enum/of512x512``, or ``Images/Size-swift.enum/of1024x1024`` (the default).
     public let size: Size?
 
-    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat-swift.enum/url`` or ``Images/ResponseFormat-swift.enum/base64``.
+    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat-swift.enum/url`` (the default) or ``Images/ResponseFormat-swift.enum/base64``.
     public let responseFormat: ResponseFormat?
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
@@ -237,9 +236,9 @@ extension Images {
   /// ### A simple image generation
   ///
   /// ```swift
-  /// let client = Client(apiKey: "...")
-  /// let image = try await client.call(Images.Create(
-  ///   prompt: "a white siamese cat",
+  /// let openai = OpenAI(apiKey: "...")
+  /// let image = try await openai.call(Images.Variation(
+  ///   image: "a white siamese cat",
   ///   n: 1,
   ///   size: .of1024x1024
   ///   responseFormat: .data
@@ -283,10 +282,10 @@ extension Images {
     ///   - user: A unique identifier representing your end-user.
     public init(
       image: Data,
-      n: Int?,
-      size: Size?,
-      responseFormat: ResponseFormat?,
-      user: String?
+      n: Int? = nil,
+      size: Size? = nil,
+      responseFormat: ResponseFormat? = nil,
+      user: String? = nil
     ) {
       self.image = image
       self.n = n

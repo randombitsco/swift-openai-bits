@@ -140,7 +140,7 @@ A list of all files attached to the organization, including both uploaded and ge
 ```swift
 let files: ListOf<File> = try await openai.call(Files.List())
 
-for each file in files {
+for file in files {
   print("ID: \(file.id), Filename: \(file.filename)")
 }
 ```
@@ -184,7 +184,177 @@ There are several calls related to fine-tuning.
 
 ### Create
 
+You can create a fine-tuning job by first using the `Files.Upload` with a `.fineTune` purpose, then referencing that file ID here:
 
+```swift
+let file = try await openai.call(Files.Upload(purpose: .fineTune, url: fileUrl))
+let fineTune: FineTune = openai.call(FineTunes.Create(
+  trainingFile: file.id,
+  model: .davinci
+))
+print("Fine Tune ID: \(fineTune.id)")
+```
+
+### List
+
+Lists all previous fine-tuning jobs.
+
+```swift
+let fineTunes: ListOf<FineTune> = try await openai.call(FineTunes.List())
+
+for fineTune in fineTunes {
+  print("ID: \(fineTune.id), Status: \(fineTune.status)")
+}
+```
+
+### Detail
+
+Retrieves the detail for a given fine-tune `ID`.
+
+```swift
+let fineTune: FineTune = try await openai.call(FineTunes.Detail(id: someId)
+print("Fine Tune ID: \(fineTune.id)")
+```
+
+### Cancel
+
+Fine-tune jobs may run for some time. You can cancel them if you wish.
+
+```swift
+let fineTune: FineTune = try await openai.call(FineTunes.Cancel(id: someId))
+print("Fine Tune Status: \(fineTune.status")
+```
+
+### Events
+
+Retrieves just the list of events for a fine-tune job.
+
+```swift
+let events: ListOf<FineTune.Event> = try await openai.call(FineTunes.Events(id: someId))
+for event in events {
+  print("Created: \(event.created), Level: \(event.level), Message: \(event.message)")
+}
+```
+
+### Delete
+
+Deletes a fine-tuned model.
+
+```swift
+let response: FineTunes.Delete.Response = try await openai.call(FineTunes.Delete(id: someId))
+print("Model ID: \(response.id), Deleted: \(response.deleted)")
+```
+
+## Images
+
+The DALL-E 2 model can be be used to generate, edit, and make variations of images. More details [here](https://beta.openai.com/docs/guides/images).
+
+### Create
+
+This is the core image generator. Provide a text prompt and generate one or more images for it.
+
+```swift
+let result: Generations = try await openai.call(Images.Create(
+  prompt: "A koala riding a bicycle",
+  n: 4,
+))
+for image in result.images {
+  if case let .url(url) = image {
+    print("Image URL: \(url)")
+  }
+}
+```
+
+### Edit
+
+You can provide an image, a matching-size PNG with 100% transparent sections, and a prompt to describe what will be generated in the marked sections. It will produce 1-10 options based on the parameters.
+
+```swift
+let imageData: Data = ...
+let maskData: Data = ...
+let result: Generations = try await openai.call(Images.Edit(
+  image: imageData,
+  mask: maskData,
+  prompt: "A space rocket",
+  n: 6,
+  responseFormat: .data
+))
+for image in result.images {
+  if let .data(data) = image {
+    try data.write(to: ...)
+  }
+}
+```
+
+### Variations
+
+You provide an initial image, and it will generate 1 to 10 variations of the original image.
+
+```swift
+let imageData: Data = ...
+let result: Generations = try await openai.call(Images.Variation(
+  image: imageData,
+  n: 10,
+  size: .of512x512,
+  responseFormat: .url
+))
+for image in result.images {
+  if case let .url(url) = image {
+    print("Image URL: \(url)")
+  }
+}
+```
+
+## Models
+
+Retrieve information about available models.
+
+### List
+
+Gets a list of all models available to you/your organization, including fine-tuned models.
+
+```swift
+let models: ListOf<Model> = try await openai.call(Models.List())
+for model in models {
+  print("Model ID: \(model.id)")
+}
+```
+
+### Detail
+
+Gets the details for a specific model.
+
+```swift
+let model: Model = try await openai.call(Models.Detail(
+  id: .text_davinci_002
+))
+print("Allow Fine-Tuning: \(model.allowFineTuning)")
+```
+
+### Delete
+
+You can delete models created/owned by you, which in most cases will be fine-tuned models.
+
+```swift
+let result: Models.Delete.Result = try await openai.call(Models.Delete(id: ...))
+print("Deleted \(result.id): \(result.deleted)")
+```
+
+## Moderations
+
+OpenAI provides an endpoint to check if text content meets their usage policies. More details [here](https://beta.openai.com/docs/guides/moderation).
+
+### Create
+
+Creates a moderation check.
+
+```swift
+let promptValue: String = ...
+let moderation: Moderation = try await openai.call(Moderations.Create(
+  input: promptValue
+))
+print("Flagged: \(moderation.results?.first.flagged ?? "false")")
+```
 
 ## Tokens
 

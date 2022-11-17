@@ -54,14 +54,18 @@ extension FineTunes {
     public let validationFile: File.ID?
     
     /// The name of the base ``FineTune/Model-swift.enum`` to fine-tune. You can select one of ``FineTune/Model-swift.enum/ada``, ``FineTune/Model-swift.enum/babbage``, ``FineTune/Model-swift.enum/curie``, ``FineTune/Model-swift.enum/davinci``, or a fine-tuned model created after 2022-04-21. To learn more about these models, see the ``Models`` documentation.
+    ///
+    /// Defaults to ``FineTune/Model-swift.enum/curie``.
     public let model: FineTune.Model?
     
     /// The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.
+    ///
+    /// Defaults to `4`.
     public let nEpochs: Int?
     
     /// The batch size to use for training. The batch size is the number of training examples used to train a single forward and backward pass.
     ///
-    /// By default, the batch size will be dynamically configured to be ~0.2% of the number of examples in the training set, capped at `256`` - in general, we've found that larger batch sizes tend to work better for larger datasets.
+    /// By default, the batch size will be dynamically configured to be ~0.2% of the number of examples in the training set, capped at `256` - in general, we've found that larger batch sizes tend to work better for larger datasets.
     public let batchSize: Int?
     
     /// The learning rate multiplier to use for training. The fine-tuning learning rate is the original learning rate used for pretraining multiplied by this value.
@@ -73,7 +77,7 @@ extension FineTunes {
     ///
     /// If prompts are extremely long (relative to completions), it may make sense to reduce this weight so as to avoid over-prioritizing learning the prompt.
     ///
-    /// Defaults to `0.0`.
+    /// Defaults to `0.01`.
     public let promptLossWeight: Double?
     
     /// If set, we calculate classification-specific metrics such as accuracy and F-1 score using the validation set at the end of every epoch. These metrics can be viewed in the [results file](https://beta.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).
@@ -128,7 +132,20 @@ extension FineTunes {
     ///   - classificationPositiveClass: The ``classificationPositiveClass``.
     ///   - classificationBetas: The ``classificationBetas``.
     ///   - suffix: The ``suffix``.
-    public init(trainingFile: File.ID, validationFile: File.ID?, model: FineTune.Model?, nEpochs: Int?, batchSize: Int?, learningRateMultiplier: Double?, promptLossWeight: Double?, computeClassificationMetrics: Bool?, classificationNClasses: Int?, classificationPositiveClass: String?, classificationBetas: [Double]?, suffix: String?) {
+    public init(
+      trainingFile: File.ID,
+      validationFile: File.ID? = nil,
+      model: FineTune.Model? = nil,
+      nEpochs: Int? = nil,
+      batchSize: Int? = nil,
+      learningRateMultiplier: Double? = nil,
+      promptLossWeight: Double? = nil,
+      computeClassificationMetrics: Bool? = nil,
+      classificationNClasses: Int? = nil,
+      classificationPositiveClass: String? = nil,
+      classificationBetas: [Double]? = nil,
+      suffix: String? = nil
+    ) {
       self.trainingFile = trainingFile
       self.validationFile = validationFile
       self.model = model
