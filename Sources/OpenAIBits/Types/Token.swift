@@ -48,3 +48,9 @@ extension Token: RawRepresentable {
     self.value = intValue
   }
 }
+
+// MARK: CustomStringConvertible
+
+extension Token: CustomStringConvertible {
+  public var description: String { rawValue }
+}

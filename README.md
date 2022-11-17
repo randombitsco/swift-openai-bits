@@ -65,10 +65,10 @@ let result = try await openai.call(...)
 
 ## Completions
 
-Completions are the core text generation call. Keep in mind it will use tokens from your account on every call.
+Completions are the core text generation call. Keep in mind it will use tokens from your account on every call. More information [here](https://beta.openai.com/docs/guides/completion/text-completion).
 
 ```swift
-let result = try await openai.call(Completions.Create(
+let result: Completion = try await openai.call(Completions.Create(
   model: .text_davinci_002,
   prompt: "You complete",
   maxTokens: 50,
@@ -82,10 +82,10 @@ print("[Used \(result.usage.totalTokens") tokens]")
 
 ## Edits
 
-Edits allow you to provide a starting `input` and a an `instruction`, and it will return a new result based on the input, modified according to the instruction.
+Edits allow you to provide a starting `input` and a an `instruction`, and it will return a new result based on the input, modified according to the instruction. More information [here](https://beta.openai.com/docs/guides/completion/editing-text).
 
 ```swift
-let result = try await openai.call(Edits.Create(
+let result: Edit = try await openai.call(Edits.Create(
   model: .text_davinci_002,
   input: """
   We is going to the market.
@@ -97,6 +97,94 @@ let choice = result.choices.first!
 print("Edit: \(choice.text)")
 print("[Used \(result.usage.totalTokens") tokens]")
 ```
+
+## Embeddings
+
+An embedding is a special format of data representation that can be easily utilized by machine learning models and algorithms. More information [here](https://beta.openai.com/docs/guides/embeddings/embeddings).
+
+```swift
+let result: Embedding = try await openai.call(Embeddings.Create(
+  model: "text-search-curie-query-001",
+  input: "Make an embedding of this.",
+  user: "jblogs"
+))
+
+let embedding: [Decimal]? = result.first?.embedding
+```
+
+## Files
+
+Files can be uploaded to perform other tasks, or results of other task downloaded. More information [here](https://beta.openai.com/docs/api-reference/files).
+
+There are several files operations available (check API documentation for details).
+
+### Upload
+
+Currently, the only official upload purpose is "fine-tune", although there are options for more deprecated options such as "search".
+
+```swift
+let fileUrl = URL(fileURLWithPath: "my-training.jsonl")
+let file = try await openai.call(Files.Upload(
+  filename: "my-training.jsonl",
+  purpose: .fineTune,
+  url: fileUrl
+))
+
+print("File ID: \(file.id)")
+```
+
+### List
+
+A list of all files attached to the organization, including both uploaded and generated files.
+
+```swift
+let files: ListOf<File> = try await openai.call(Files.List())
+
+for each file in files {
+  print("ID: \(file.id), Filename: \(file.filename)")
+}
+```
+
+### Details
+
+Details of any file ID.
+
+```swift
+let file: File = try await openai.call(Files.Detail(id: fileId)
+print("Filename: \(file.filename), size: \(file.bytes) bytes")
+```
+
+### Content
+
+Downloading requires a file ID, which can be retrieved from the list.
+
+```swift
+let response: BinaryResponse = try await openai.call(Files.Content(
+  id: file.id
+))
+print("filename: \(response.filename), size: \(response.data.count) bytes")
+```
+
+### Delete
+
+Delete a file permanently.
+
+```swift
+let result: Files.Delete.Response = try await openai.call(Files.Delete(
+  id: fileToDelete
+))
+print("File ID: \(response.id), deleted: \(response.deleted)")
+```
+
+## Fine-Tunes
+
+It is possible to fine-tune some models with additional details specific to your application. More details [here](https://beta.openai.com/docs/guides/fine-tuning/fine-tuning).
+
+There are several calls related to fine-tuning.
+
+### Create
+
+
 
 ## Tokens
 
