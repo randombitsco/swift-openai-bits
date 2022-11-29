@@ -6,11 +6,11 @@ final class CompletionsTests: XCTestCase {
 
   func testCompletionsStringRequestToJSON() throws {
     let value = Completions.Create(
-      model: .text_davinci_002,
+      model: .text_davinci_003,
       prompt: "Input string."
     )
     XCTAssertNoDifference(
-      #"{"logit_bias":{},"model":"text-davinci-002","prompt":"Input string."}"#,
+      #"{"logit_bias":{},"model":"text-davinci-003","prompt":"Input string."}"#,
       try jsonEncode(value, options: [.sortedKeys])
     )
   }
