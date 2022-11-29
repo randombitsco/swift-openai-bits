@@ -1,0 +1,22 @@
+@Tutorials(name: "OpenAIBits Tutorials") {
+    @Intro(title: "OpenAIBits Tutorials") {
+        This series of tutorials walks you through the process of configuring your the OpenAI client and making various calls with it.
+    }
+    
+    @Chapter(name: "OpenAI Account Management") {
+        Setting up your OpenAI Account.
+        
+        @Image(alt: "The OpenAI Account Sign-in Screen", source: "openai_logo_white_on_black.png")
+        
+        @TutorialReference(tutorial: "doc:Create-an-Account")
+        @TutorialReference(tutorial: "doc:Create-an-API-Key")
+    }
+    
+    @Chapter(name: "GPT-3 Calls") {
+        A guide to making various calls with the `GPT-3` text processing API.
+        
+        @Image(alt: "The OpenAI GPT-3 Playground.", source: "openai_playground.jpg")
+        
+        @TutorialReference(tutorial: "doc:Creating-Completions")
+    }
+}

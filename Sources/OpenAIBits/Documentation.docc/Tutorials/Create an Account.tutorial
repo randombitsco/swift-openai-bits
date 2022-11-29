@@ -1,0 +1,35 @@
+@Tutorial(time: 2) {
+    @Intro(title: "Create an OpenAI Account") {
+        This guides you through creating a new OpenAI Account.
+        
+        @Image(source: "openai_logo_white_on_black.png", alt: "The OpenAI Logo.")
+    }
+    
+    @Section(title: "Creating an OpenAI Account") {
+        @ContentAndMedia {
+            This guides you through the basics of creating an OpenAI account.
+            
+            @Image(source: "openai_logo_white_on_black.png", alt: "The OpenAI Logo.")
+        }
+        
+        @Steps {
+            @Step {
+                Browse to the [OpenAI API Homepage](https://openai.com/api/)
+                
+                @Image(source: "openai_api_homepage.png", alt: "The OpenAI Homepage.")
+            }
+            
+            @Step {
+                Click the "Sign Up" button.
+                
+                @Image(source: "openai_api_homepage_signup.png", alt: "The OpenAI Homepage, highlighting the 'Sign Up' button.")
+            }
+            
+            @Step {
+                Either enter your email address, or select a 3rd-party sign-in option.
+                
+                @Image(source: "openai_api_create_account.png", alt: "The OpenAI Account Creation screen, with an option to enter an email addres or select a 3rd-party signing partner.")`
+            }
+        }
+    }
+}

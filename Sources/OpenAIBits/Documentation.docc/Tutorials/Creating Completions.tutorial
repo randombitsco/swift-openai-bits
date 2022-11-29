@@ -1,0 +1,83 @@
+@Tutorial(time: 5) {
+    @Intro(title: "Creating Completions") {
+        Learn how to use the ``OpenAIBits/Completions/Create`` call to generate a completion for a text prompt.
+    }
+    
+    @Section(title: "Make a basic call") {
+        @ContentAndMedia {
+            The only required parameters for a text completion call are the ``OpenAIBits/Model/ID-swift.struct`` and the text prompt. This will use default values for the remaining parameters, as defined in the [OpenAI API](https://beta.openai.com/docs/api-reference/completions/create). In particular, the number of tokens in the response currently defaults to `16`.  
+        }
+        
+        @Steps {
+            @Step {
+                Create the ``OpenAIBits/OpenAI`` instance, using your personal Open AI Key.
+                
+                > Important: It is not recommended to hard-code an API Key into your source code. Instead, store it in the Keychain, or in an environment variable if working in on a command line app.
+                
+                @Code(name: "Create OpenAI Client", file: "create_openai.swift")
+            }
+            
+            @Step {
+                Next, create the ``OpenAIBits/Completions/Create`` call.
+                
+                @Code(name: "Create Completion Call", file: "create_completion_basic_call_01.swift")
+            }
+            
+            @Step {
+              Then, send it to OpenAI.
+              
+              The method is asynchronous and may throw an error if there is an issue, so we wrap it in a `do`/`catch`.
+              
+              @Code(name: "Add a call to the OpenAI API.", file: "create_completion_basic_call_02.swift")
+            }
+            
+            @Step {
+              Lastly, print the result.
+              
+              If a ``OpenAIBits/Completion`` is returned, it should always have at least one value. If you don't set the `'n'` parameter in the call, one value will be returned.
+              
+              @Code(name: "Print the result.", file: "create_completion_basic_call_03.swift")
+            }
+        }
+    }
+        
+    @Section(title: "Make a more complex call") {
+        @ContentAndMedia {
+            If you want to have multiple results, longer completions, or control the randomness of the generated text.
+          
+            This tutorial will demonstrating all the above with additional parameters. 
+        }
+        
+        @Steps {            
+            @Step {
+                We'll start with our call from the previous section.
+                
+                @Code(name: "The starting call.", file: "create_completion_basic_call_03.swift")
+            }
+
+            @Step {
+                Let's modify the call. We'll add `'maxTokens'` to increase the size of the returned completions to `200` tokens.
+                
+                @Code(name: "Increase the number of tokens.", file: "create_completion_complex_call_01.swift")
+            }
+            
+            @Step {
+                Then, specify the temperature to be `0.5`, down from the default of `1.0`, to make it less random.
+              
+                @Code(name: "Make the results less random.", file: "create_completion_complex_call_02.swift")
+            }
+            
+            @Step {
+                Finally, increase the number of choices to `3` by setting `'n'`.
+                
+                @Code(name: "Specify we want 3 results.", file: "create_completion_complex_call_03.swift")
+            }
+            
+            @Step {
+              Currently, it will still print the first result. Lets make it a loop instead.
+              
+              @Code(name: "Print all the results.", file: "create_completion_complex_call_04.swift")
+            }
+        }
+    }
+}

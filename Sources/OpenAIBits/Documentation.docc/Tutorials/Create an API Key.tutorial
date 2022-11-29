@@ -1,0 +1,45 @@
+@Tutorial(time: 2) {
+    @Intro(title: "Create an API Key") {
+        In order to access the API, you will need to provide an API Key with each request.
+        
+        @Image(source: "openai_logo_white_on_black.png", alt: "The OpenAI Logo.")
+    }
+    
+    @Section(title: "Creating an API Key") {
+        @ContentAndMedia {
+            Calling the OpenAI API requires a unique key that is linked to an OpenAI account.
+            
+            @Image(source: "openai_api_keys.png", alt: "The API Keys admin section.")
+        }
+        
+        @Steps {
+            @Step {
+                Navigate to the [API Keys](https://beta.openai.com/account/api-keys) section of the OpenAI site.
+                
+                > Note: If you need to, [create an account](doc:Create-an-Account) or sign in.
+                
+                @Image(source: "openai_api_keys.png", alt: "The API Keys admin section, listing any existing secret keys.")
+            }
+            
+            @Step {
+                Click the `"Create new secret key"` button to generate a new key.
+                
+                @Image(source: "openai_api_keys_new.png", alt: "The 'Create new secret key' button is under the list of keys.")
+            }
+            
+            @Step {
+                The new key is generated. This will be the only time the full key is available to copy.
+                
+                @Image(source: "openai_api_keys_generated.png", alt: "The generated secret key, with a description and a 'Copy' button.")
+            }
+            
+            @Step {
+              Copy the generated key, and save it in whatever location you will access it from.
+              
+              > Important: Do not store the key in a public location such as a GitHub repository. Not only is it giving anyone access to charge the account for use of the API, but OpenAI will automatically invalidate any public keys it finds on the Internet.
+              
+              @Image(source: "openai_api_keys_generated_copy.png", alt: "The generated secret key, with the 'Copy' button highlighted.")
+            }
+        }
+    }
+}
