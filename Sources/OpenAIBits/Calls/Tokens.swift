@@ -1,4 +1,8 @@
-/// Contains ``Call``s relating to encoding and decoding tokens.
+/// Encoding and decoding text to and from tokens.
+///
+/// ## See Also
+///
+/// - ``TokenEncoder``
 public enum Tokens {}
 
 // MARK: Encode

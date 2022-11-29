@@ -1,8 +1,8 @@
 import Foundation
 
-/// Represents `Completions` requests to the OpenAI API.
+/// Given a prompt, the model will return one or more predicted completions.
 ///
-/// Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
+/// It can also return the probabilities of alternative tokens at each position.
 ///
 /// ## Calls
 ///

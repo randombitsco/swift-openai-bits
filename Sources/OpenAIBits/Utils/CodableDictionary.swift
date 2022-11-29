@@ -1,5 +1,5 @@
 /// Allows a `Dictionary` with a non-`String` key to be `Codable`.
-/// Solution found [here](https://www.fivestars.blog/articles/codable-swift-dictionaries/).
+/// Solution originally found [here](https://www.fivestars.blog/articles/codable-swift-dictionaries/).
 /// 
 /// Usage:
 /// ```swift
@@ -7,6 +7,7 @@
 ///   case alpha
 ///   case beta
 /// }
+/// 
 /// @CodableDictionary var dictionary: [MyKey, String] = [:]()
 /// ```
 @propertyWrapper

@@ -13,7 +13,7 @@ public struct OpenAI {
   /// A ``Logger`` function, if desired. Used for debug logging if present. Defaults to `nil`.
   let log: Logger?
   
-  /// Initializes the ``Client``.
+  /// Initializes the ``OpenAI`` client.
   ///
   /// - Parameters:
   ///   - apiKey: The OpenAI API Key to use.
@@ -41,7 +41,7 @@ extension OpenAI {
     /// The error code, if any.
     public let code: Int?
     
-    /// Initializes a new ``Client``.
+    /// Initializes a new ``OpenAI`` client.
     /// - Parameters:
     ///   - type: The type of the error.
     ///   - code: The code (optional)

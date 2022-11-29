@@ -203,8 +203,8 @@ extension Files {
   ///
   /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/retrieve-content)
   public struct Content: GetCall {
-    /// Returns a ``BinaryResponse``.
-    public typealias Response = BinaryResponse
+    /// Responds with ``BinaryData``.
+    public typealias Response = BinaryData
     
     /// The path to the request.
     var path: String { "files/\(id)/content" }

@@ -63,10 +63,10 @@ extension Images {
     /// The number of images to generate. Must be between 1 and 10. (defaults to `1`)
     public let n: Int?
 
-    /// The size of the generated images. Must be one of ``Images/Size-swift.enum/of256x256``, ``Images/Size-swift.enum/of512x512``, or ``Images/Size-swift.enum/of1024x1024`` (the default).
+    /// The size of the generated images. Must be one of ``Images/Size/of256x256``  , ``Images/Size/of512x512``, or ``Images/Size/of1024x1024`` (the default).
     public let size: Size?
 
-    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat-swift.enum/url`` (the default) or ``Images/ResponseFormat-swift.enum/base64``.
+    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat/url`` (the default) or ``Images/ResponseFormat/data``.
     public let responseFormat: ResponseFormat?
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
@@ -77,7 +77,7 @@ extension Images {
     /// - Parameters:
     ///   - prompt: The prompt.
     ///   - n: The number of images. (defaults to `1`)
-    ///   - size: The size of the image (defaults to ``Images/Size-swift.enum/of1024x1024``)
+    ///   - size: The size of the image (defaults to ``Images/Size/of1024x1024``)
     ///   - responseFormat: The ``Images/ResponseFormat``
     ///   - user: A unique identifier representing your end-user.
     public init(
@@ -126,10 +126,10 @@ extension Images {
     /// The number of images to generate. Must be between `1` and `10`. (defaults to `1`)
     public let n: Int?
 
-    /// The size of the generated images. Must be one of ``Images/Size-swift.enum/of256x256``, ``Images/Size-swift.enum/of512x512``, or ``Images/Size-swift.enum/of1024x1024`` (the default).
+    /// The size of the generated images. Must be one of ``Images/Size/of256x256``, ``Images/Size/of512x512``, or ``Images/Size/of1024x1024`` (the default).
     public let size: Size?
 
-    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat-swift.enum/url`` or ``Images/ResponseFormat-swift.enum/base64``.
+    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat/url`` or ``Images/ResponseFormat/data``.
     public let responseFormat: ResponseFormat?
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
@@ -263,10 +263,10 @@ extension Images {
     /// The number of images to generate. Must be between `1` and `10`. (defaults to `1`)
     public let n: Int?
 
-    /// The size of the generated images. Must be one of ``Images/Size-swift.enum/of256x256``, ``Images/Size-swift.enum/of512x512``, or ``Images/Size-swift.enum/of1024x1024`` (the default).
+    /// The size of the generated images. Must be one of ``Images/Size/of256x256``, ``Images/Size/of512x512``, or ``Images/Size/of1024x1024`` (the default).
     public let size: Size?
 
-    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat-swift.enum/url`` or ``Images/ResponseFormat-swift.enum/base64``.
+    /// The format in which the generated images are returned. Must be one of ``Images/ResponseFormat/url`` or ``Images/ResponseFormat/data``.
     public let responseFormat: ResponseFormat?
 
     /// A unique identifier representing your end-user, which will help OpenAI to monitor and detect abuse.
