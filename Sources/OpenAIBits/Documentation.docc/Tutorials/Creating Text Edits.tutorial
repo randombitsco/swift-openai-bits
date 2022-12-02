@@ -1,0 +1,91 @@
+@Tutorial(time: 5) {
+    @Intro(title: "Creating Text Edits") {
+        Learn how to use the ``OpenAIBits/Completions/Create`` call to edit a text prompt with a natural language instruction.
+    }
+    
+    @Section(title: "Create a Grammar Check Function") {
+        @ContentAndMedia {
+            This will walk through creating a function that takes some input text and corrects the spelling and grammar. 
+        }
+        
+        @Steps {
+            @Step {
+                Create the ``OpenAIBits/OpenAI`` instance, using your personal Open AI Key.
+                
+                > Important: It is not recommended to hard-code an API Key into your source code. Instead, store it in the Keychain, a plist, or in an environment variable if working in on a command line app.
+                
+                @Code(name: "FixGrammar.swift", file: "create_openai.swift")
+            }
+            
+            @Step {
+                Next, we create the `fixGrammar(in:)` function, which takes a single `String` as the input and outputs a `String` with the result.
+                
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_01.swift")
+            }
+            
+            @Step {
+                We call the `openai` client with an ``OpenAIBits/Edits/Create`` call.
+
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_02.swift")
+            }
+            
+            @Step {
+                The `'id'` determines which model to use. 
+                
+                > Note: It must be one of the ``OpenAIBits/Model``s that return `true` from ``OpenAIBits/Model/supportsEdit`` (for example, ``OpenAIBits/Model/ID-swift.struct/text_davinci_edit_001`` or ``OpenAIBits/Model/ID-swift.struct/code_davinci_edit_001``).
+                
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_02_id.swift", previousFile: "FixGrammar_02_id_prev.swift")
+            }
+            
+            @Step {
+                The `'input'` is the text that will be edited.
+                
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_02_input.swift", previousFile: "FixGrammar_02_input_prev.swift")
+            }
+
+            @Step {
+                The `'instruction'` is a description of what you want to change.
+                
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_02_instruction.swift", previousFile: "FixGrammar_02_instruction_prev.swift")
+            }
+            
+            @Step {
+                Because we are now calling a function with `try await`, we need to handle that. In this case, we will simply add `async throws` to our function to pass it up the chain.
+                
+                @Code(name: "FixGrammar.swift", file: "FixGrammar_03.swift")
+            }
+            
+            @Step {
+              Lastly, return the result's `text`.
+              
+              > Note: If multiple choices are returned, they can be accessed via the ``OpenAIBits/Edit/choices`` array.
+              
+              @Code(name: "FixGrammar.swift", file: "FixGrammar_04.swift")
+            }
+            
+            @Step {
+              Now, we can call the function.
+              
+              @Code(name: "FixGrammar.swift", file: "FixGrammar_05.swift")
+            }
+            
+            @Step {
+              It might return something like this:
+              
+              @Code(name: "Output", file: "FixGrammar_Output_01.txt")
+            }
+            
+            @Step {
+              The issue here is that by default, this will return a more "creative" (or random) result. To fix that, we can change the `'temperature'` to `0.0` instead of the default of `1.0`.
+              
+              @Code(name: "FixGrammar.swift", file: "FixGrammar_06.swift", previousFile: "FixGrammar_05.swift")
+            }
+            
+            @Step {
+              This time, we should get this:
+              
+              @Code(name: "Output", file: "FixGrammar_Output_02.txt")
+            }
+        }
+    }
+}

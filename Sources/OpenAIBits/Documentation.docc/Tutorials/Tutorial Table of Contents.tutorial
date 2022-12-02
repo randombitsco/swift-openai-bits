@@ -17,6 +17,7 @@
         
         @Image(alt: "The OpenAI GPT-3 Playground.", source: "openai_playground.jpg")
         
-        @TutorialReference(tutorial: "doc:Creating-Completions")
+        @TutorialReference(tutorial: "doc:Creating-Text-Completions")
+        @TutorialReference(tutorial: "doc:Creating-Text-Edits")
     }
 }

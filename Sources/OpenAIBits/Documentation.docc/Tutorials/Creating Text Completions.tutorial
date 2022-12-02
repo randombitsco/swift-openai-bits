@@ -1,0 +1,95 @@
+@Tutorial(time: 5) {
+    @Intro(title: "Creating Text Completions") {
+        Learn how to use the ``OpenAIBits/Completions/Create`` call to generate a completion for a text prompt.
+    }
+    
+    @Section(title: "Make a basic call") {
+        @ContentAndMedia {
+            The only required parameters for a text completion call are the ``OpenAIBits/Model/ID-swift.struct`` and the text prompt. This will use default values for the remaining parameters, as defined in the [OpenAI API](https://beta.openai.com/docs/api-reference/completions/create). In particular, the number of tokens in the response currently defaults to `16`.  
+        }
+        
+        @Steps {
+            @Step {
+                Create the ``OpenAIBits/OpenAI`` instance, using your personal Open AI Key.
+                
+                > Important: It is not recommended to hard-code an API Key into your source code. Instead, store it in the Keychain, a plist, or in an environment variable if working in on a command line app.
+                
+                @Code(name: "HumptyDumpty.swift", file: "create_openai.swift")
+            }
+            
+            @Step {
+                Next, create the ``OpenAIBits/Completions/Create`` call.
+                
+                @Code(name: "HumptyDumpty.swift", file: "HumptyDumpty_01.swift")
+            }
+            
+            @Step {
+              Then, send it to OpenAI.
+              
+              The method is asynchronous and may throw an error if there is an issue, so we wrap it in a `do`/`catch`.
+              
+              @Code(name: "HumptyDumpty.swift", file: "HumptyDumpty_02.swift")
+            }
+            
+            @Step {
+              Lastly, print the text from the first ``OpenAIBits/Completion/Choice``.
+              
+              > Note: If a ``OpenAIBits/Completion`` is returned, it should always have at least one value. If you don't set the `'n'` parameter in the call, one value will be returned.
+              
+              @Code(name: "HumptyDumpty.swift", file: "HumptyDumpty_03.swift")
+            }
+
+            @Step {
+              However, this is a common situation, so you can access the `text` value of the first choice directly from the ``OpenAIBits/Completion/text`` property.
+              
+              @Code(name: "HumptyDumpty.swift", file: "HumptyDumpty_04.swift")
+            }
+        }
+    }
+        
+    @Section(title: "Make a more complex call") {
+        @ContentAndMedia {
+            If you want to have multiple results, longer completions, or control the randomness of the generated text.
+          
+            This tutorial will demonstrating all the above with additional parameters. 
+        }
+        
+        @Steps {            
+            @Step {
+                We'll start with our call from the previous section.
+                
+                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_00.swift")
+            }
+            
+            @Step {
+                Let's add some parameters.
+                
+                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01.swift")
+            }
+
+            @Step {
+                Setting `'maxTokens'` controls the number of tokens that will be returned. While it varies, a sylable in a word ends up as a token. 
+                
+                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_1_maxTokens.swift", previousFile: "completions_create_complex_call_01_1_maxTokens_prev.swift")
+            }
+            
+            @Step {
+                Then, specify the temperature to be `0.5`, down from the default of `1.0`, to make it less random.
+              
+                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_2_temperature.swift", previousFile: "completions_create_complex_call_01_2_temperature_prev.swift")
+            }
+            
+            @Step {
+                Finally, increase the number of choices to `3` by setting `'n'`.
+                
+                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_3_n.swift", previousFile: "completions_create_complex_call_01_3_n_prev.swift")
+            }
+            
+            @Step {
+              Currently, it will still print the first result. Let's make it a loop instead.
+              
+              @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_05.swift")
+            }
+        }
+    }
+}
