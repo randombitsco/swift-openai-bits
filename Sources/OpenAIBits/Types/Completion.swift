@@ -57,6 +57,21 @@ public struct Completion: Identifiable, JSONResponse, Equatable {
     self.choices = choices
     self.usage = usage
   }
+  
+  /// A convenience accessor for the `text` value for the first ``Choice``.
+  public var text: String {
+    choices[0].text
+  }
+  
+  /// A convenience adccessor for the ``Logprobs`` for the first ``Choice``.
+  public var logprobs: Logprobs? {
+    choices[0].logprobs
+  }
+  
+  /// A convenience accessor for the ``FinishReason-swift.enum`` for the first ``Choice``.
+  public var finishReason: FinishReason {
+    choices[0].finishReason
+  }
 }
 
 // MARK: Completion.FinishReason

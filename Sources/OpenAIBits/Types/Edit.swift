@@ -35,6 +35,11 @@ public struct Edit: JSONResponse, Equatable {
     self.choices = choices
     self.usage = usage
   }
+  
+  /// A convenience accessor for the `text` value for the first ``Choice``.
+  public var text: String {
+    choices[0].text
+  }
 }
 
 extension Edit {
