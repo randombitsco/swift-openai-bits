@@ -12,6 +12,12 @@ func fixGrammar(in input: String) async throws -> String {
     input: input,
     instruction: "Fix the grammar and spelling."
   ))
-  
   return request.text
+}
+
+@main
+struct MainApp {
+  static func main() async {
+    print(try! await fixGrammar(in: "Pleas fx the grammer, and spelling."))
+  }
 }

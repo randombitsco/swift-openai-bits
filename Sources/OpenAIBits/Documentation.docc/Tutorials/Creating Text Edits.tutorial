@@ -66,6 +66,8 @@
             @Step {
               Now, we can call the function.
               
+              > Note: Swift does not allow calling of `async` functions at the global level. This example is code you could run as a command line application.
+              
               @Code(name: "FixGrammar.swift", file: "FixGrammar_05.swift")
             }
             

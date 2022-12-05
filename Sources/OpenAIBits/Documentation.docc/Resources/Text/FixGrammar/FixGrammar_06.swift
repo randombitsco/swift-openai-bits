@@ -10,9 +10,9 @@ func fixGrammar(in input: String) async throws -> String {
   let request = try await openai.call(Edits.Create(
     id: .text_davinci_edit_001,
     input: input,
-    instruction: "Fix the grammar and spelling."
+    instruction: "Fix the grammar and spelling.",
+    temperature: 0.0
   ))
-  
   return request.text
 }
 
