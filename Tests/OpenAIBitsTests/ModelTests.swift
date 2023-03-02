@@ -28,7 +28,7 @@ final class ModelTests: XCTestCase {
     
     XCTAssertNoDifference(
       Model(id: "alpha", created: date, ownedBy: "beta", permission: [
-        .init(id: "gamma", created: date, allowCreateEngine: true, allowSampling: false, allowLogprobs: true, allowSearchIndices: false, allowView: true, allowFineTuning: false, organization: "omega", group: nil, isBlocking: false),
+        .init(id: "gamma", created: date, allowSampling: false, allowLogprobs: true, allowSearchIndices: false, allowView: true, allowFineTuning: false, organization: "omega", group: nil, isBlocking: false),
       ], root: "alpha", parent: nil),
       model
     )

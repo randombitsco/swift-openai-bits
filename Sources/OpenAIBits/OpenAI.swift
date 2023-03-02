@@ -61,9 +61,9 @@ struct ExecutableCallHandler: CallHandler {
   /// Executes the call if it implements ``ExecutableCall``.
   /// - Parameters:
   ///   - call: The ``Call``.
-  ///   - client: The ``Client.``
+  ///   - client: The ``OpenAI`` instance.
   /// - Returns: The ``Call/Response``.
-  /// - Throws: An ``Client/Error`` if the ``Call`` does not implement ``ExecutableCall``, or if executing the throws an error.
+  /// - Throws: An ``OpenAI/Error`` if the ``Call`` does not implement ``ExecutableCall``, or if executing the throws an error.
   func execute<C>(call: C, with client: OpenAI) async throws -> C.Response where C : Call {
     guard let call = call as? any ExecutableCall else {
       throw OpenAI.Error.unsupportedCall(C.self)
@@ -104,23 +104,23 @@ extension OpenAI.Error: CustomStringConvertible, CustomDebugStringConvertible {
     description
   }
   
-  /// Creates an ``Client/Error`` indicating the provided ``Call`` type is not supported.
+  /// Creates an ``OpenAI/Error`` indicating the provided ``Call`` type is not supported.
   /// - Parameter request: The call.
-  /// - Returns: The ``Client/Error``.
+  /// - Returns: The ``OpenAI/Error``.
   static func unsupportedCall<C: Call>(_ call: C.Type) -> OpenAI.Error {
     .init(type: "unsupported_call", message: String(describing: call))
   }
   
-  /// Creates an ``Client/Error`` indicating a URL was invalid. This is usually a bug in the API.
+  /// Creates an ``OpenAI/Error`` indicating a URL was invalid. This is usually a bug in the API.
   /// - Parameter url: The URL.
-  /// - Returns: The ``Client/Error``.
+  /// - Returns: The ``OpenAI/Error``.
   static func invalidURL(_ url: String) -> OpenAI.Error {
     .init(type: "invalid_url", message: url)
   }
   
-  /// Creates an ``Client/Error`` indicating the response was unexpected.
+  /// Creates an ``OpenAI/Error`` indicating the response was unexpected.
   /// - Parameter message: The message.
-  /// - Returns: The ``Client/Error``.
+  /// - Returns: The ``OpenAI/Error``.
   static func unexpectedResponse(_ message: String) -> OpenAI.Error {
     .init(type: "unexpected_response", message: message)
   }

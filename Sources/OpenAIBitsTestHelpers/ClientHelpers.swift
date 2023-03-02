@@ -42,13 +42,13 @@ class TestCallHandler<E: Call>: CallHandler {
   }
 }
 
-/// A function for use during `XCTestCase` evaluation to test an `OpenAIBits` `Client` call.
+/// A function for use during `XCTestCase` evaluation to test an `OpenAIBits` `Call`.
 ///
 /// ## Examples
 ///
 /// ```swift
 /// func testModelsDetail() async throws {
-///   let client = Client(apiKey: "foobar")
+///   let client = OpenAI(apiKey: "foobar")
 ///   let now = Date()
 ///
 ///   XCTAssertExpectOpenAICall {
@@ -62,12 +62,12 @@ class TestCallHandler<E: Call>: CallHandler {
 /// }
 /// ```
 ///
-/// Of course, this is pretty useless by itself. Where it is helpful is when working with another library that is making calls to the `Client` on your behalf.
+/// Of course, this is pretty useless by itself. Where it is helpful is when working with another library that is making calls to `OpenAI` on your behalf.
 ///
 /// - Parameters:
 ///   - call: Returns the expected `OpenAIBits.Call` instance.
 ///   - response: Returns the `OpenAIBits.Call.Response` instance.
-///   - doing: A closure containing the code that will exercise the `OpenAIBits.Client.run()` function.
+///   - doing: A closure containing the code that will exercise the `OpenAIBits.OpenAI.run()` function.
 ///   - file: The originating file (defaults to the calling file).
 ///   - line: The originating line number (defaults to the originating line number).
 /// - Throws: An error if `whileDoing` throws an error.

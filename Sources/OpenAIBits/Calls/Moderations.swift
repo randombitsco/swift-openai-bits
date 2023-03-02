@@ -8,8 +8,8 @@ import Foundation
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/moderations)
-/// - [Moderations Guide](https://beta.openai.com/docs/guides/moderation)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/moderations)
+/// - [Moderations Guide](https://platform.openai.com/docs/guides/moderation)
 public enum Moderations {}
 
 // MARK: Create
@@ -23,7 +23,7 @@ extension Moderations {
   /// A simple call with the `.latest` model:
   ///
   /// ```swift
-  /// let client = Client(apiKey: ...)
+  /// let client = OpenAI(apiKey: ...)
   /// let moderation = try await client.call(Moderations.Create(
   ///   input: "This is innocuous text."
   /// ))
@@ -31,8 +31,8 @@ extension Moderations {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/moderations/create)
-  /// - [Moderations Guide](https://beta.openai.com/docs/guides/moderation)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/moderations/create)
+  /// - [Moderations Guide](https://platform.openai.com/docs/guides/moderation)
   public struct Create: JSONPostCall {
     
     /// Responds with a ``Moderation``.

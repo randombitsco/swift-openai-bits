@@ -83,7 +83,7 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
 //    let container = try decoder.singleValueContainer()
 //    let value = try container.decode(String.self)
 //    guard let result = Data(base64Encoded: value) else {
-//      throw Client.Error.unexpectedResponse("Unable to parse base64 value: \(value)")
+//      throw OpenAI.Error.unexpectedResponse("Unable to parse base64 value: \(value)")
 //    }
 //    return result
 //  })

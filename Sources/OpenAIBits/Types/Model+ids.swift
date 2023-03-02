@@ -2,13 +2,13 @@
 // MARK: Common Model IDs.
 
 extension Model.ID {
-  /// Most capable GPT-3 model. Can do any task the other models can do, often with less context. In addition to responding to ``Completions``, also supports [inserting](https://beta.openai.com/docs/guides/completion/inserting-text) completions within text.
+  /// Most capable GPT-3 model. Can do any task the other models can do, often with less context. In addition to responding to ``Text/Completions``, also supports [inserting](https://platform.openai.com/docs/guides/completion/inserting-text) completions within text.
   ///
   /// - Max Tokens: 4,000
   /// - Training Data: Up to Jun 2021
   public static var text_davinci_003: Self { "text-davinci-003" }
 
-  /// Previous generation of `Davinci`. Can do any task the other models can do, often with less context. In addition to responding to ``Completions``, also supports [inserting](https://beta.openai.com/docs/guides/completion/inserting-text) completions within text.
+  /// Previous generation of `Davinci`. Can do any task the other models can do, often with less context. In addition to responding to ``Text/Completions``, also supports [inserting](https://platform.openai.com/docs/guides/completion/inserting-text) completions within text.
   ///
   /// - Max Tokens: 4,000
   /// - Training Data: Up to Jun 2021
@@ -33,10 +33,10 @@ extension Model.ID {
   /// - Training Data: Up to Oct 2019
   public static var text_ada_001: Self { "text-ada-001" }
   
-  /// A variation of the `Davinci` model for use with ``Edits``.
+  /// A variation of the `Davinci` model for use with ``Text/Edits``.
   public static var text_davinci_edit_001: Self { "text-davinci-edit-001" }
   
-  /// A code-focused variation of the `Davinci` model for use with ``Edits``.
+  /// A code-focused variation of the `Davinci` model for use with ``Text/Edits``.
   public static var code_davinci_edit_001: Self { "code-davinci-edit-001" }
   
   /// Most capable Codex model. Particularly good at translating natural language to code. In addition to completing code, also supports inserting completions within code.

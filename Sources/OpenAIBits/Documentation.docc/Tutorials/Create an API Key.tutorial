@@ -14,7 +14,7 @@
         
         @Steps {
             @Step {
-                Navigate to the [API Keys](https://beta.openai.com/account/api-keys) section of the OpenAI site.
+                Navigate to the [API Keys](https://platform.openai.com/account/api-keys) section of the OpenAI site.
                 
                 > Note: If you need to, [create an account](doc:Create-an-Account) or sign in.
                 

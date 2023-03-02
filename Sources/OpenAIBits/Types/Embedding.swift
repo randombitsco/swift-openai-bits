@@ -8,8 +8,8 @@ import Foundation
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings)
-/// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/embeddings)
+/// - [Embeddings Guide](https://platform.openai.com/docs/guides/embeddings)
 public struct Embedding: Equatable, Codable {
   /// The embedding digits.
   public let embedding: [Decimal]

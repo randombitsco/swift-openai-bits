@@ -1,6 +1,6 @@
 @Tutorial(time: 5) {
     @Intro(title: "Creating Text Edits") {
-        Learn how to use the ``OpenAIBits/Completions/Create`` call to edit a text prompt with a natural language instruction.
+        Learn how to use the ``OpenAIBits/Text/Edits`` call to edit a text prompt with a natural language instruction.
     }
     
     @Section(title: "Create a Grammar Check Function") {
@@ -24,7 +24,7 @@
             }
             
             @Step {
-                We call the `openai` client with an ``OpenAIBits/Edits/Create`` call.
+                We call the `openai` client with an ``OpenAIBits/Text/Edits`` call.
 
                 @Code(name: "FixGrammar.swift", file: "FixGrammar_02.swift")
             }

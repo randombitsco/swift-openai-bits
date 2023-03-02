@@ -21,8 +21,8 @@ extension Tokens {
 
 extension Tokens.Encode {
   
-  /// Executes the call with the provided ``Client``.
-  /// - Parameter client: The ``Client`` details.
+  /// Executes the call with the provided ``OpenAI``.
+  /// - Parameter client: The ``OpenAI`` details.
   /// - Returns: The list of tokens.
   func execute(with client: OpenAI) async throws -> Response {
     let encoder = try TokenEncoder()
@@ -58,8 +58,8 @@ extension Tokens {
 }
 
 extension Tokens.Decode {
-  /// Executes the call with the provided ``Client``.
-  /// - Parameter client: The ``Client`` details.
+  /// Executes the call with the provided ``OpenAI``.
+  /// - Parameter client: The ``OpenAI`` details.
   /// - Returns: The `String` result.
   func execute(with client: OpenAI) async throws -> String {
     let encoder = try Tokens.getEncoder()

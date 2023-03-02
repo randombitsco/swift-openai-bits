@@ -1,20 +1,8 @@
 import Foundation
 
-/// Given a prompt and an instruction, the model will return an edited version of the prompt.
-///
-/// ## Calls
-///
-/// - ``Edits/Create`` - Creates an ``Edit`` based on an `input` and `instruction`.
-///
-/// ## See Also
-///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits)
-/// - [Editing code guide](https://beta.openai.com/docs/guides/code/editing-code)
-public enum Edits {}
+// MARK: Edits
 
-// MARK: Create
-
-extension Edits {
+extension Text {
   /// A ``Call`` that creates a new ``Edit`` for the provided ``input``, ``instruction``, and other parameters.
   ///
   /// ## Examples
@@ -22,8 +10,8 @@ extension Edits {
   /// ### A simple edit
   ///
   /// ```swift
-  /// let client = Client(apiKey: "...")
-  /// let edit = try await client.call(Edits.Create(
+  /// let client = OpenAI(apiKey: "...")
+  /// let edit = try await client.call(Text.Edits(
   ///   model: .davinci,
   ///   input: "The quick brown fox jumps over the lazy dog."
   ///   instruction: "Change the dog to a cat."
@@ -32,15 +20,16 @@ extension Edits {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits/create)
-  public struct Create: JSONPostCall {
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/edits/create)
+  /// - [Editing code guide](https://platform.openai.com/docs/guides/code/editing-code)
+  public struct Edits: JSONPostCall {
     /// Response with an ``Edit``.
     public typealias Response = Edit
     
     /// The path to the call.
     var path: String { "edits" }
     
-    /// `ID` of the ``Model`` to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://beta.openai.com/docs/models/overview) for descriptions of them.
+    /// `ID` of the ``Model`` to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
     public let model: Model.ID
     
     /// The input text to use as a starting point for the edit.
@@ -65,7 +54,7 @@ extension Edits {
     /// Creates a new ``Edit`` creation call.
     ///
     /// - Parameters:
-    ///   - model: ID of the model to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://beta.openai.com/docs/models/overview) for descriptions of them.
+    ///   - model: ID of the model to use. You can use ``Models/List`` to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.
     ///   - input: The input text to use as a starting point for the edit.
     ///   - instruction: The instruction that tells the model how to edit the prompt.
     ///   - n: The number of ``Edit/Choice`` values to return. (defaults to `1`)

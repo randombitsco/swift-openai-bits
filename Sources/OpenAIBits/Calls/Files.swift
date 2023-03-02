@@ -13,7 +13,7 @@ import MultipartForm
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/files)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/files)
 public enum Files {}
 
 // MARK: List
@@ -23,7 +23,7 @@ extension Files {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/list)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/files/list)
   public struct List: GetCall {
     /// Results in a ``ListOf`` ``File``s.
     public typealias Response = ListOf<File>
@@ -44,7 +44,7 @@ extension Files {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/upload)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/files/upload)
   public struct Upload: MultipartPostCall {
     /// The purpose of the file
     public enum Purpose: String, Equatable, Codable {
@@ -65,12 +65,12 @@ extension Files {
 
     /// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
     ///
-    /// If the purpose is set to `.fineTune`, each line is a JSON record with "prompt" and "completion" fields representing your [training examples](https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data).
+    /// If the purpose is set to `.fineTune`, each line is a JSON record with "prompt" and "completion" fields representing your [training examples](https://platform.openai.com/docs/guides/fine-tuning/prepare-training-data).
     public let filename: String
     
     /// The intended purpose of the uploaded documents.
     ///
-    /// Use `.fineTune` for [Fine-tuning](https://beta.openai.com/docs/api-reference/fine-tunes).
+    /// Use `.fineTune` for [Fine-tuning](https://platform.openai.com/docs/api-reference/fine-tunes).
     /// This allows OpenAI to validate the format of the uploaded file.
     public let purpose: Purpose
     
@@ -134,7 +134,7 @@ extension Files {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/delete)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/files/delete)
   public struct Delete: DeleteCall {
     /// The `Response` to the ``Files/Delete`` call.
     public struct Response: JSONResponse {
@@ -176,7 +176,7 @@ extension Files {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/retrieve)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/files/retrieve)
   public struct Detail: GetCall {
     public typealias Response = File
     
@@ -201,7 +201,7 @@ extension Files {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/files/retrieve-content)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/files/retrieve-content)
   public struct Content: GetCall {
     /// Responds with ``BinaryData``.
     public typealias Response = BinaryData

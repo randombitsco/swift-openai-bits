@@ -76,12 +76,6 @@ extension Model {
     /// The creation date.
     public let created: Date
     
-    /// Can an engine be created from this model?
-    ///
-    /// - Note: Sampling is deprecated. Use ``allowFineTuning`` instead.
-    @available(*, deprecated, message: "Use allowFineTuning instead", renamed: "allowFineTuning")
-    public let allowCreateEngine: Bool
-    
     /// Can the model be used for sampling?
     public let allowSampling: Bool
     
@@ -111,7 +105,6 @@ extension Model {
     /// - Parameters:
     ///   - id: The ``Model/Permission-swift.struct/ID-swift.struct``.
     ///   - created: The ``created`` date.
-    ///   - allowCreateEngine: Does it ``allowCreateEngine``?
     ///   - allowSampling: Does it ``allowSampling``?
     ///   - allowLogprobs: Does it ``allowLogprobs``?
     ///   - allowSearchIndices: Does it ``allowSearchIndices``?
@@ -123,7 +116,6 @@ extension Model {
     public init(
       id: Model.Permission.ID,
       created: Date,
-      allowCreateEngine: Bool = false,
       allowSampling: Bool = false,
       allowLogprobs: Bool = false,
       allowSearchIndices: Bool = false,
@@ -135,7 +127,6 @@ extension Model {
     ) {
       self.id = id
       self.created = created
-      self.allowCreateEngine = allowCreateEngine
       self.allowSampling = allowSampling
       self.allowLogprobs = allowLogprobs
       self.allowSearchIndices = allowSearchIndices
