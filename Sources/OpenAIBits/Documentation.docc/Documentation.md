@@ -30,8 +30,6 @@ ChatGPT models are optimized for dialogue. More information can be found [here](
 OpenAI provides several tools for generating text predictions based on a prompt. This uses their **GPT-3** models, which have different levels of complexity and [cost](https://openai.com/pricing) to execute.
 
 - ``Text``
-  - ``Text/Completions``
-  - ``Text/Edits``
 - ``Embeddings``
 - ``Moderations`` 
 
