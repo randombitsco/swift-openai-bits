@@ -36,12 +36,15 @@ let package = Package(
         resources: [.copy("models")]),
       .target(
         name: "OpenAIBitsTestHelpers",
-        dependencies: ["OpenAIBits"]),
+        dependencies: [
+          "OpenAIBits",
+          .product(name: "CustomDump", package: "swift-custom-dump"),
+        ]),
       .testTarget(
         name: "OpenAIBitsTests",
         dependencies: [
           "OpenAIBits",
-          .product(name: "CustomDump", package: "swift-custom-dump")
+          .product(name: "CustomDump", package: "swift-custom-dump"),
         ]),
   ]
 )
