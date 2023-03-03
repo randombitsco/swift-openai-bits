@@ -54,4 +54,10 @@ extension Model.ID {
   ///
   /// - Note: Currently in Private beta.
   public static var code_cushman_001: Self { "code-cushman-001" }
+
+  /// Second-generation embedding model based on Ada.
+  ///
+  /// - Max Input Tokens: 8191
+  /// - Output Dimensions: 1536
+  public static var text_embedding_ada_002: Self { "text-embedding-ada-002" }
 }

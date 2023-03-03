@@ -157,7 +157,7 @@ extension Model {
   /// Indicates if the model supports code search.
   public var supportsCodeSearch: Bool { id.supportsCodeSearch }
   
-  public var supportsEmbedding: Bool { id.supportsEmbedding }
+  public var supportsEmbeddings: Bool { id.supportsEmbeddings }
   
   public var isFineTune: Bool {
     return id.isFineTune
@@ -182,8 +182,8 @@ extension Model.ID {
   /// Indicates if the model supports code search.
   public var supportsCodeSearch: Bool { value.starts(with: "code-search-") }
   
-  public var supportsEmbedding: Bool {
-    supportsTextSimilarity || supportsTextSearch || supportsCodeSearch
+  public var supportsEmbeddings: Bool {
+    value.starts(with: "text-embedding-") || supportsTextSimilarity || supportsTextSearch || supportsCodeSearch
   }
   
   /// Indicates if the model is a `fine-tune` of another model.
