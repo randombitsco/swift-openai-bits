@@ -1,5 +1,40 @@
 /// Represents the connection to the OpenAI API.
 /// You must provide at least the `apiKey`, and optionally an `organisation` key and a `log` function.
+///
+/// ## Examples
+///
+/// ### Print a list of available models
+///
+/// ```swift
+/// // Get API_KEY from the environment
+/// let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"]!
+/// let client = OpenAI(apiKey: apiKey)
+/// let models = try await client.call(Models.List())
+///
+/// for model in models {
+///   print("- \(model.name)")
+/// }
+/// ```
+///
+/// ### Authenticate with an organisation key
+///
+/// ```swift
+/// // Get API_KEY and ORG_KEY from the environment
+/// let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"]!
+/// let orgKey = ProcessInfo.processInfo.environment["OPENAI_ORG_KEY"]!
+/// let client = OpenAI(apiKey: apiKey, organization: orgKey)
+/// ```
+///
+/// ### Log all requests and responses
+///
+/// Log all requests and responses to the console, with a date/timestamp:
+///
+/// ```swift
+/// let client = OpenAI(
+///   apiKey: apiKey,
+///   log: { message in print("\(Date()): \(message)") }
+/// )
+/// ```
 public struct OpenAI {
   /// Typealias for a logger function, which takes a `String` and outputs it.
   public typealias Logger = (String) -> Void

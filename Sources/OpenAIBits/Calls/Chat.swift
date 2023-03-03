@@ -20,7 +20,8 @@ extension Chat {
   ///
   /// ## Examples
   ///
-  /// *A simple call with the `GPT 3.5 Turbo` model.*
+  /// ### A simple call with the `GPT 3.5 Turbo` model
+  ///
   /// ```swift
   /// let client = OpenAI(apiKey: ...)
   /// let completion = try await client.call(Chat.Completions(
@@ -36,7 +37,8 @@ extension Chat {
   /// ))
   /// ```
   ///
-  /// *A simple call with the `GPT 3.5 Snapshot` model, using fluent `messages` creation.*
+  /// ### A simple call with the `GPT 3.5 Snapshot` model, using fluent `messages` creation
+  ///
   /// ```swift
   /// let client = OpenAI(apiKey: ...)
   /// let completion = try await client.call(Chat.Completions(
@@ -54,7 +56,6 @@ extension Chat {
   ///
   /// - [OpenAI API](https://platform.openai.com/docs/api-reference/chat)
   /// - [Chat Guide](https://platform.openai.com/docs/guides/chat/chat-completions-beta)
-
   public struct Completions: JSONPostCall {
     /// Responds with a ``ChatCompletion``.
     public typealias Response = ChatCompletion
