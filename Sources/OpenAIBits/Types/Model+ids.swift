@@ -60,4 +60,7 @@ extension Model.ID {
   /// - Max Input Tokens: 8191
   /// - Output Dimensions: 1536
   public static var text_embedding_ada_002: Self { "text-embedding-ada-002" }
+
+  /// Whisper transcribes audio to text.
+  public static var whisper_1: Self { "whisper-1" }
 }

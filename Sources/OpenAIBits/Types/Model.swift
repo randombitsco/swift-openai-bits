@@ -190,4 +190,7 @@ extension Model.ID {
   public var isFineTune: Bool {
     return value.contains(":ft-")
   }
+
+  /// Indicates if the model supports audio transcription/translation.
+  public var supportsAudio: Bool { value.starts(with: "whisper-") }
 }
