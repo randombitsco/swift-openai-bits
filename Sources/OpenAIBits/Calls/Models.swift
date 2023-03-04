@@ -1,4 +1,4 @@
-/// List and describe the various ``Model``s available in the API. You can refer to the [Models documentation](https://beta.openai.com/docs/models) to understand what models are available and the differences between them.
+/// List and describe the various ``Model``s available in the API. You can refer to the [Models documentation](https://platform.openai.com/docs/models) to understand what models are available and the differences between them.
 ///
 /// ## Calls
 ///
@@ -8,8 +8,8 @@
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/models)
-/// - [Models documentation](https://beta.openai.com/docs/models)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/models)
+/// - [Models documentation](https://platform.openai.com/docs/models)
 public enum Models {}
 
 // MARK: List
@@ -19,7 +19,7 @@ extension Models {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/models/list)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/models/list)
   public struct List: GetCall {
     /// Response with a ``ListOf`` ``Model``s.
     public typealias Response = ListOf<Model>
@@ -38,7 +38,7 @@ extension Models {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/models/retrieve)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/models/retrieve)
   public struct Detail: GetCall {
     /// Responds with a ``Model``.
     public typealias Response = Model
@@ -64,7 +64,7 @@ extension Models {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/delete-model)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model)
   public struct Delete: DeleteCall {
     /// The HTTP call path.
     var path: String { "models/\(id)" }

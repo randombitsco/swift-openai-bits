@@ -1,15 +1,15 @@
 import Foundation
 
-/// An ``Edit`` is the response from an ``Edits/Create`` call.
+/// An ``Edit`` is the response from an ``Text/Edits`` call.
 ///
 /// ## Related Calls
 ///
-///- ``Edits/Create``
+///- ``Text/Edits``
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/edits)
-/// - [Editing code guide](https://beta.openai.com/docs/guides/code/editing-code)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/edits)
+/// - [Editing code guide](https://platform.openai.com/docs/guides/code/editing-code)
 public struct Edit: JSONResponse, Equatable {
   /// The creation date.
   public let created: Date

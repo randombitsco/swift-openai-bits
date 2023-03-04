@@ -12,8 +12,8 @@ import Foundation
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes)
-/// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes)
+/// - [Fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning)
 public struct FineTune: Identifiable, JSONResponse {
   /// A unique ID for a ``FineTune`` job.
   public struct ID: Identifier {

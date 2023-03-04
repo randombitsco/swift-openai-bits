@@ -1,16 +1,16 @@
 # swift-openai-bits
 
-Provides a Swift library to interact with the [OpenAI](https://openai.com) [GPT-3](https://beta.openai.com/) service.
+Provides a Swift library to interact with the [OpenAI](https://openai.com) [API](https://platform.openai.com/) service.
 
 Best efforts are done to keep it up-to-date with the full API. Class, function and variable names generally follow the conventions of the API, with some modifications made where the API is inconsistent (eg. where the "creation date" is sometimes `created` and sometimes `createdAt`, this library uses `created` for all of them.)
 
-This library provides an `async/await` API for access, so requires being compiled with Swift 5.6+.
+This library provides an `async/await` API for access, so requires being compiled with Swift 5.7+.
 
 # Requirements
 
 ## Tools:
 
-- Swift 5.6+
+- Swift 5.7+
 - Xcode 13+
 
 ## Operating Systems
@@ -63,12 +63,30 @@ let openai = OpenAI(apiKey: apiKey)
 let result = try await openai.call(...)
 ```
 
-## Completions
+## Chat
 
-Completions are the core text generation call. Keep in mind it will use tokens from your account on every call. More information [here](https://beta.openai.com/docs/guides/completion/text-completion).
+Chat Completions allow you to provide a series of messages that form a chat history, and it will respond with a message based on that history. More information [here](https://platform.openai.com/docs/guides/chat).
 
 ```swift
-let result: Completion = try await openai.call(Completions.Create(
+let result: ChatCompletion = try await openai.call(Chat.Completions(
+  model = .gpt_3_5_turbo,
+  messages: .from(system: "You are a helpful assistant.")
+            .from(user: "Who won the world series in 2020?")
+            .from(assistant: "The Los Angeles Dodgers won the World Series in 2020.")
+            .from(user: "Where was it played?")
+))
+
+let message = result.message
+print("Completion: \(message.role): \(message.content)")
+print("[Used \(result.usage.totalTokens") tokens]")
+```
+
+## Text Completions
+
+Completions are the core text generation call. Keep in mind it will use tokens from your account on every call. More information [here](https://platform.openai.com/docs/guides/completion/text-completion).
+
+```swift
+let result: Completion = try await openai.call(Text.Completions(
   model: .text_davinci_002,
   prompt: "You complete",
   maxTokens: 50,
@@ -80,12 +98,12 @@ print("Completion: \(choice.text)")
 print("[Used \(result.usage.totalTokens") tokens]")
 ```
 
-## Edits
+## Text Edits
 
-Edits allow you to provide a starting `input` and a an `instruction`, and it will return a new result based on the input, modified according to the instruction. More information [here](https://beta.openai.com/docs/guides/completion/editing-text).
+Edits allow you to provide a starting `input` and a an `instruction`, and it will return a new result based on the input, modified according to the instruction. More information [here](https://platform.openai.com/docs/guides/completion/editing-text).
 
 ```swift
-let result: Edit = try await openai.call(Edits.Create(
+let result: Edit = try await openai.call(Text.Edits(
   model: .text_davinci_002,
   input: """
   We is going to the market.
@@ -100,7 +118,7 @@ print("[Used \(result.usage.totalTokens") tokens]")
 
 ## Embeddings
 
-An embedding is a special format of data representation that can be easily utilized by machine learning models and algorithms. More information [here](https://beta.openai.com/docs/guides/embeddings/embeddings).
+An embedding is a special format of data representation that can be easily utilized by machine learning models and algorithms. More information [here](https://platform.openai.com/docs/guides/embeddings/embeddings).
 
 ```swift
 let result: Embedding = try await openai.call(Embeddings.Create(
@@ -114,7 +132,7 @@ let embedding: [Decimal]? = result.first?.embedding
 
 ## Files
 
-Files can be uploaded to perform other tasks, or results of other task downloaded. More information [here](https://beta.openai.com/docs/api-reference/files).
+Files can be uploaded to perform other tasks, or results of other task downloaded. More information [here](https://platform.openai.com/docs/api-reference/files).
 
 There are several files operations available (check API documentation for details).
 
@@ -178,7 +196,7 @@ print("File ID: \(response.id), deleted: \(response.deleted)")
 
 ## Fine-Tunes
 
-It is possible to fine-tune some models with additional details specific to your application. More details [here](https://beta.openai.com/docs/guides/fine-tuning/fine-tuning).
+It is possible to fine-tune some models with additional details specific to your application. More details [here](https://platform.openai.com/docs/guides/fine-tuning/fine-tuning).
 
 There are several calls related to fine-tuning.
 
@@ -247,7 +265,7 @@ print("Model ID: \(response.id), Deleted: \(response.deleted)")
 
 ## Images
 
-The DALL-E 2 model can be be used to generate, edit, and make variations of images. More details [here](https://beta.openai.com/docs/guides/images).
+The DALL-E 2 model can be be used to generate, edit, and make variations of images. More details [here](https://platform.openai.com/docs/guides/images).
 
 ### Create
 
@@ -342,7 +360,7 @@ print("Deleted \(result.id): \(result.deleted)")
 
 ## Moderations
 
-OpenAI provides an endpoint to check if text content meets their usage policies. More details [here](https://beta.openai.com/docs/guides/moderation).
+OpenAI provides an endpoint to check if text content meets their usage policies. More details [here](https://platform.openai.com/docs/guides/moderation).
 
 ### Create
 

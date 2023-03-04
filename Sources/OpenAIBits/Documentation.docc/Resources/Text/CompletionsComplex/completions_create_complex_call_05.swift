@@ -3,7 +3,7 @@ import OpenAIBits
 // Note: Don't store your API Key in source code
 let openai = OpenAI(apiKey: "sk-<my-unique-key>")
 
-let request = Completions.Create(
+let request = Text.Completions(
   id: .text_davinci_003,
   prompt: "Humpty Dumpty sat",
   maxTokens: 200,
@@ -14,7 +14,9 @@ let request = Completions.Create(
 do {
   let result: Completion = try await openai.call(request)
   
-  print("Result: \(result.text)")
+  for (i, choice) in result.choices.enumerated() {
+    print("Result #\(i): \(choice.text)")
+  }
 } catch {
   print("An error occurred: \(error)")
 }

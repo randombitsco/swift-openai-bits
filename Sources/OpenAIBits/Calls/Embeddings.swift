@@ -5,8 +5,8 @@
 /// - ``Embeddings/Create`` - Creates a new embedding vector for a given text input.
 ///
 /// ## See Also
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings)
-/// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/embeddings)
+/// - [Embeddings Guide](https://platform.openai.com/docs/guides/embeddings)
 public enum Embeddings {}
 
 // MARK: Create
@@ -17,8 +17,8 @@ extension Embeddings {
   ///
   /// ## See Also
   /// 
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/embeddings/create)
-  /// - [Embeddings Guide](https://beta.openai.com/docs/guides/embeddings)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/embeddings/create)
+  /// - [Embeddings Guide](https://platform.openai.com/docs/guides/embeddings)
   public struct Create: JSONPostCall, Equatable {
     
     /// The input to an ``Embeddings/Create`` ``Call`` is either a `.string(...)` or
@@ -43,7 +43,7 @@ extension Embeddings {
     public typealias Response = ListOf<Embedding>
     
     /// ID of the model to use. You can use the ``Models/List`` ``Call`` to see all of
-    /// your available models, or see the [Model overview](https://beta.openai.com/docs/models/overview)
+    /// your available models, or see the [Model overview](https://platform.openai.com/docs/models/overview)
     /// for descriptions of them.
     public let model: Model.ID
     

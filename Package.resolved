@@ -10,12 +10,21 @@
       }
     },
     {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
+        "version" : "1.1.4"
+      }
+    },
+    {
       "identity" : "swift-custom-dump",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "21ec1d717c07cea5a026979cb0471dd95c7087e7",
-        "version" : "0.5.0"
+        "revision" : "dd86159e25c749873f144577e5d18309bf57534f",
+        "version" : "0.8.0"
       }
     },
     {
@@ -28,12 +37,48 @@
       }
     },
     {
+      "identity" : "swift-format",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-format.git",
+      "state" : {
+        "branch" : "release/5.7",
+        "revision" : "5f184220d032a019a63df457cdea4b9c8241e911"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax",
+      "state" : {
+        "revision" : "72d3da66b085c2299dd287c2be3b92b5ebd226de",
+        "version" : "0.50700.1"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system.git",
+      "state" : {
+        "revision" : "836bc4557b74fe6d2660218d56e3ce96aff76574",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "swift-tools-support-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-tools-support-core.git",
+      "state" : {
+        "revision" : "4f07be3dc201f6e2ee85b6942d0c220a16926811",
+        "version" : "0.2.7"
+      }
+    },
+    {
       "identity" : "xctest-dynamic-overlay",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "16e6409ee82e1b81390bdffbf217b9c08ab32784",
-        "version" : "0.5.0"
+        "revision" : "62041e6016a30f56952f5d7d3f12a3fd7029e1cd",
+        "version" : "0.8.3"
       }
     }
   ],

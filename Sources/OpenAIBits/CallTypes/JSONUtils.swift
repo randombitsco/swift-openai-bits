@@ -83,7 +83,7 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
 //    let container = try decoder.singleValueContainer()
 //    let value = try container.decode(String.self)
 //    guard let result = Data(base64Encoded: value) else {
-//      throw Client.Error.unexpectedResponse("Unable to parse base64 value: \(value)")
+//      throw OpenAI.Error.unexpectedResponse("Unable to parse base64 value: \(value)")
 //    }
 //    return result
 //  })
@@ -92,6 +92,7 @@ func jsonDecodeData<T: Decodable>(_ value: Data, as targetType: T.Type = T.self)
 
 let CONTENT_TYPE = "Content-Type"
 let APPLICATION_JSON = "application/json"
+let TEXT_PLAIN = "text/plain"
 
 // MARK: isJSON
 
@@ -111,3 +112,18 @@ func isJSON(response: HTTPURLResponse) -> Bool {
   guard let contentType = response.value(forHTTPHeaderField: CONTENT_TYPE) else { return false }
   return isJSON(contentType: contentType)
 }
+
+// MARK: isText
+
+/// Tests if the provided `contentType` is text.
+///
+/// - Parameter contentType: The value to test.
+/// - Returns `true` if it matches.
+func isText(contentType: String) -> Bool {
+  contentType.starts(with: TEXT_PLAIN)
+}
+
+/// Checks if the `"Content-Type"` header in the provided ``HTTPURLResponse`` is text.
+///
+/// - Parameter response: The ``HTTPURLResponse``.
+/// - Returns `true` if the `"Content-Type"` header is text.

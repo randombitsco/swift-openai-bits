@@ -13,8 +13,8 @@ import Foundation
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes)
-/// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes)
+/// - [Fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning)
 public enum FineTunes {}
 
 // MARK: Create
@@ -26,8 +26,8 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/create)
-  /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/create)
+  /// - [Fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning)
   public struct Create: JSONPostCall {
     /// The HTTP path for the call.
     var path: String { "fine-tunes" }
@@ -37,20 +37,20 @@ extension FineTunes {
     
     /// The ``File/ID-swift.struct`` of an uploaded file that contains training data.
     ///
-    /// See [upload file](https://beta.openai.com/docs/api-reference/files/upload) for how to upload a file.
+    /// See [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.
     ///
     /// Your dataset must be formatted as a JSONL file, where each training example is a JSON object with the keys "prompt" and "completion". Additionally, you must upload your file with the purpose fine-tune.
     ///
-    /// See the [fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.
+    /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.
     public let trainingFile: File.ID
     
     /// The ID of an uploaded file that contains validation data.
     ///
-    /// If you provide this file, the data is used to generate validation metrics periodically during fine-tuning. These metrics can be viewed in the [fine-tuning results file](https://beta.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model). Your train and validation data should be mutually exclusive.
+    /// If you provide this file, the data is used to generate validation metrics periodically during fine-tuning. These metrics can be viewed in the [fine-tuning results file](https://platform.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model). Your train and validation data should be mutually exclusive.
     ///
     /// Your dataset must be formatted as a JSONL file, where each validation example is a JSON object with the keys "prompt" and "completion". Additionally, you must ``Files/Upload`` your file with the purpose ``Files/Upload/Purpose-swift.enum``.
     ///
-    /// See the [fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.
+    /// See the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.
     public let validationFile: File.ID?
     
     /// The name of the base ``FineTune/Model-swift.enum`` to fine-tune. You can select one of ``FineTune/Model-swift.enum/ada``, ``FineTune/Model-swift.enum/babbage``, ``FineTune/Model-swift.enum/curie``, ``FineTune/Model-swift.enum/davinci``, or a fine-tuned model created after 2022-04-21. To learn more about these models, see the ``Models`` documentation.
@@ -80,7 +80,7 @@ extension FineTunes {
     /// Defaults to `0.01`.
     public let promptLossWeight: Double?
     
-    /// If set, we calculate classification-specific metrics such as accuracy and F-1 score using the validation set at the end of every epoch. These metrics can be viewed in the [results file](https://beta.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).
+    /// If set, we calculate classification-specific metrics such as accuracy and F-1 score using the validation set at the end of every epoch. These metrics can be viewed in the [results file](https://platform.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).
     ///
     /// In order to compute classification metrics, you must provide a ``validationFile``. Additionally, you must specify ``classificationNClasses`` for multiclass classification or ``classificationPositiveClass`` for binary classification.
     ///
@@ -169,7 +169,7 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/list)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/list)
   public struct List: GetCall {
     var path: String { "fine-tunes" }
     
@@ -188,8 +188,8 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/retrieve)
-  /// - [Fine-tuning guide](https://beta.openai.com/docs/guides/fine-tuning)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/retrieve)
+  /// - [Fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning)
   public struct Detail: GetCall {
     /// The HTTP call path.
     var path: String { "fine-tunes/\(id)" }
@@ -216,7 +216,7 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/cancel)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/cancel)
   public struct Cancel: BarePostCall {
     var path: String { "fine-tunes/\(id)/cancel" }
     
@@ -244,7 +244,7 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/events)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/events)
   public struct Events: GetCall {
     /// The HTTP call path.
     var path: String { "fine-tunes/\(id)/events" }
@@ -271,6 +271,6 @@ extension FineTunes {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/fine-tunes/delete-model)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/fine-tunes/delete-model)
   public typealias Delete = Models.Delete
 }

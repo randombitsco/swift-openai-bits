@@ -76,12 +76,6 @@ extension Model {
     /// The creation date.
     public let created: Date
     
-    /// Can an engine be created from this model?
-    ///
-    /// - Note: Sampling is deprecated. Use ``allowFineTuning`` instead.
-    @available(*, deprecated, message: "Use allowFineTuning instead", renamed: "allowFineTuning")
-    public let allowCreateEngine: Bool
-    
     /// Can the model be used for sampling?
     public let allowSampling: Bool
     
@@ -111,7 +105,6 @@ extension Model {
     /// - Parameters:
     ///   - id: The ``Model/Permission-swift.struct/ID-swift.struct``.
     ///   - created: The ``created`` date.
-    ///   - allowCreateEngine: Does it ``allowCreateEngine``?
     ///   - allowSampling: Does it ``allowSampling``?
     ///   - allowLogprobs: Does it ``allowLogprobs``?
     ///   - allowSearchIndices: Does it ``allowSearchIndices``?
@@ -123,7 +116,6 @@ extension Model {
     public init(
       id: Model.Permission.ID,
       created: Date,
-      allowCreateEngine: Bool = false,
       allowSampling: Bool = false,
       allowLogprobs: Bool = false,
       allowSearchIndices: Bool = false,
@@ -135,7 +127,6 @@ extension Model {
     ) {
       self.id = id
       self.created = created
-      self.allowCreateEngine = allowCreateEngine
       self.allowSampling = allowSampling
       self.allowLogprobs = allowLogprobs
       self.allowSearchIndices = allowSearchIndices
@@ -166,7 +157,7 @@ extension Model {
   /// Indicates if the model supports code search.
   public var supportsCodeSearch: Bool { id.supportsCodeSearch }
   
-  public var supportsEmbedding: Bool { id.supportsEmbedding }
+  public var supportsEmbeddings: Bool { id.supportsEmbeddings }
   
   public var isFineTune: Bool {
     return id.isFineTune
@@ -191,12 +182,15 @@ extension Model.ID {
   /// Indicates if the model supports code search.
   public var supportsCodeSearch: Bool { value.starts(with: "code-search-") }
   
-  public var supportsEmbedding: Bool {
-    supportsTextSimilarity || supportsTextSearch || supportsCodeSearch
+  public var supportsEmbeddings: Bool {
+    value.starts(with: "text-embedding-") || supportsTextSimilarity || supportsTextSearch || supportsCodeSearch
   }
   
   /// Indicates if the model is a `fine-tune` of another model.
   public var isFineTune: Bool {
     return value.contains(":ft-")
   }
+
+  /// Indicates if the model supports audio transcription/translation.
+  public var supportsAudio: Bool { value.starts(with: "whisper-") }
 }

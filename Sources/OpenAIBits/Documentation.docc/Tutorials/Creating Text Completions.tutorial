@@ -1,11 +1,11 @@
 @Tutorial(time: 5) {
     @Intro(title: "Creating Text Completions") {
-        Learn how to use the ``OpenAIBits/Completions/Create`` call to generate a completion for a text prompt.
+        Learn how to use the ``OpenAIBits/Text/Completions`` call to generate a completion for a text prompt.
     }
     
     @Section(title: "Make a basic call") {
         @ContentAndMedia {
-            The only required parameters for a text completion call are the ``OpenAIBits/Model/ID-swift.struct`` and the text prompt. This will use default values for the remaining parameters, as defined in the [OpenAI API](https://beta.openai.com/docs/api-reference/completions/create). In particular, the number of tokens in the response currently defaults to `16`.  
+            The only required parameters for a text completion call are the ``OpenAIBits/Model/ID-swift.struct`` and the text prompt. This will use default values for the remaining parameters, as defined in the [OpenAI API](https://platform.openai.com/docs/api-reference/completions/create). In particular, the number of tokens in the response currently defaults to `16`.  
         }
         
         @Steps {
@@ -18,7 +18,7 @@
             }
             
             @Step {
-                Next, create the ``OpenAIBits/Completions/Create`` call.
+                Next, create the ``OpenAIBits/Text/Completions`` call.
                 
                 @Code(name: "HumptyDumpty.swift", file: "HumptyDumpty_01.swift")
             }

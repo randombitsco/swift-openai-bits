@@ -2,10 +2,10 @@ import XCTest
 import CustomDump
 @testable import OpenAIBits
 
-final class CompletionsTests: XCTestCase {
+final class TextCompletionsTests: XCTestCase {
 
   func testCompletionsStringRequestToJSON() throws {
-    let value = Completions.Create(
+    let value = Text.Completions(
       model: .text_davinci_003,
       prompt: "Input string."
     )
@@ -16,7 +16,7 @@ final class CompletionsTests: XCTestCase {
   }
   
   func testCompletionsFullRquestToJSON() throws {
-    let value = Completions.Create(
+    let value = Text.Completions(
       model: "foo", prompt: "bar", suffix: "yada",
       maxTokens: 100, temperature: 0.5, topP: 0.6, n: 2, logprobs: 3, echo: false,
       stop: .init("four"), presencePenalty: 0.7, frequencyPenalty: 0.8, bestOf: 4,
@@ -83,8 +83,6 @@ final class CompletionsTests: XCTestCase {
   }
   
   func testCompletionsCreateStop() throws {
-    typealias Stop = Completions.Stop
-    
     XCTAssertEqual(["One"], Stop("One").value)
     XCTAssertEqual(["One", "Two"], Stop("One", "Two").value)
     XCTAssertEqual(["One", "Two", "Three"], Stop("One", "Two", "Three").value)
@@ -92,7 +90,7 @@ final class CompletionsTests: XCTestCase {
   }
   
   func testCompletionsCreateStopToJSON() throws {
-    let value = Completions.Stop("One", "Two")
+    let value = Stop("One", "Two")
     try XCTAssertEqual(jsonEncode(value), """
     ["One","Two"]
     """)

@@ -14,9 +14,9 @@ guard let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] else {
   throw PlaygroundError("Set an environment variable named 'OPENAI_API_KEY'")
 }
 
-let client = Client(apiKey: apiKey)
+let openai = OpenAI(apiKey: apiKey)
 
-let models = try await client.call(Models.List())
+let models = try await openai.call(Models.List())
 
 for model in models.data {
   print(model)

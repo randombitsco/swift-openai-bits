@@ -5,8 +5,8 @@ import MultipartForm
 ///
 /// ## See Also
 ///
-/// - [OpenAI API](https://beta.openai.com/docs/api-reference/images)
-/// - [Image Generation Guide](https://beta.openai.com/docs/guides/images)
+/// - [OpenAI API](https://platform.openai.com/docs/api-reference/images)
+/// - [Image Generation Guide](https://platform.openai.com/docs/guides/images)
 public enum Images { }
 
 // MARK: Support Types
@@ -49,8 +49,8 @@ extension Images {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/images/create)
-  /// - [Image Creation Guide](https://beta.openai.com/docs/guides/images/generations)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/images/create)
+  /// - [Image Creation Guide](https://platform.openai.com/docs/guides/images/generations)
   public struct Create: JSONPostCall {
     /// Responds with ``Generations``.
     public typealias Response = Generations
@@ -103,8 +103,8 @@ extension Images {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/images/create-edit)
-  /// - [Image Edit Guid](https://beta.openai.com/docs/guides/images/edits)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/images/create-edit)
+  /// - [Image Edit Guid](https://platform.openai.com/docs/guides/images/edits)
   public struct Edit: MultipartPostCall {
     /// Responds with ``Generations``.
     public typealias Response = Generations
@@ -247,8 +247,8 @@ extension Images {
   ///
   /// ## See Also
   ///
-  /// - [OpenAI API](https://beta.openai.com/docs/api-reference/images/create)
-  /// - [Image Creation Guide](https://beta.openai.com/docs/guides/images/generations)
+  /// - [OpenAI API](https://platform.openai.com/docs/api-reference/images/create)
+  /// - [Image Creation Guide](https://platform.openai.com/docs/guides/images/generations)
   public struct Variation: MultipartPostCall {
     /// Responds with ``Generations``.
     public typealias Response = Generations
