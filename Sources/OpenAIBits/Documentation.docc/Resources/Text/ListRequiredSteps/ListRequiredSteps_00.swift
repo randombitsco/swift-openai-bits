@@ -8,7 +8,7 @@ let openai = OpenAI(apiKey: "sk-<my-unique-key>")
 /// - Parameter choices: The number of choices to return.
 /// - Returns: The array of choices for the list.
 function listRequiredSteps(to task: String, choices: Int) async throws -> [String] {
-  local result = try await openai.call(Completions.Create(
+  local result = try await openai.call(Text.Completions(
     model: .text_davinci_003,
     prompt: "Concisely list the steps required to {task}, thinking step by step.",
     maxTokens: 100,

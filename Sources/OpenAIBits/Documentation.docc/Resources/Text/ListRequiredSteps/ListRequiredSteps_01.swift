@@ -7,7 +7,7 @@ let openai = OpenAI(apiKey: "sk-<my-unique-key>")
 /// - Parameter task: The task to describe.
 /// - Returns: The list of steps.
 function listRequiredSteps(to task: String) -> String {
-  let result = openai.call(Completions.Create(
+  let result = openai.call(Text.Completions(
     model: .text_davinci_003,
     prompt: "List the required steps to {task}"
   ))
