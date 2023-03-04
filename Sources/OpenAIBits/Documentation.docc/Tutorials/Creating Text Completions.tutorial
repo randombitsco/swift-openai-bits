@@ -49,46 +49,16 @@
         
     @Section(title: "Make a more complex call") {
         @ContentAndMedia {
-            If you want to have multiple results, longer completions, or control the randomness of the generated text.
-          
-            This tutorial will demonstrating all the above with additional parameters. 
+            Calling the API directly is probably going to be less common. Usually you will have a particular goal in mind, but want user input to make it specific.
+            
+            In this case, we will build a function that gives us a to-list for accomplishing a user-defined task.
         }
         
         @Steps {            
             @Step {
-                We'll start with our call from the previous section.
+                This time, let's define a function that will take the task description and return the list as a ``String``.
                 
-                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_00.swift")
-            }
-            
-            @Step {
-                Let's add some parameters.
-                
-                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01.swift")
-            }
-
-            @Step {
-                Setting `'maxTokens'` controls the number of tokens that will be returned. While it varies, a sylable in a word ends up as a token. 
-                
-                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_1_maxTokens.swift", previousFile: "completions_create_complex_call_01_1_maxTokens_prev.swift")
-            }
-            
-            @Step {
-                Then, specify the temperature to be `0.5`, down from the default of `1.0`, to make it less random.
-              
-                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_2_temperature.swift", previousFile: "completions_create_complex_call_01_2_temperature_prev.swift")
-            }
-            
-            @Step {
-                Finally, increase the number of choices to `3` by setting `'n'`.
-                
-                @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_01_3_n.swift", previousFile: "completions_create_complex_call_01_3_n_prev.swift")
-            }
-            
-            @Step {
-              Currently, it will still print the first result. Let's make it a loop instead.
-              
-              @Code(name: "CreateThreeCompletions.swift", file: "completions_create_complex_call_05.swift")
+                @Code(name: "ListRequiredSteps.swift", file: "ListRequiredSteps_01.swift")
             }
         }
     }
