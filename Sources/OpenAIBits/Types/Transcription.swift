@@ -57,17 +57,19 @@ public enum Transcription: HTTPResponse, Equatable {
 
     self = try Self.init(data: data, contentType: contentType)
   }
+}
 
+extension Transcription {
   public func textValue() throws -> String {
     switch self {
     case .json(let transcription):
-      return try jsonEncode(transcription, options: [.prettyPrinted])
+      return try jsonEncode(transcription, options: [.prettyPrinted, .sortedKeys])
     case .srt(let transcription):
       return transcription.value
     case .text(let transcription):
       return transcription.value
     case .verboseJson(let transcription):
-      return try jsonEncode(transcription, options: [.prettyPrinted])
+      return try jsonEncode(transcription, options: [.prettyPrinted, .sortedKeys])
     case .vtt(let transcription):
       return transcription.value
     }
