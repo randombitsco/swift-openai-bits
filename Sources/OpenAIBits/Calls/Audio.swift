@@ -173,7 +173,7 @@ extension Audio {
       prompt: String? = nil,
       responseFormat: ResponseFormat? = nil,
       temperature: Percentage? = nil,
-      languate: Language? = nil
+      language: Language? = nil
     ) {
       self.file = file
       self.fileName = fileName
