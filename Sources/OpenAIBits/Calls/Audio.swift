@@ -1,52 +1,6 @@
 import Foundation
 import MultipartForm
 
-// OpenAI API Documentation
-// # Audio (link: https://platform.openai.com/docs/api-reference/audio)
-// Learn how to turn audio into text.
-// Related guide: [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
-//
-// ## Create transcription (Beta) (link: https://platform.openai.com/docs/api-reference/audio/create)
-//
-// `POST https://api.openai.com/v1/audio/transcriptions`
-//
-// Transcribes audio into the input language.
-//
-// ### Request body
-//
-// file
-// string
-// Required
-// The audio file to transcribe, in one of these formats: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, or `webm`.
-//
-// model
-// string
-// Required
-// ID of the model to use. Only `whisper-1` is currently available.
-//
-// prompt
-// string
-// Optional
-// An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should match the audio language.
-//
-// response_format
-// string
-// Optional
-// Defaults to json
-// The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.
-//
-// temperature
-// number
-// Optional
-// Defaults to 0
-// The sampling temperature, between `0` and `1`. Higher values like `0.8` will make the output more random, while lower values like `0.2` will make it more focused and deterministic. If set to `0`, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
-//
-// language
-// string
-// Optional
-// The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
-//
-
 // MARK: Audio namespace
 
 /// The OpenAI API's Audio namespace.
@@ -160,40 +114,6 @@ extension Audio {
 
 // MARK: Audio.Translations
 
-// ## Create translation (Beta) (link: https://platform.openai.com/docs/api-reference/audio/create-translation)
-//
-// `POST https://api.openai.com/v1/audio/translations`
-//
-// Translates audio into into English.
-//
-// ### Request body
-// file
-// string
-// Required
-// The audio file to translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
-//
-// model
-// string
-// Required
-// ID of the model to use. Only whisper-1 is currently available.
-//
-// prompt
-// string
-// Optional
-// An optional text to guide the model's style or continue a previous audio segment. The prompt should be in English.
-//
-// response_format
-// string
-// Optional
-// Defaults to json
-// The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
-//
-// temperature
-// number
-// Optional
-// Defaults to 0
-// The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
-
 extension Audio {
     /// Translates an audio file into English.
     ///
@@ -280,6 +200,8 @@ extension Audio {
 // MARK: ResponseFormat
 
 extension Audio {
+
+    /// The format of the transcript output, for ``Audio/Transcriptions`` and ``Audio/Translations``.
     public enum ResponseFormat: String, Codable {
         case json
         case text
