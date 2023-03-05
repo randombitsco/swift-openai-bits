@@ -18,8 +18,6 @@ public enum Transcription: HTTPResponse, Equatable {
         self = .verboseJson(VerboseJSONTranscription)
         return
       } catch {
-        print("Error decoding VerboseJSONTranscription: \(error)")
-        
         let jsonTranscription = try JSONDecoder().decode(JSONTranscription.self, from: data)
         self = .json(jsonTranscription)
         return
