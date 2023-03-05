@@ -2,8 +2,7 @@ import Foundation
 
 /// A ``Audio/Transcription`` or ``Audio/Translation`` `Call` response.
 public enum Transcription: HTTPResponse, Equatable {
-  
-  
+
   case json(JSONTranscription)
   case srt(SRTTranscription)
   case text(TextTranscription)
