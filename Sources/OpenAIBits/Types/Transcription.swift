@@ -19,6 +19,8 @@ public enum Transcription: HTTPResponse, Equatable {
         self = .verboseJson(VerboseJSONTranscription)
         return
       } catch {
+        print("Error decoding VerboseJSONTranscription: \(error)")
+        
         let jsonTranscription = try JSONDecoder().decode(JSONTranscription.self, from: data)
         self = .json(jsonTranscription)
         return
@@ -98,11 +100,11 @@ extension VerboseJSONTranscription {
     public let end: Seconds
     public let text: String
     public let tokens: [Token]
-    public let temperature: Double
-    public let avgLogprob: Double
-    public let compressionRatio: Double
-    public let noSpeechProb: Double
-    public let transient: Bool
+    public let temperature: Double?
+    public let avgLogprob: Double?
+    public let compressionRatio: Double?
+    public let noSpeechProb: Double?
+    public let transient: Bool?
   }
 }
 
