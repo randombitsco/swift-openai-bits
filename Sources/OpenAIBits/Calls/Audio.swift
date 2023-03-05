@@ -153,6 +153,9 @@ extension Audio {
 
     /// The sampling temperature, between `0` and `1`. Higher values like `0.8` will make the output more random, while lower values like `0.2` will make it more focused and deterministic. If set to `0`, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
     public var temperature: Percentage?
+        
+    /// The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
+    public var language: Language?
 
     /// Creates a new ``Audio.Translations`` call.
     ///
@@ -162,13 +165,15 @@ extension Audio {
     ///   - prompt: An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should be in English.
     ///   - responseFormat: The format of the transcript output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`. Defaults to `json`.
     ///   - temperature: The sampling temperature, between `0` and `1`. Higher values like `0.8` will make the output more random, while lower values like `0.2` will make it more focused and deterministic. If set to `0`, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
+    ///   - language: The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
     public init(
       file: Data,
       fileName: String,
       model: Model.ID,
       prompt: String? = nil,
       responseFormat: ResponseFormat? = nil,
-      temperature: Percentage? = nil
+      temperature: Percentage? = nil,
+      languate: Language? = nil
     ) {
       self.file = file
       self.fileName = fileName
@@ -176,6 +181,7 @@ extension Audio {
       self.prompt = prompt
       self.responseFormat = responseFormat
       self.temperature = temperature
+      self.language = language
     }
 
     /// Returns a `MultipartForm` for this call.
@@ -197,6 +203,10 @@ extension Audio {
 
       if let temperature = temperature {
         parts.append(.init(name: "temperature", value: temperature.value.description))
+      }
+      
+      if let language = language {
+        parts.append(.init(name: "language", value: language.code))
       }
 
       return MultipartForm(
