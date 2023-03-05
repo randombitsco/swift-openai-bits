@@ -56,7 +56,7 @@ public enum Transcription: HTTPResponse, Equatable {
     self = try Self.init(data: data, contentType: contentType)
   }
 
-  func textValue() throws -> String {
+  public func textValue() throws -> String {
     switch self {
     case .json(let transcription):
       return try jsonEncode(transcription, options: [.prettyPrinted])
