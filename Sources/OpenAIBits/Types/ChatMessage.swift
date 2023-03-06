@@ -19,7 +19,7 @@ public struct ChatMessage: Equatable, Codable {
 
 extension ChatMessage {
   /// The role of a ``ChatMessage``.
-  public enum Role: String, Equatable, Codable {
+  public enum Role: String, Equatable, Codable, CustomStringConvertible {
     /// Sets up the context for the conversation.
     case system
 
@@ -28,6 +28,8 @@ extension ChatMessage {
 
     /// The message is from the user.
     case user
+    
+    public var description: String { rawValue }
   }
 }
 

@@ -26,3 +26,9 @@ public enum ChatModel: RawRepresentable, Equatable, Codable {
     }
   }
 }
+
+extension ChatModel: CustomStringConvertible {
+  public var description: String {
+    rawValue
+  }
+}
