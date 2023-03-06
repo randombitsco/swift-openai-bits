@@ -80,7 +80,7 @@ extension ChatCompletion {
     public let index: Int
     
     /// The reason for finishing.
-    public let finishReason: FinishReason
+    public let finishReason: FinishReason?
     
     /// Creates a ``Completion/Choice``.
     ///
@@ -91,7 +91,7 @@ extension ChatCompletion {
     public init(
       message: ChatMessage,
       index: Int,
-      finishReason: FinishReason
+      finishReason: FinishReason?
     ) {
       self.message = message
       self.index = index
