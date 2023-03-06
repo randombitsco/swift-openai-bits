@@ -63,7 +63,7 @@ public struct ChatCompletion: Identifiable, JSONResponse, Equatable {
   }
   
   /// A convenience accessor for the ``FinishReason`` for the first ``Choice``.
-  public var finishReason: FinishReason {
+  public var finishReason: FinishReason? {
     choices[0].finishReason
   }
 }
