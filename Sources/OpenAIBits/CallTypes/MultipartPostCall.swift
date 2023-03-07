@@ -21,3 +21,13 @@ extension MultipartPostCall {
     try getForm().bodyData
   }
 }
+
+// A default boundary that is unlikely to be in the body content.
+private let defaultBoundary: String = "----7MA4YWxkTrZu0gWi6F2c2cLFi3H624"
+
+extension MultipartPostCall {
+  
+  var boundary: String {
+    defaultBoundary
+  }
+}
