@@ -111,9 +111,6 @@ extension Images {
 
     var path: String { "images/edits" }
 
-    /// The Multipart boundary ID.
-    let boundary: String = UUID().uuidString
-
     /// The image to edit. Must be a valid PNG file, less than 4MB, and square.
     public let image: Data
 
@@ -254,8 +251,6 @@ extension Images {
     public typealias Response = Generations
 
     var path: String { "images/variations" }
-
-    let boundary: String = UUID().uuidString
 
     /// The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
     public let image: Data

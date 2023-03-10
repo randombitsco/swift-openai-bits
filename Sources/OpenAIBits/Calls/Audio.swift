@@ -32,9 +32,6 @@ extension Audio {
 
     var path: String { "audio/transcriptions" }
 
-    /// The Multipart boundary ID.
-    let boundary: String = UUID().uuidString
-
     /// The audio file to transcribe, in one of these formats: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, or `webm`.
     public var file: Data
 
@@ -132,9 +129,6 @@ extension Audio {
     public typealias Response = Transcription
 
     var path: String { "audio/translations" }
-
-    /// The Multipart boundary ID.
-    let boundary: String = UUID().uuidString
 
     /// The audio file to translate, in one of these formats: `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `wav`, or `webm`.
     public var file: Data

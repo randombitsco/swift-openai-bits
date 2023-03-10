@@ -59,9 +59,6 @@ extension Files {
     
     /// The path.
     var path: String { "files" }
-    
-    /// The Multipart boundary marker.
-    let boundary: String = UUID().uuidString
 
     /// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
     ///
