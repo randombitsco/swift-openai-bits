@@ -37,7 +37,7 @@ Add this to your project with Swift Package Manager.
 2. Add the following to in the `Package`:
   ```swift
   dependencies: [
-    .package(url: "https://github.com/randombitsco/swift-openai-bits", from: "1.0.0"),
+    .package(url: "https://github.com/randombitsco/swift-openai-bits", from: "0.1.0"),
   ],
   ```
 3. In `targets`, add a dependency on the library to the relevant target:
