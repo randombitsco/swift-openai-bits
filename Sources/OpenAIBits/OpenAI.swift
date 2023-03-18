@@ -74,7 +74,7 @@ extension OpenAI {
     public let param: String?
 
     /// The error code, if any.
-    public let code: Int?
+    public let code: String?
     
     /// Initializes a new ``OpenAI`` client.
     /// - Parameters:
@@ -82,7 +82,7 @@ extension OpenAI {
     ///   - code: The code (optional)
     ///   - param: The parameter name.
     ///   - message: The message.
-    public init(type: String, code: Int? = nil, param: String? = nil, message: String) {
+    public init(type: String, code: String? = nil, param: String? = nil, message: String) {
       self.type = type
       self.code = code
       self.param = param

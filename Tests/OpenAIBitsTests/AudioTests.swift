@@ -156,6 +156,7 @@ final class AudioTests: XCTestCase {
     let file = Data("audio data".utf8)
     let value = Audio.Transcriptions(
       file: file,
+      fileName: "file.wav",
       model: .whisper_1,
       prompt: "prompt",
       responseFormat: .text,
@@ -167,6 +168,7 @@ final class AudioTests: XCTestCase {
 
     XCTAssertEqual(form.parts.count, 6)
     XCTAssertEqual(form.parts[0].data, file)
+    XCTAssertEqual(form.parts[0].filename, "file.wav")
     XCTAssertEqual(form.parts[1].value, "whisper-1")
     XCTAssertEqual(form.parts[2].value, "prompt")
     XCTAssertEqual(form.parts[3].value, "text")
