@@ -87,7 +87,7 @@ let verboseJsonInstance = VerboseJSONTranscription(
       temperature: 0.0,
       avgLogprob: -0.7234281626614657,
       compressionRatio: 0.7837837837837838,
-      noSpeechProb: 0.011953424662351605,
+      noSpeechProb: 0.011953424662351608,
       transient: false
     ),
   ],

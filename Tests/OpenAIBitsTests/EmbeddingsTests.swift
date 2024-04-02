@@ -10,8 +10,8 @@ final class EmbeddingsTests: XCTestCase {
       input: "Input string."
     )
     XCTAssertNoDifference(
-      #"{"model":"text-davinci-003","input":"Input string."}"#,
-      try jsonEncode(value)
+      #"{"input":"Input string.","model":"text-davinci-003"}"#,
+      try jsonEncode(value, options: [.sortedKeys])
     )
   }
   
@@ -21,8 +21,8 @@ final class EmbeddingsTests: XCTestCase {
       input: [12,34,567]
     )
     XCTAssertNoDifference(
-      #"{"model":"text-davinci-003","input":[12,34,567]}"#,
-      try jsonEncode(value)
+      #"{"input":[12,34,567],"model":"text-davinci-003"}"#,
+      try jsonEncode(value, options: [.sortedKeys])
     )
   }
   
@@ -33,8 +33,8 @@ final class EmbeddingsTests: XCTestCase {
       user: "foo"
     )
     XCTAssertNoDifference(
-      #"{"model":"text-davinci-003","input":"Input string.","user":"foo"}"#,
-      try jsonEncode(value)
+      #"{"input":"Input string.","model":"text-davinci-003","user":"foo"}"#,
+      try jsonEncode(value, options: [.sortedKeys])
     )
   }
 }
